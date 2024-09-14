@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="NovaFlare Engine" file="NovaFlare Engine" packageName="com.NovaFlareEngine" package="com.NovaFlareEngine" main="Main" version="1.1.4" company="beihu" />
+	<app title="NovaFlare Engine" file="NovaFlare Engine" packageName="com.NovaFlareEngine" package="com.NovaFlareEngine" main="Main" version="1.1.5" company="beihu" />
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
 
@@ -29,7 +29,7 @@
         <define name="CUSTOM_SHADERS_ALLOWED" if="LUA_ALLOWED"/>
 
 	<section if="officialBuild">
-		<define name="TITLE_SCREEN_EASTER_EGG"/>
+		<!--define name="TITLE_SCREEN_EASTER_EGG"/-->
 	</section>
 
 	<!-- ____________________________ Window Settings ___________________________ -->
