@@ -79,8 +79,8 @@ import states.TitleState;
 	//KeyBoard s
 	public var keyboardAlpha:Float = 0.8;
 	public var keyboardTime:Float = 500;
-	public var keyboardBGColor:Int = 1;
-	public var keyboardTextColor:Int = 0;
+	public var keyboardBGColor:String = 'WHITE';
+	public var keyboardTextColor:String = 'BLACK';
 	//Camera s
 	public var camZooms:Bool = true;
 	public var scoreZoom:Bool = true;
@@ -128,6 +128,8 @@ import states.TitleState;
 	public var showWatermark:Bool = true;	
 
 	public var comboOffset:Array<Int> = [0, 0, 0, 0, 530, 470];
+
+	public var language:String = 'English';
 	
 	public var arrowRGB:Array<Array<FlxColor>> = [
 		[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],

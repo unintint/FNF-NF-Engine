@@ -14,6 +14,8 @@ import flixel.util.FlxStringUtil;
 import options.Option;
 import options.OptionsState;
 
+import language.Language;
+
 class BoolRect extends FlxSpriteGroup {
     var touchFix:Rect;
     var bg:FlxSprite;
@@ -314,7 +316,7 @@ class StringRect extends FlxSpriteGroup {
         upRect.y += bg.height / 2 - upRect.height / 2;
         
         disText = new FlxText(20, 0, 0, point.options[point.curOption], 20);
-		disText.font = Paths.font('montserrat.ttf');	  
+		disText.font = Paths.font(Language.getStr('FontName') + '.ttf');	  
         disText.antialiasing = ClientPrefs.data.antialiasing;  		
         add(disText);
         disText.y += bg.height / 2 - disText.height / 2;
@@ -415,10 +417,11 @@ class StateRect extends FlxSpriteGroup {
         this.follow = point;
 
         rect = new Rect(0, 0, 950, 50, 20, 20);
+        rect.color = 0x24232C;
         add(rect);
 
         var text = new FlxText(0, 0, 0, follow.description, 20);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font = Paths.font(Language.getStr('FontName') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         text.y += rect.height / 2 - text.height / 2;
         text.x += rect.width / 2 - text.width / 2;
@@ -471,10 +474,11 @@ class ResetRect extends FlxSpriteGroup {
         super(x,y);
 
         rect = new Rect(0, 0, 550, 50, 20, 20);
+        rect.color = 0x24232C;
         add(rect);
 
-        var text = new FlxText(0, 0, 0, 'Reset', 25);
-		text.font = Paths.font('montserrat.ttf'); 	
+        var text = new FlxText(0, 0, 0, Language.getStr('Reset'), 25);
+		text.font = Paths.font(Language.getStr('FontName') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         text.y += rect.height / 2 - text.height / 2;
         text.x += rect.width / 2 - text.width / 2;
@@ -521,7 +525,7 @@ class OptionCata extends FlxSpriteGroup
         add(bg);
 
 		text = new FlxText(40, 0, 0, _title, 18);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font = Paths.font(Language.getStr('FontName') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         text.y += bg.height / 2 - text.height / 2;
         add(text);

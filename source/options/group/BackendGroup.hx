@@ -4,7 +4,7 @@ class BackendGroup
 {
     static public function add(follow:OptionBG) {
         var option:Option = new Option(
-            'Backend',
+            Language.getStr('Backend'),
             TITLE
         );
         follow.addOption(option);
@@ -15,13 +15,13 @@ class BackendGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            'Gameplay backend',
+            Language.getStr('Gameplaybackend'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Reduce Long Note length',
+            Language.getStr('fixLNL'),
             'fixLNL',
             INT,
             0,
@@ -30,15 +30,16 @@ class BackendGroup
         follow.addOption(option);
 
         var PauseMusicArray:Array<String> = ['None', 'Breakfast', 'Tea Time'];
+
         var option:Option = new Option(
-            'Pause Screen song type',
+            Language.getStr('pauseMusic'),
             'pauseMusic',
             STRING,
             PauseMusicArray
         );
         follow.addOption(option);
 
-        var hitsoundArray:Array<String> = ['Default'];             
+        var hitsoundArray:Array<String> = ['Default'];
         for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/hitsounds/'))
 			for (file in FileSystem.readDirectory(folder))
 			{				
@@ -46,7 +47,7 @@ class BackendGroup
 					hitsoundArray.push(file.replace('.ogg', ''));				
 			}
         var option:Option = new Option(
-            'Choose sound type for hitSound',
+            Language.getStr('hitsoundType'),
             'hitsoundType',
             STRING,
             hitsoundArray
@@ -55,7 +56,7 @@ class BackendGroup
         option.onChange = onChangeHitsound;
 
         var option:Option = new Option(
-            "Hitsound Volume",
+            Language.getStr('hitsoundVolume'),
             'hitsoundVolume',
             FLOAT,
             0,
@@ -65,14 +66,14 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Reduced version to use hscript work for runhaxecode',
+            Language.getStr('oldHscriptVersion'),
             'oldHscriptVersion',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Add pauseButton in game',
+            Language.getStr('pauseButton'),
             'pauseButton',
             BOOL
         );
@@ -80,7 +81,7 @@ class BackendGroup
 
         #if android
         var option:Option = new Option(
-            'Device will vibrate at game over',
+            Language.getStr('gameOverVibration'),
             'gameOverVibration',
             BOOL
         );
@@ -88,7 +89,7 @@ class BackendGroup
         #end
 
         var option:Option = new Option(
-            'Changes rate offset',
+            Language.getStr('ratingOffset'),
             'ratingOffset',
             INT,
             -500,
@@ -98,14 +99,14 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Changes music offset and judgement position',
+            Language.getStr('NoteOffsetState'),
             'NoteOffsetState',
-            STATE,
+            STATE
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Changes how many frames you have for hitting a note earlier or late',
+            Language.getStr('safeFrames'),
             'safeFrames',
             FLOAT,
             0,
@@ -115,7 +116,7 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'How many milliseconds are in the MARVELOUS judge',
+            Language.getStr('marvelousWindow'),
             'marvelousWindow',
             INT,
             0,
@@ -125,7 +126,7 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'How many milliseconds are in the SICK judge',
+            Language.getStr('sickWindow'),
             'sickWindow',
             INT,
             0,
@@ -135,7 +136,7 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'How many milliseconds are in the GOOD judge',
+            Language.getStr('goodWindow'),
             'goodWindow',
             INT,
             0,
@@ -145,7 +146,7 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'How many milliseconds are in the BAD judge',
+            Language.getStr('badWindow'),
             'badWindow',
             INT,
             0,
@@ -155,14 +156,14 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Extend marvelous judge for playing',
+            Language.getStr('marvelousRating'),
             'marvelousRating',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Marvelous judge will also use "sick!" judge sprite',
+            Language.getStr('marvelousSprite'),
             'marvelousSprite',
             BOOL
         );
@@ -171,46 +172,36 @@ class BackendGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            'App backend',
+            Language.getStr('Appbackend'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Show the Application from your \"Playing\" box on Discord',
+            Language.getStr('discordRPC'),
             'discordRPC',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Check app version',
+            Language.getStr('checkForUpdates'),
             'checkForUpdates',
             BOOL
         );
         follow.addOption(option);
 
-        #if android
-        var fileLoadArray:Array<String> = ["NovaFlare Engine", "NF Engine", "PsychEngine", "OS Engine", "TG Engine", "SB Engine"];
-        var option:Option = new Option(
-            'Change file load path',
-            'fileLoad',
-            STRING,
-            fileLoadArray
-        );
-        follow.addOption(option);
-        #end
 
-        #if moblie
+        #if mobile
         var option:Option = new Option(
-            'Phone will sleep after going inactive for few seconds',
+            Language.getStr('screensaver'),
             'screensaver',
             BOOL
         );
         follow.addOption(option);
         #end
         
-        #if moblie
+        #if mobile
         var option:Option = new Option(
             'Check game whether miss files',
             'filesCheck',
@@ -221,9 +212,14 @@ class BackendGroup
     }
 
     static function onChangeHitsound() {
-        if (ClientPrefs.data.hitsoundType == ClientPrefs.defaultData.hitsoundType)
-            FlxG.sound.play(Paths.sound(ClientPrefs.data.hitsoundType));
-        else
-            FlxG.sound.play(Paths.sound('hitsounds/' + ClientPrefs.data.hitsoundType));
+        if (ClientPrefs.data.hitsoundType == ClientPrefs.defaultData.hitsoundType){
+            //FlxG.sound.play(Paths.sound(ClientPrefs.data.hitsoundType));   为啥他会有问题啊
+        } else {
+            //FlxG.sound.play(Paths.sound('hitsounds/' + ClientPrefs.data.hitsoundType));
+        }
+    }
+    
+    static function onChangeCwd() {
+        Sys.setCwd(SUtil.getStorageDirectory());
     }
 }

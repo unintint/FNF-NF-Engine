@@ -4,7 +4,7 @@ class UIGroup
 {
     static public function add(follow:OptionBG) {
         var option:Option = new Option(
-            'Game UI',
+            Language.getStr('GameUI'),
             TITLE
         );
         follow.addOption(option);
@@ -15,48 +15,48 @@ class UIGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            'Visble',
+            Language.getStr('Visble'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Shows hud',
+            Language.getStr('hideHud'),
             'hideHud',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Combo sprite appearance',
+            Language.getStr('showComboNum'),
             'showComboNum',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Rating sprite appearance',
+            Language.getStr('showRating'),
             'showRating',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Shows opponent strums on screen',
+            Language.getStr('opponentStrums'),
             'opponentStrums',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            "Show your judgements",
+            Language.getStr('judgementCounter'),
             'judgementCounter',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            "Feedback the key you pressed",
+            Language.getStr('keyboardDisplay'),
             'keyboardDisplay',
             BOOL
         );
@@ -65,14 +65,14 @@ class UIGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            'TimeBar',
+            Language.getStr('TimeBar'),
             TEXT
         );
         follow.addOption(option);
 
         var TimeBarArray:Array<String> = ['Time Left', 'Time Elapsed', 'Song Name', 'Disabled'];
         var option:Option = new Option(
-            'Display type',
+            Language.getStr('timeBarType'),
             'timeBarType',
             STRING,
             TimeBarArray
@@ -82,13 +82,13 @@ class UIGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            'HealthBar',
+            Language.getStr('HealthBar'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Alpha',
+            Language.getStr('healthBarAlpha'),
             'healthBarAlpha',
             FLOAT,
             0,
@@ -98,29 +98,29 @@ class UIGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-        'Reduced version to psych 0.63h',
-        'oldHealthBarVersion',
-        BOOL
+            Language.getStr('oldHealthBarVersion'),
+            'oldHealthBarVersion',
+            BOOL
         );
         follow.addOption(option);
 
         ///////////////////////////////
 
         var option:Option = new Option(
-            'Combo',
+            Language.getStr('Combo'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Allow to get and use rating color',
+            Language.getStr('comboColor'),
             'comboColor',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Fix position offset',
+            Language.getStr('comboOffsetFix'),
             'comboOffsetFix',
             BOOL
         );
@@ -129,13 +129,13 @@ class UIGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-        'KeyBoard',
-        TEXT
+            Language.getStr('KeyBoard'),
+            TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Alpha',
+            Language.getStr('keyboardAlpha'),
             'keyboardAlpha',
             FLOAT,
             0,
@@ -145,7 +145,7 @@ class UIGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Display sustain',
+            Language.getStr('keyboardTime'),
             'keyboardTime',
             INT,
             0,
@@ -156,8 +156,9 @@ class UIGroup
         follow.addOption(option);
 
         var colorStingArray = ['BLACK', 'WHITE', 'GRAY', 'RED', 'GREEN', 'BLUE', 'YELLOW', 'PINK', 'ORANGE', 'PURPLE', 'BROWN', 'CYAN'];
+
         var option:Option = new Option(
-            'BG color',
+            Language.getStr('keyboardBGColor'),
             'keyboardBGColor',
             STRING,
             colorStingArray
@@ -165,7 +166,7 @@ class UIGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Text color',
+            Language.getStr('keyboardTextColor'),
             'keyboardTextColor',
             STRING,
             colorStingArray
@@ -175,22 +176,22 @@ class UIGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-        'Camera',
-        TEXT
+            Language.getStr('Camera'),
+            TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Toggle the camera zoom in-game',
+            Language.getStr('camZooms'),
             'camZooms',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-        "Score beat when you hit note",
-        'scoreZoom',
-        BOOL
+            Language.getStr('scoreZoom'),
+            'scoreZoom',
+            BOOL
         );
         follow.addOption(option);
     }

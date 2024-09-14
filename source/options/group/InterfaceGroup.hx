@@ -4,7 +4,7 @@ class InterfaceGroup
 {
     static public function add(follow:OptionBG) {
         var option:Option = new Option(
-            'User Interface',
+            Language.getStr('UserInterface'),
             TITLE
         );
         follow.addOption(option);
@@ -13,8 +13,9 @@ class InterfaceGroup
         follow.add(reset);
 
         var CustomFadeArray:Array<String> = ['Move', 'Alpha'];
+
         var option:Option = new Option(
-            'Custom tade type',
+            Language.getStr('CustomFade'),
             'CustomFade',
             STRING,
             CustomFadeArray
@@ -22,7 +23,7 @@ class InterfaceGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Custom fade sound volume',
+            Language.getStr('CustomFadeSound'),
             'CustomFadeSound',
             FLOAT,
             0,
@@ -32,35 +33,35 @@ class InterfaceGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Custom fade text visible',
+            Language.getStr('CustomFadeText'),
             'CustomFadeText',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Skip intro video',
+            Language.getStr('skipTitleVideo'),
             'skipTitleVideo',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Use psych freeplay',
+            Language.getStr('freeplayOld'),
             'freeplayOld',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Open Results Screen at end song',
+            Language.getStr('resultsScreen'),
             'resultsScreen',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Add a LoadingScreen for PlayState and load faster\nif have some problem please disable it',
+            Language.getStr('loadingScreen'),
             'loadingScreen',
             BOOL
         );

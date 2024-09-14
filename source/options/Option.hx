@@ -1,5 +1,7 @@
 package options;
 
+import language.Language;
+
 enum OptionType {
 	BOOL;
 	INT;
@@ -93,9 +95,8 @@ class Option extends FlxSpriteGroup
 	public var boolRect:BoolRect;
 	function addBool() {
 		saveHeight = 80;
-
 		var text = new FlxText(40, 0, 0, description, 20);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font = Paths.font(Language.getStr('FontName') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         text.y += saveHeight / 2 - text.height / 2;
         add(text);
@@ -110,12 +111,12 @@ class Option extends FlxSpriteGroup
 		saveHeight = 110;
 
 		var text = new FlxText(40, 25, 0, description, 20);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font = Paths.font(Language.getStr('FontName') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         add(text);
 
 		valueText = new FlxText(40, 25, 200, defaultValue + display, 20);
-		valueText.font = Paths.font('montserrat.ttf'); 	
+		valueText.font = Paths.font(Language.getStr('FontName') + '.ttf'); 	
         valueText.antialiasing = ClientPrefs.data.antialiasing;	
 		valueText.x += 950 - valueText.width;
         add(valueText);
@@ -130,7 +131,7 @@ class Option extends FlxSpriteGroup
 		saveHeight = 140;
 
 		var text = new FlxText(40, 20, 0, description, 20);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font = Paths.font(Language.getStr('FontName') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         add(text);
 
@@ -142,7 +143,7 @@ class Option extends FlxSpriteGroup
 		saveHeight = 70;
 
 		var text = new FlxText(40, 0, 0, description, 30);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font = Paths.font(Language.getStr('FontName') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         text.y += saveHeight / 2 - text.height / 2;
         add(text);
@@ -152,7 +153,7 @@ class Option extends FlxSpriteGroup
 		saveHeight = 90;
 
 		var text = new FlxText(40, 0, 0, description, 50);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font = Paths.font(Language.getStr('FontName') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         text.y += saveHeight / 2 - text.height / 2;
         add(text);

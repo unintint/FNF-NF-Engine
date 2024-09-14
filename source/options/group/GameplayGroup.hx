@@ -3,8 +3,9 @@ package options.group;
 class GameplayGroup
 {
     static public function add(follow:OptionBG) {
+
         var option:Option = new Option(
-            'Gameplay',
+            Language.getStr('Gameplay'),
             TITLE
         );
         follow.addOption(option);
@@ -13,42 +14,42 @@ class GameplayGroup
         follow.add(reset);
 
         var option:Option = new Option(
-            'Notes go Down instead of Up, simple enough',
+            Language.getStr('downScroll'),
             'downScroll',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Put your lane in the center or on the right',
+            Language.getStr('middleScroll'),
             'middleScroll',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Flip chart for playing',
+            Language.getStr('flipChart'),
             'flipChart',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Toggle counting pressing a directional input when no arrow is there as a miss',
+            Language.getStr('ghostTapping'),
             'ghostTapping',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            "Hold Notes can't be pressed if you miss",
+            Language.getStr('guitarHeroSustains'),
             'guitarHeroSustains',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Toggle pressing R to gameover',
+            Language.getStr('noReset'),
             'noReset',
             BOOL
         );
@@ -57,41 +58,41 @@ class GameplayGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            'Opponent',
+            Language.getStr('Opponent'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Playing as opponent',
+            Language.getStr('playOpponent'),
             'playOpponent',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'GoodNoteHit and opponentNoteHit function exchange effort',
+            Language.getStr('opponentCodeFix'),
             'opponentCodeFix',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Script will thought you open the bot',
+            Language.getStr('botOpponentFix'),
             'botOpponentFix',
             BOOL
         );
         follow.addOption(option);    
 
         var option:Option = new Option(
-            'Health Drain on opponent mode',
+            Language.getStr('HealthDrainOPPO'),
             'HealthDrainOPPO',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Health drain multiplier on opponent mode',
+            Language.getStr('HealthDrainOPPOMult'),
             'HealthDrainOPPOMult',
             FLOAT,
             0,

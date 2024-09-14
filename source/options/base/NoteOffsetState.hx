@@ -379,7 +379,7 @@ class NoteOffsetState extends MusicBeatState
 				}
 			}
 
-			if(controls.RESET || virtualPad.buttonA.justPressed)
+			if(controls.RESET || virtualPad.buttonC.justPressed)
 			{
 				getData = 0;
 				tipsTxt.text = 'Press SPACE to get suggest offset\nmore times press more data accurate\nsuggest offset: ${getData} MS';
@@ -436,7 +436,7 @@ class NoteOffsetState extends MusicBeatState
 			}
 		}
 
-		if((!controls.controllerMode && (FlxG.keys.justPressed.ENTER || virtualPad.buttonC.justPressed)) ||
+		if((!controls.controllerMode && (FlxG.keys.justPressed.ENTER || virtualPad.buttonA.justPressed)) ||
 		(controls.controllerMode && FlxG.gamepads.anyJustPressed(START)))
 		{
 			onComboMenu = !onComboMenu;

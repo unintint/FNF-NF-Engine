@@ -24,6 +24,10 @@ class PirateState extends MusicBeatState
 		This is pirate version\n
 		You are banned from entering the game\n
 		please use the legitimate version\n
+                MaoPou left a message :)\n
+		If you use Tencent QQ China,\n
+		Then please join the following group chat:\n
+		QQ:723948450
 		";
 		warnText = new FlxText(0, 0, FlxG.width, guh, 32);
 		warnText.setFormat("VCR OSD Mono", 32, FlxColor.RED, CENTER);

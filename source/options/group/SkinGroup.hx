@@ -4,7 +4,7 @@ class SkinGroup
 {
     static public function add(follow:OptionBG) {
         var option:Option = new Option(
-            'Skin',
+            Language.getStr('Skin'),
             TITLE
         );
         follow.addOption(option);
@@ -22,7 +22,7 @@ class SkinGroup
 		    noteSkins.insert(0, ClientPrefs.defaultData.noteSkin);
 
             var option:Option = new Option(
-                'Change your current noteSkin',
+                Language.getStr('noteSkin'),
                 'noteSkin',
                 STRING,
                 noteSkins
@@ -31,23 +31,23 @@ class SkinGroup
         }
         
         var option:Option = new Option(
-            'RGB for Note',
+            Language.getStr('noteRGB'),
             'noteRGB',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Note color setup',
+            Language.getStr('NotesSubState'),
             'NotesSubState',
-            STATE,
+            STATE
         );
         follow.addOption(option);
 
         ///////////////////////////////
 
         var option:Option = new Option(
-            'Splash',
+            Language.getStr('Splash'),
             TEXT
         );
         follow.addOption(option);
@@ -63,7 +63,7 @@ class SkinGroup
 		    noteSplashes.insert(0, ClientPrefs.defaultData.splashSkin);
 
             var option:Option = new Option(
-                'Change your current splashSkin',
+                Language.getStr('splashSkin'),
                 'splashSkin',
                 STRING,
                 noteSplashes
@@ -72,21 +72,21 @@ class SkinGroup
         }
 
         var option:Option = new Option(
-            'RGB for Splash',
+            Language.getStr('splashRGB'),
             'splashRGB',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Show on sick/marvelous judge',
+            Language.getStr('showSplash'),
             'showSplash',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Alpha',
+            Language.getStr('splashAlpha'),
             'splashAlpha',
             FLOAT,
             0,

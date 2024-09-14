@@ -15,6 +15,7 @@ import openfl.filters.GlowFilter;
 import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
+import backend.DiffCalc;
 
 import objects.HealthIcon;
 import objects.shape.ShapeEX;
@@ -71,12 +72,15 @@ class FreeplayState extends MusicBeatState
 	var timeSave:FlxText;
 	var accSave:FlxText;
 	var scoreSave:FlxText;
+	var result:ResultRect;
 
 	var optionEvent:EventRect;
 	var modsEvent:EventRect;
 	var randomEvent:EventRect;
 	var resetEvent:EventRect;
 	var editorEvent:EventRect;
+	var ChangersEvent:EventRect;
+	var skipEvent:EventRect;
 	var eventArray:Array<EventRect> = [];
 
 	var playButton:PlayRect;
@@ -189,15 +193,12 @@ class FreeplayState extends MusicBeatState
 
 		infoSpeed = new InfoText(infoBG.x + 15, infoBG.y + 7, "speed", 5);
 		add(infoSpeed);
-		infoSpeed.data = 5;
 
-		infoNote = new InfoText(infoBG.x + 15, infoBG.y + 38, "note count", 5);
+		infoNote = new InfoText(infoBG.x + 15, infoBG.y + 38, "note count", 10);
 		add(infoNote);
-		infoNote.data = 5;
 
-		infoRating = new InfoText(infoBG.x + 15, infoBG.y + 70, "rating", 5);
+		infoRating = new InfoText(infoBG.x + 15, infoBG.y + 70, "rating", 20);
 		add(infoRating);
-		infoRating.data = 5;
 
 		var extraBG:Rect = new Rect(12, FlxG.height * 0.585, FlxG.width * 0.45 - 12, FlxG.height * 0.3, 20, 20, FlxColor.BLACK, 0.5);
 		add(extraBG);
@@ -212,6 +213,7 @@ class FreeplayState extends MusicBeatState
 		camAudio.bgColor = 0x00;
 		camHS = new FlxCamera(Std.int(extraAudio.x), Std.int(extraAudio.y + extraAudio.height), Std.int(extraBG.width), Std.int(extraBG.height - extraAudio.height));
 		camHS.bgColor = 0x00;
+		camHS.visible = false;
 		FlxG.cameras.add(camAudio, false);
 		FlxG.cameras.add(camHS, false);
 
@@ -228,44 +230,57 @@ class FreeplayState extends MusicBeatState
 		voiceLine = new MusicLine(Std.int(extraAudio.x) + 10, Std.int(extraAudio.y + extraAudio.height) + 110, 545);
 		add(voiceLine);
 
-		timeSave = new FlxText(10, 0, 0, '', 20);
+		timeSave = new FlxText(10, 0, 0, '', 15);
 		timeSave.font = Paths.font('montserrat.ttf'); 	
         timeSave.antialiasing = ClientPrefs.data.antialiasing;	
 		timeSave.camera = camHS;
 		add(timeSave);
 
-		accSave = new FlxText(10, 30, 0, '', 20);
+		accSave = new FlxText(10, 20, 0, '', 15);
 		accSave.font = Paths.font('montserrat.ttf'); 	
         accSave.antialiasing = ClientPrefs.data.antialiasing;	
 		accSave.camera = camHS;
 		add(accSave);
 
-		scoreSave = new FlxText(10, 60, 0, '', 20);
+		scoreSave = new FlxText(10 + camHS.width * 0.4, 20, 0, '', 15);
 		scoreSave.font = Paths.font('montserrat.ttf'); 	
         scoreSave.antialiasing = ClientPrefs.data.antialiasing;	
 		scoreSave.camera = camHS;
 		add(scoreSave);
+		
+		result = new ResultRect(10, camHS.y + 10, camHS.width - 20, 110);
+		result.updateRect();
+		result.x = 20;
+		result.y = 515;
+		result.visible = false;
+		add(result);
 
 		var bottomBG:FlxSprite = new FlxSprite(0, FlxG.height * 0.9).makeGraphic(FlxG.width, Std.int(FlxG.height * 0.1));
 		bottomBG.color = FlxColor.BLACK;
 		bottomBG.alpha = 0.6;
 		add(bottomBG);
 
-		optionEvent = new EventRect(270, bottomBG.y, "option", 0x63d6ff, specEvent);
+		optionEvent = new EventRect(215, bottomBG.y, "option", 0x63d6ff, specEvent);
 		add(optionEvent);
 		modsEvent = new EventRect(optionEvent.x + optionEvent.width - 1, bottomBG.y, "mods", 0xd1fc52, specEvent);
 		add(modsEvent);
-		randomEvent = new EventRect(modsEvent.x + modsEvent.width - 1, bottomBG.y, "random", 0x6dff6d, specEvent);
-		add(randomEvent);
-		resetEvent = new EventRect(randomEvent.x + randomEvent.width - 1, bottomBG.y, "reset", 0xfd6dff, specEvent);
-		add(resetEvent);
-		editorEvent = new EventRect(resetEvent.x + resetEvent.width - 1, bottomBG.y, "editor", 0xff617e, specEvent);
+		ChangersEvent = new EventRect(modsEvent.x + modsEvent.width - 1, bottomBG.y, "changers", 0xff354e, specEvent);
+		add(ChangersEvent);
+		editorEvent = new EventRect(ChangersEvent.x + ChangersEvent.width - 1, bottomBG.y, "editor", 0xff617e, specEvent);
 		add(editorEvent);
+		resetEvent = new EventRect(editorEvent.x + editorEvent.width - 1, bottomBG.y, "reset", 0xfd6dff, specEvent);
+		add(resetEvent);
+		randomEvent = new EventRect(resetEvent.x + resetEvent.width - 1, bottomBG.y, "random", 0x6dff6d, specEvent);
+		add(randomEvent);
+		skipEvent = new EventRect(randomEvent.x + randomEvent.width - 1, bottomBG.y, "skip", 0x61edfa, specEvent);
+		add(skipEvent);
 		eventArray.push(optionEvent);
 		eventArray.push(modsEvent);
-		eventArray.push(randomEvent);
-		eventArray.push(resetEvent);
+		eventArray.push(ChangersEvent);
 		eventArray.push(editorEvent);
+		eventArray.push(resetEvent);
+		eventArray.push(randomEvent);
+		eventArray.push(skipEvent);
 
 		disLine = new Rect(0, bottomBG.y - 4, FlxG.width, 4, 0, 0, FlxColor.WHITE, 0);
 		add(disLine);
@@ -281,9 +296,11 @@ class FreeplayState extends MusicBeatState
 	}
 
 	public var ignoreCheck:Bool = false; //最高级控制更新
+	var isPressed:Bool = false; //修复出判定释放
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
 		if (ignoreCheck) return;
 
 		if (vocals != null && (Math.abs(vocals.time - FlxG.sound.music.time) > 5)) {
@@ -306,9 +323,10 @@ class FreeplayState extends MusicBeatState
 
 		if (FlxG.mouse.x >= 660 && FlxG.mouse.x <= FlxG.width && FlxG.mouse.y >= FlxG.height * 0.25 && FlxG.mouse.y <= FlxG.height * 0.9)
 		{
-			position -= FlxG.mouse.wheel * 180;
+			position += FlxG.mouse.wheel * 180;
 			if (FlxG.mouse.pressed) 
 			{
+				isPressed = true;
 				position += moveData;
 				lerpPosition = position;
 				songsRectPosUpdate(true);
@@ -329,6 +347,13 @@ class FreeplayState extends MusicBeatState
 						}
 					}
 				}
+				updateInfo(); //难度数据更新
+			}
+		} else {
+			if (FlxG.mouse.pressed && isPressed == true) 
+			{
+				isPressed = false;
+				position += avgSpeed * 1.5 * (0.0166 / elapsed) * Math.pow(1.1, Math.abs(avgSpeed * 0.8));
 			}
 		}
 
@@ -366,6 +391,9 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function startGame() {
+		if (Math.abs(lerpPosition - position) > 1) return;
+		if (!musicMutex.tryAcquire()) return;
+
 		var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
 		var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
 		try
@@ -397,10 +425,12 @@ class FreeplayState extends MusicBeatState
 			camAudio.visible = false;
 			voiceLine.visible = false;
 			camHS.visible = true;
+			result.visible = true;
 		} else {
 			camAudio.visible = true;
 			voiceLine.visible = true;
 			camHS.visible = false;
+			result.visible = false;
 		}
 	}
 
@@ -412,6 +442,8 @@ class FreeplayState extends MusicBeatState
 			case 0:
 				if (!eventPressCheck)
 				{
+					if (Math.abs(lerpPosition - position) > 1) return;
+					if (!musicMutex.tryAcquire()) return;
 					eventPressCheck = true;
 					destroyFreeplayVocals();
 					FlxG.sound.music.stop();
@@ -422,20 +454,34 @@ class FreeplayState extends MusicBeatState
 					LoadingState.loadAndSwitchState(new OptionsState());
 				}
 			case 1:
+				if (Math.abs(lerpPosition - position) > 1) return;
+				if (!musicMutex.tryAcquire()) return;
+				ignoreCheck = true;
+				MusicBeatState.switchState(new ModsMenuState());
+			case 2:
+				if (Math.abs(lerpPosition - position) > 1) return;
 				ignoreCheck = true;
 				openSubState(new GameplayChangersSubstate());
-			case 2:
-				randomSel();
-			case 3: 
-				ignoreCheck = true;
-				openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
-			case 4:
+			case 3:
+				if (Math.abs(lerpPosition - position) > 1) return;
+				if (!musicMutex.tryAcquire()) return;
 				if (!eventPressCheck)
 				{
 					eventPressCheck = true;
 					destroyFreeplayVocals();
 					FlxG.sound.music.stop();
 					LoadingState.loadAndSwitchState(new ChartingState());
+				}
+			case 4: 
+				if (Math.abs(lerpPosition - position) > 1) return;
+				ignoreCheck = true;
+				openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
+			case 5:
+				randomSel();
+			case 6:
+				if (songs.length > 21 && curSelected < 22) {
+					curSelected = 22;
+					changeSelection(0);
 				}
 		}
 	}
@@ -520,7 +566,7 @@ class FreeplayState extends MusicBeatState
 
 		createDiff(start);
 		updateRect();
-		updateText();
+		updateInfo();
 		updateVoice();
 		_updateSongLastDifficulty();
 	}
@@ -541,9 +587,13 @@ class FreeplayState extends MusicBeatState
 	}
 
 	public function updateDiff() {
-		timeSave.text = Std.string(Highscore.getTime(songs[curSelected].songName, curDifficulty));
-		accSave.text = Std.string(Highscore.getRating(songs[curSelected].songName, curDifficulty));
-		scoreSave.text = Std.string(Highscore.getScore(songs[curSelected].songName, curDifficulty));
+		timeSave.text = 'Played Time: ' + Std.string(Highscore.getTime(songs[curSelected].songName, curDifficulty));
+		accSave.text = 'Accurate: ' + Std.string(FlxMath.roundDecimal(Highscore.getRating(songs[curSelected].songName, curDifficulty) * 100, 2)) + '%';
+		scoreSave.text = 'Score: ' + Std.string(Highscore.getScore(songs[curSelected].songName, curDifficulty));
+		
+		var msArray = Highscore.getMsGroup(songs[curSelected].songName, curDifficulty);
+		var timeArray = Highscore.getTimeGroup(songs[curSelected].songName, curDifficulty);
+		result.updateRect(msArray, timeArray);
 	}
 
 	var rectMutex:Mutex = new Mutex();
@@ -558,8 +608,37 @@ class FreeplayState extends MusicBeatState
 		smallMag.updateRect(magenta.pixels);			
 	}
 
-	function updateText() {
-		
+	var rateMutex:Mutex = new Mutex();
+	function updateInfo() {
+	    var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
+
+		var jsonData = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+		var speed:Float = jsonData.speed;
+		var count:Int = 0;
+
+		Thread.create(() -> {			
+			rateMutex.acquire();
+			for (i in jsonData.notes) // sections
+			{
+				for (ii in i.sectionNotes) // notes
+				{
+					var gottaHitNote:Bool = i.mustHitSection;
+					if ((ii[1] >= 4 && !gottaHitNote) || (ii[1] <= 3 && gottaHitNote))
+						count++;
+				}
+			}
+
+			var rate = DiffCalc.CalculateDiff(Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase())) / 5;
+			rate = FlxMath.roundDecimal(rate, 2);
+			speed = FlxMath.roundDecimal(speed, 2);
+
+			infoNote.maxData = Math.floor(rate * 500);
+			infoNote.data = count;
+			infoRating.data = rate;
+			infoSpeed.data = speed;
+
+			rateMutex.release();
+		});	
 	}
 
 	public var useSort:Bool = false;
@@ -637,6 +716,7 @@ class FreeplayState extends MusicBeatState
 
 	var musicMutex:Mutex = new Mutex();
 	var timer:FlxTimer = new FlxTimer();
+	var playedSongName:String = '';
 	function updateVoice() {
 		if (timer != null) timer.cancel;
 
@@ -646,6 +726,14 @@ class FreeplayState extends MusicBeatState
 
 			Thread.create(() -> {			
 				musicMutex.acquire();
+
+				if (songs[curSelected].songName == playedSongName)
+				{
+					musicMutex.release();
+					return;
+				}
+
+				playedSongName = songs[curSelected].songName;
 
 				destroyFreeplayVocals();
 				FlxG.sound.music.stop();
@@ -679,7 +767,7 @@ class FreeplayState extends MusicBeatState
 					if (vocals != null) instDis.audioDis.changeAnalyzer(vocals);
 					else instDis.audioDis.changeAnalyzer(FlxG.sound.music);
 				} catch(e:Any){
-					trace(e);
+					instDis.audioDis.clearUpdate();
 				}
 
 				musicMutex.release();
@@ -688,12 +776,13 @@ class FreeplayState extends MusicBeatState
 	}
 
 	var waitTime:FlxTimer = new FlxTimer();
-	public function updateMusicTime(data:Int) {
+	public function updateMusicTime(data:Int, bigJump:Bool) {
 		FlxG.sound.music.pause();
 		if(opponentVocals != null) opponentVocals.pause();
 		if(vocals != null) vocals.pause();
 
-		FlxG.sound.music.time += 1000 * data;
+		if (bigJump) FlxG.sound.music.time += Math.floor(FlxG.sound.music.length / 100) * data;
+		else FlxG.sound.music.time += 1000 * data;
 		if (FlxG.sound.music.time < 0) FlxG.sound.music.time = FlxG.sound.music.length;
 		if (FlxG.sound.music.time > FlxG.sound.music.length) FlxG.sound.music.time = 0;
 		if(vocals != null) vocals.time = FlxG.sound.music.time;

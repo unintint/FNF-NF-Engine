@@ -180,7 +180,7 @@ class InfoText extends FlxSpriteGroup //freeplay info
         WhiteBG = new Rect(130, text.height / 2 - 3, FlxG.width * 0.26, 5, 5, 5);
         add(WhiteBG);    
 
-        dataText = new FlxText(515, 0, 0, Std.string(data), 18);
+        dataText = new FlxText(490, 0, 0, Std.string(data), 18);
 		dataText.font = Paths.font('montserrat.ttf');	    		
         add(dataText);
 
@@ -205,6 +205,10 @@ class InfoText extends FlxSpriteGroup //freeplay info
             if (Math.abs((WhiteBG._frame.frame.width / WhiteBG.width) - (data / maxData)) < 0.005) WhiteBG._frame.frame.width = Std.int(WhiteBG.width * (data / maxData));
             else WhiteBG._frame.frame.width = Std.int(WhiteBG.width * FlxMath.lerp((data / maxData), (WhiteBG._frame.frame.width / WhiteBG.width), Math.exp(-elapsed * 15)));
             WhiteBG.updateHitbox();
+        }
+        if (WhiteBG._frame.frame.width >= WhiteBG.width)
+        {
+            WhiteBG._frame.frame.width = WhiteBG.width;
         }
         super.update(elapsed);
     }
@@ -303,16 +307,19 @@ class MusicLine extends FlxSpriteGroup
         super.update(e);
 
         whiteLine.scale.x = FlxG.sound.music.time / FlxG.sound.music.length * blackLine.width;
+
         whiteLine.x = blackLine.x + whiteLine.scale.x / 2;
 
         if (this.visible == false) return; //奇葩bug
+
+        if (FreeplayState.instance.ignoreCheck) return;
 
         if (FlxG.mouse.justReleased) holdTime = 0;
 
         if (FlxG.mouse.overlaps(timeAddRect) || FlxG.mouse.overlaps(timeReduceRect) || FlxG.mouse.overlaps(rateAddRect) || FlxG.mouse.overlaps(rateReduceRect)) {
             if (FlxG.mouse.justPressed) {
-                if (FlxG.mouse.overlaps(timeAddRect)) FreeplayState.instance.updateMusicTime(1);
-                else if (FlxG.mouse.overlaps(timeReduceRect)) FreeplayState.instance.updateMusicTime(-1);
+                if (FlxG.mouse.overlaps(timeAddRect)) FreeplayState.instance.updateMusicTime(1, false);
+                else if (FlxG.mouse.overlaps(timeReduceRect)) FreeplayState.instance.updateMusicTime(-1, false);
                 else if (FlxG.mouse.overlaps(rateAddRect)) FreeplayState.instance.updateMusicRate(1);
                 else if (FlxG.mouse.overlaps(rateReduceRect)) FreeplayState.instance.updateMusicRate(-1);
             }
@@ -322,9 +329,9 @@ class MusicLine extends FlxSpriteGroup
             }
 
             if (holdTime > 0.5) {
-                holdTime -= 0.05;
-                if (FlxG.mouse.overlaps(timeAddRect)) FreeplayState.instance.updateMusicTime(1);
-                else if (FlxG.mouse.overlaps(timeReduceRect)) FreeplayState.instance.updateMusicTime(-1);
+                holdTime -= 0.1;
+                if (FlxG.mouse.overlaps(timeAddRect)) FreeplayState.instance.updateMusicTime(1, true);
+                else if (FlxG.mouse.overlaps(timeReduceRect)) FreeplayState.instance.updateMusicTime(-1, true);
                 else if (FlxG.mouse.overlaps(rateAddRect)) FreeplayState.instance.updateMusicRate(1);
                 else if (FlxG.mouse.overlaps(rateReduceRect)) FreeplayState.instance.updateMusicRate(-1);
             }
@@ -375,7 +382,7 @@ class MusicRect extends FlxSpriteGroup
     }
 }
 
-class ExtraTopRect extends FlxSpriteGroup //play/back button
+class ExtraTopRect extends FlxSpriteGroup
 {
     var background:FlxSprite;
     var text:FlxText;
@@ -450,6 +457,103 @@ class ExtraTopRect extends FlxSpriteGroup //play/back button
                 needFocusCheck = false;
             }
         }
+    }
+}
+
+class ResultRect extends FlxSpriteGroup
+{
+    var background:FlxSprite;
+    
+    var colorArrayAlpha:Array<FlxColor> = [
+    		0x7FFFFF00, //marvelous
+    		0x7F00FFFF, //sick
+    	    0x7F00FF00, //good
+    	    0x7FFF7F00, //bad
+    	    0x7FFF5858, //shit
+    	    0x7FFF0000 //miss
+    		];
+    var ColorArray:Array<FlxColor> = [
+    		0xFFFFFF00, //marvelous
+    		0xFF00FFFF, //sick
+    	    0xFF00FF00, //good
+    	    0xFFFF7F00, //bad
+    	    0xFFFF5858, //shit
+    	    0xFFFF0000 //miss
+    		];
+    var safeZoneOffset:Float = (ClientPrefs.data.safeFrames / 60) * 1000;
+    
+    var _width:Float;
+    var _height:Float;
+    
+    public function new(X:Float, Y:Float, width:Float = 0, height:Float = 0)
+    {
+        super();
+        background = new FlxSprite();
+        background.alpha = 0;
+        add(background);
+        updateRect();
+        
+        this._width = width;
+        this._height = height;
+    }
+    
+    public function updateRect(?msGroup:Array<Float>, ?timeGroup:Array<Float>)
+    {
+        var shape:Shape = new Shape();
+
+        if (msGroup != null && timeGroup != null && msGroup.length > 0){
+            for (i in 0...msGroup.length){
+                var color:FlxColor;
+                if (Math.abs(msGroup[i]) <= ClientPrefs.data.marvelousWindow && ClientPrefs.data.marvelousRating) color = ColorArray[0];
+    		    else if (Math.abs(msGroup[i]) <= ClientPrefs.data.sickWindow) color = ColorArray[1];
+    		    else if (Math.abs(msGroup[i]) <= ClientPrefs.data.goodWindow) color = ColorArray[2];
+    		    else if (Math.abs(msGroup[i]) <= ClientPrefs.data.badWindow) color = ColorArray[3];
+    		    else if (Math.abs(msGroup[i]) <= safeZoneOffset) color = ColorArray[4];
+    		    else color = ColorArray[5];	
+    		    
+    		    var data = msGroup[i];
+    		    if (Math.abs(msGroup[i]) > safeZoneOffset) data = safeZoneOffset; 	
+    		    
+    		    shape.graphics.beginFill(color);     		    
+                shape.graphics.drawCircle(_width * (timeGroup[i] / timeGroup[timeGroup.length - 1]), _height / 2 + _height / 2 * (data / safeZoneOffset), 1.8);
+                shape.graphics.endFill();	
+            }
+        }
+        
+        shape.graphics.beginFill(0x7FFFFFFF); 
+        shape.graphics.drawRect(0, _height / 2 - 1, _width, 1);
+        shape.graphics.endFill();
+        
+        shape.graphics.beginFill(colorArrayAlpha[0]); 
+        shape.graphics.drawRect(0, _height / 2 - (ClientPrefs.data.marvelousWindow / safeZoneOffset) * _height / 2 - 1, _width, 1);
+        shape.graphics.drawRect(0, _height / 2 + (ClientPrefs.data.marvelousWindow / safeZoneOffset) * _height / 2 - 1, _width, 1);
+        shape.graphics.endFill();
+        
+        shape.graphics.beginFill(colorArrayAlpha[1]); 
+        shape.graphics.drawRect(0, _height / 2 - (ClientPrefs.data.sickWindow / safeZoneOffset) * _height / 2 - 1, _width, 1);
+        shape.graphics.drawRect(0, _height / 2 + (ClientPrefs.data.sickWindow / safeZoneOffset) * _height / 2 - 1, _width, 1);
+        shape.graphics.endFill();
+        
+        shape.graphics.beginFill(colorArrayAlpha[2]); 
+        shape.graphics.drawRect(0, _height / 2 - (ClientPrefs.data.goodWindow / safeZoneOffset) * _height / 2 - 1, _width, 1);
+        shape.graphics.drawRect(0, _height / 2 + (ClientPrefs.data.goodWindow / safeZoneOffset) * _height / 2 - 1, _width, 1);
+        shape.graphics.endFill();
+        
+        shape.graphics.beginFill(colorArrayAlpha[3]); 
+        shape.graphics.drawRect(0, _height / 2 - (ClientPrefs.data.badWindow / safeZoneOffset) * _height / 2 - 1, _width, 1);
+        shape.graphics.drawRect(0, _height / 2 + (ClientPrefs.data.badWindow / safeZoneOffset) * _height / 2 - 1, _width, 1);
+        shape.graphics.endFill();
+
+        shape.graphics.beginFill(colorArrayAlpha[4]); 
+        shape.graphics.drawRect(1, _height / 2 - (safeZoneOffset / safeZoneOffset) * _height / 2 - 1, _width, 1);
+        shape.graphics.drawRect(0, _height / 2 + (safeZoneOffset / safeZoneOffset) * _height / 2 - 1, _width, 1);
+        shape.graphics.endFill();
+        
+        var bitmap:BitmapData = new BitmapData(Std.int(_width), Std.int(_height + 5), true, 0);
+        bitmap.draw(shape);
+        
+        background.pixels = bitmap;
+        background.alpha = 1;
     }
 }
 
@@ -1041,10 +1145,10 @@ class PlayRect extends FlxSpriteGroup //back button
             if (!focused){
                 focused = true;
                 if (bgTween != null) bgTween.cancel();
-                bgTween = FlxTween.tween(bg2, {x: FlxG.width - 320}, 0.3, {ease: FlxEase.backInOut});
+                bgTween = FlxTween.tween(bg2, {x: FlxG.width - 190}, 0.3, {ease: FlxEase.backInOut});
 
                 if (textTween != null) textTween.cancel();
-                textTween = FlxTween.tween(text, {x: FlxG.width - 240}, 0.3, {ease: FlxEase.backInOut});
+                textTween = FlxTween.tween(text, {x: FlxG.width - 160}, 0.3, {ease: FlxEase.backInOut});
                 var color = 
                 background.color = saveColor2;
             }

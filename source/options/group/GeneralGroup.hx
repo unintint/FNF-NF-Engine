@@ -1,22 +1,25 @@
 package options.group;
 
 import shaders.ColorblindFilter;
+import options.OptionsState;
+import flixel.addons.transition.FlxTransitionableState;
 
 class GeneralGroup
 {
+    //var languages = ClientPrefs.data.language;
     static public function add(follow:OptionBG) {
+
         var option:Option = new Option(
-            'General',
+            Language.getStr('General'),
             TITLE
         );
         follow.addOption(option);
        
-
         var reset:ResetRect = new ResetRect(450, 20, follow);
         follow.add(reset);
 
         var option:Option = new Option(
-            'Change your FPS cap',
+            Language.getStr('framerate'),
             'framerate',
             INT,
             24,
@@ -26,9 +29,20 @@ class GeneralGroup
         follow.addOption(option);
         option.onChange = onChangeFramerate;
 
-        var colorblindFilterArray:Array<String> = ['None', 'Protanopia', 'Protanomaly', 'Deuteranopia','Deuteranomaly','Tritanopia','Tritanomaly','Achromatopsia','Achromatomaly'];
+        var langArray:Array<String> = [Language.member[0], Language.member[1]];
         var option:Option = new Option(
-            'Colorblind filter more playable for colorblind people',
+            Language.getStr('languageName'),
+            'language',
+            STRING,
+            langArray
+        );
+        follow.addOption(option);
+        option.onChange = onChangeLanguage;
+
+        var colorblindFilterArray:Array<String> = ['None', 'Protanopia', 'Protanomaly', 'Deuteranopia','Deuteranomaly','Tritanopia','Tritanomaly','Achromatopsia','Achromatomaly'];
+
+        var option:Option = new Option(
+            Language.getStr('colorblindMode'),
             'colorblindMode',
             STRING,
             colorblindFilterArray
@@ -37,14 +51,14 @@ class GeneralGroup
         option.onChange = onChangeFilter;
 
         var option:Option = new Option(
-            'Turn off some object on stages',
+            Language.getStr('lowQuality'),
             'lowQuality',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Change game quality for screen',
+            Language.getStr('gameQuality'),
             'gameQuality',
             INT,
             0,
@@ -53,35 +67,35 @@ class GeneralGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Toggle antialiasing, improving graphics quality at a slight performance penalty',
+            Language.getStr('antialiasing'),
             'antialiasing',
             BOOL
         );
         follow.addOption(option);
         
         var option:Option = new Option(
-            'Toggle flashing lights that can cause epileptic seizures and strain',
+            Language.getStr('flashing'),
             'flashing',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Shaders used for some visual effects',
+            Language.getStr('shaders'),
             'shaders',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Allows the GPU to be used for caching textures, decreasing RAM usage',
+            Language.getStr('cacheOnGPU'),
             'cacheOnGPU',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Stops game, when its unfocused',
+            Language.getStr('autoPause'),
             'autoPause',
             BOOL
         );
@@ -112,6 +126,13 @@ class GeneralGroup
     static function onChangePause()
     {
         FlxG.autoPause = ClientPrefs.data.autoPause;
+    }
+
+    static function onChangeLanguage()
+    {
+        FlxTransitionableState.skipNextTransIn = true;
+		FlxTransitionableState.skipNextTransOut = true;
+        MusicBeatState.switchState(new OptionsState());
     }
 }
 

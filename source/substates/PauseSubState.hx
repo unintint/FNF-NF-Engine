@@ -87,7 +87,6 @@ class PauseSubState extends MusicBeatSubstate
 	var debugAlphabet:Array<FlxText> = [];
 	var debugBars:Array<FlxSprite> = [];
 
-	var optionsType:Array<String> = ['Instant', 'Entirety', 'Back'];
 	var optionsCurSelected:Int = 0;
 	var optionsOptionsAlphabet:Array<FlxText> = [];
 	var optionsOptionsBars:Array<FlxSprite> = [];
@@ -245,36 +244,6 @@ class PauseSubState extends MusicBeatSubstate
 			bar.updateHitbox();
 			bar.antialiasing = ClientPrefs.data.antialiasing;
 			debugBars.push(bar);
-		
-			add(optionText);
-		}
-	
-		for (i in 0...optionsType.length) {
-			var optionText:FlxText = new FlxText(0, 0, 0, optionsType[i], 50);
-		
-			optionText.x = -1000;
-			optionText.y = (180 * (i - (optionsType.length / 2))) + 400;
-			optionText.setFormat(font, 50, FlxColor.BLACK);
-			optionsOptionsAlphabet.push(optionText);
-			optionText.antialiasing = ClientPrefs.data.antialiasing;
-		
-			var barShadow:FlxSprite = new FlxSprite().loadGraphic(Paths.image(filePath + 'barShadow'));
-			add(barShadow);
-			barShadow.scale.set(0.5, 0.5);
-			barShadow.x = -1000;
-			barShadow.y = optionText.y - 30;
-			barShadow.updateHitbox();
-			barShadow.antialiasing = ClientPrefs.data.antialiasing;
-			optionsOptionsBars.push(barShadow);
-		
-			var bar:FlxSprite = new FlxSprite().loadGraphic(Paths.image(filePath + 'bar'));
-			add(bar);
-			bar.scale.set(0.5, 0.5);
-			bar.x = -1000;
-			bar.y = optionText.y - 30;
-			bar.updateHitbox();
-			bar.antialiasing = ClientPrefs.data.antialiasing;
-			optionsOptionsBars.push(bar);
 		
 			add(optionText);
 		}
@@ -520,18 +489,6 @@ class PauseSubState extends MusicBeatSubstate
 					difficultyBars[i*2+1].x = difficultyAlphabet[i].x - 300;
 					difficultyBars[i*2+1].y = difficultyAlphabet[i].y - 30;
 				}
-			case 'options':
-				for (i in 0...optionsOptionsAlphabet.length) {
-						
-					optionsOptionsAlphabet[i].x = FlxMath.lerp(-i *45.5 + 45.5 + 100 + (i == optionsCurSelected ? 75 : 0), optionsOptionsAlphabet[i].x, FlxMath.bound(1 - (elapsed * 8.5), 0, 1));
-					optionsOptionsAlphabet[i].y = FlxMath.lerp((180 * (i - (optionsOptionsAlphabet.length / 2))) + 400, optionsOptionsAlphabet[i].y, FlxMath.bound(1 - (elapsed * 8.5), 0, 1));
-					
-					optionsOptionsBars[i*2].x = optionsOptionsAlphabet[i].x - 300;
-					optionsOptionsBars[i*2].y = optionsOptionsAlphabet[i].y - 30;
-					
-					optionsOptionsBars[i*2+1].x = optionsOptionsAlphabet[i].x - 300;
-					optionsOptionsBars[i*2+1].y = optionsOptionsAlphabet[i].y - 30;
-				}
 		}
 			
 		if (upP)
@@ -578,14 +535,6 @@ class PauseSubState extends MusicBeatSubstate
 				for (i in difficultyAlphabet) i.alpha = 0.5;
 				
 				difficultyAlphabet[difficultyCurSelected].alpha = 1;
-			case 'options':
-				optionsCurSelected += num;
-				if (optionsCurSelected > optionsType.length - 1) optionsCurSelected = 0;
-				if (optionsCurSelected < 0) optionsCurSelected = optionsType.length - 1;
-				
-				for (i in optionsOptionsAlphabet) i.alpha = 0.5;
-				
-				optionsOptionsAlphabet[optionsCurSelected].alpha = 1;
 		}
 		
 		if (num != 0)
@@ -626,18 +575,16 @@ class PauseSubState extends MusicBeatSubstate
 				
 					PlayState.chartingMode = true;
 				case 'Options':
-					for (i in optionsBars)
-						FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
-					
-					for (i in optionsAlphabet)
-						FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
-				
-					stayinMenu = 'isChanging';
-					setBackButton(false);
-					new FlxTimer().start(0.5, function(tmr:FlxTimer) {
-						stayinMenu = 'options';
-						changeOptions(0);
-					});
+					PlayState.instance.paused = true; // For lua
+					PlayState.instance.vocals.volume = 0;
+					MusicBeatState.switchState(new OptionsState());
+					if(ClientPrefs.data.pauseMusic != 'None')
+					{
+						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
+						FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
+						FlxG.sound.music.time = pauseMusic.time;
+					}
+					OptionsState.onPlayState = true;
 				case 'Continue':
 					closeMenu(
 						function(tmr:FlxTimer) close()
@@ -714,45 +661,6 @@ class PauseSubState extends MusicBeatSubstate
 						debugCurSelected = 0;
 						changeOptions(0);
 					});
-					FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
-			}
-		} else if (stayinMenu == 'options') {
-			switch (optionsType[optionsCurSelected]) {
-				case 'Instant':
-					PlayState.instance.paused = true; // For lua
-					PlayState.instance.vocals.volume = 0;
-					moveType = 1;
-					closeMenu(
-						function(tmr:FlxTimer) {
-						    pauseMusic.pause();
-						    close();
-						}
-					, false);
-				case 'Entirety':
-					PlayState.instance.paused = true; // For lua
-					PlayState.instance.vocals.volume = 0;
-					//OptionsState.onPlayState = true;
-					MusicBeatState.switchState(new OptionsState());
-					if(ClientPrefs.data.pauseMusic != 'None'){
-						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
-						FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
-						FlxG.sound.music.time = pauseMusic.time;
-					}
-				case 'Back':
-					for (i in optionsOptionsBars)
-						FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
-						
-					for (i in optionsOptionsAlphabet)
-						FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
-					
-					stayinMenu = 'isChanging';
-					setBackButton(true);
-					new FlxTimer().start(0.5, function(tmr:FlxTimer) {
-						stayinMenu = 'base';
-						optionsCurSelected = 0;
-						changeOptions(0);
-					});
-					
 					FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
 			}
 		} else if (stayinMenu == 'difficulty') {

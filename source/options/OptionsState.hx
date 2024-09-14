@@ -7,27 +7,45 @@ import states.FreeplayStatePsych;
 import mobile.substates.MobileControlSelectSubState;
 import mobile.substates.MobileExtraControl;
 
+import backend.ClientPrefs;
+import language.Language;
+
+import backend.StageData;
+
 class OptionsState extends MusicBeatState
 {
 	public static var instance:OptionsState;
+
+	public static var onPlayState:Bool = false;
+
+	var filePath:String = 'menuExtend/OptionsState/';
 
 	private static var position:Float = 0;
 	private static var lerpPosition:Float = 0;
 	private static var maxPos:Float = 0;
 
-	var optionName:Array<String> = ['General', 'Gameplay', 'Backend', 'Game UI', 'Skin', 'Input', 'User Interface', 'Watermark'];
+	var optionName:Array<String> = [];
+
 	var cataArray:Array<OptionCata> = [];
 	var bgArray:Array<OptionBG> = [];
 
 	public static var stateType:Int = 0;
     
 	override function create()
-	{     
+	{
+			optionName = [
+				Language.getStr('General'), 
+				Language.getStr('Gameplay'), 
+				Language.getStr('Backend'), 
+				Language.getStr('Game UI'), 
+				Language.getStr('Skin'), 
+				Language.getStr('Input'), 
+				Language.getStr('User Interface'), 
+				Language.getStr('Watermark')];
+
 		persistentUpdate = persistentDraw = true;
 
-		#if !mobile
 		FlxG.mouse.visible = true;
-		#end
 
 		Main.fpsVar.visible = false;
 		if(Main.watermark != null) Main.watermark.visible = false;
@@ -35,6 +53,16 @@ class OptionsState extends MusicBeatState
 		instance = this;
 		
 		var bg = new Rect(0,0, FlxG.width, FlxG.height, 0, 0, 0x302E3A);
+		add(bg);
+
+		var bg = new FlxSprite().loadGraphic(Paths.image(filePath + 'bg'));
+		bg.antialiasing = ClientPrefs.data.antialiasing;
+		bg.setGraphicSize(600, 600);
+		bg.updateHitbox();
+		bg.y = FlxG.height / 2 - bg.height / 2;
+		bg.x = 250 + (FlxG.width - 250) / 2 - bg.width / 2;
+		bg.color = 0x444444;
+		bg.alpha = 0.4;
 		add(bg);
 
 		var bg = new Rect(0,0, 250, FlxG.height, 0, 0, 0x24232C);
@@ -155,9 +183,7 @@ class OptionsState extends MusicBeatState
 		super.closeSubState();
 		
 		persistentUpdate = true;
-		#if !mobile
 		FlxG.mouse.visible = true;
-		#end
 	}
 
 	var saveMouseY:Int = 0;
@@ -192,9 +218,18 @@ class OptionsState extends MusicBeatState
 	}
 
 	var pressCheck:Bool = false;
+
 	function backMenu() {
 		if (!pressCheck){
 			pressCheck = true;
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+			if(onPlayState)
+			{
+				StageData.loadDirectory(PlayState.SONG);
+				LoadingState.loadAndSwitchState(new PlayState());
+				FlxG.sound.music.volume = 0;
+			}
+			else MusicBeatState.switchState(new MainMenuState());
 			ClientPrefs.saveSettings();
 			Main.fpsVar.visible = ClientPrefs.data.showFPS;
 			Main.fpsVar.scaleX = Main.fpsVar.scaleY = ClientPrefs.data.FPSScale;

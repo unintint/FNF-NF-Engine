@@ -4,7 +4,7 @@ class WatermarkGroup
 {
     static public function add(follow:OptionBG) {
         var option:Option = new Option(
-            'Watermark',
+            Language.getStr('Watermark'),
             TITLE
         );
         follow.addOption(option);
@@ -15,35 +15,36 @@ class WatermarkGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            'FPS counter',
+            Language.getStr('FPScounter'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Show your FPS',
+            Language.getStr('showFPS'),
             'showFPS',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Show more data',
+            Language.getStr('showExtra'),
             'showExtra',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Change color with FPS',
+            Language.getStr('rainbowFPS'),
             'rainbowFPS',
             BOOL
         );
         follow.addOption(option);
 
         var memoryTypeArray:Array<String> = ["Usage", "Reserved", "Current", "Large"];
+
         var option:Option = new Option(
-            'memory showcase data',
+            Language.getStr('memoryType'),
             'memoryType',
             STRING,
             memoryTypeArray
@@ -51,7 +52,7 @@ class WatermarkGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Size',
+            Language.getStr('FPSScale'),
             'FPSScale',
             FLOAT,
             0,
@@ -61,20 +62,20 @@ class WatermarkGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Watermark',
+            Language.getStr('Watermark'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Visible',
+            Language.getStr('showWatermark'),
             'showWatermark',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Size',
+            Language.getStr('WatermarkScale'),
             'WatermarkScale',
             FLOAT,
             0,
