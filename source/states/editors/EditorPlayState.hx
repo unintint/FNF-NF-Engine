@@ -52,7 +52,7 @@ class EditorPlayState extends MusicBeatSubstate
 	var songHits:Int = 0;
 	var songMisses:Int = 0;
 	var songLength:Float = 0;
-	var songSpeed:Float = 1;
+	public static var songSpeed:Float = 1;
 	
 	var totalPlayed:Int = 0;
 	var totalNotesHit:Float = 0.0;
@@ -410,7 +410,7 @@ class EditorPlayState extends MusicBeatSubstate
 					{
 						oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
-						var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, this);
+						var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, EditorPlayState);
 						sustainNote.mustPress = gottaHitNote;
 						//sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
 						sustainNote.noteType = swagNote.noteType;

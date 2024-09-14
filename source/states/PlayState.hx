@@ -2069,8 +2069,8 @@ class PlayState extends MusicBeatState
 				callOnHScript('onSpawnNote', [dunceNote]);
 
 				var index:Int = unspawnNotes.indexOf(dunceNote);
-				dunceNote.updateHitbox();
 				unspawnNotes.splice(index, 1);
+				dunceNote.updateHitbox();
 			}
 		}
 
@@ -3504,10 +3504,9 @@ class PlayState extends MusicBeatState
 
 	public inline function opponentNoteHit(note:Note):Void
 	{
-	    if (!(guitarHeroSustains && note.isSustainNote)){
-		    var result:Dynamic = callOnLuas('opponentNoteHitPre', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
-			if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('opponentNoteHitPre', [note]);
-        }
+		var result:Dynamic = callOnLuas('opponentNoteHitPre', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
+		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('opponentNoteHitPre', [note]);
+	
 		if (songName != 'tutorial')
 			camZooming = true;
 
@@ -3544,10 +3543,8 @@ class PlayState extends MusicBeatState
 		strumPlayAnim(true, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
 		note.hitByOpponent = true;
 		
-		if (!(guitarHeroSustains && note.isSustainNote)){
-		    var result:Dynamic = callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);		
-    		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('opponentNoteHit', [note]);
-        }
+		var result:Dynamic = callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);		
+		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('opponentNoteHit', [note]);
         
 		if (!note.isSustainNote) invalidateNote(note);
 	}
@@ -3723,11 +3720,9 @@ class PlayState extends MusicBeatState
 	
 	public inline function goodNoteHitForOpponent(note:Note):Void
 	{
-	    if (!(guitarHeroSustains && note.isSustainNote)){
-	        var functionReturn:String = ClientPrefs.data.opponentCodeFix ? 'opponentNoteHitPre' : 'goodNoteHitPre';	    
-    		var result:Dynamic = callOnLuas(functionReturn, [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);				
-    		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript(functionReturn, [note]);
-        }		
+		var functionReturn:String = ClientPrefs.data.opponentCodeFix ? 'opponentNoteHitPre' : 'goodNoteHitPre';	    
+		var result:Dynamic = callOnLuas(functionReturn, [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);				
+		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript(functionReturn, [note]);	
 
 		if(note.noteType == 'Hey!' && boyfriend.animOffsets.exists('hey')) {
 			boyfriend.playAnim('hey', true);
@@ -3756,11 +3751,9 @@ class PlayState extends MusicBeatState
 		if(!splitVocals) vocals.volume = 1;
 		strumPlayAnim(false, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
 		note.hitByOpponent = true;
-		if (!(guitarHeroSustains && note.isSustainNote)){
-		    var functionReturn:String = ClientPrefs.data.opponentCodeFix ? 'opponentNoteHit' : 'goodNoteHit';
-		    var result:Dynamic = callOnLuas(functionReturn, [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);				
-		    if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript(functionReturn, [note]);
-        }
+		var functionReturn:String = ClientPrefs.data.opponentCodeFix ? 'opponentNoteHit' : 'goodNoteHit';
+		var result:Dynamic = callOnLuas(functionReturn, [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);				
+		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript(functionReturn, [note]);
         
 		if (!note.isSustainNote) invalidateNote(note);
 	}

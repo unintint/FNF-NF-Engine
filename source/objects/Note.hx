@@ -6,6 +6,8 @@ import backend.NoteTypesConfig;
 import shaders.RGBPalette;
 import shaders.RGBPalette.RGBShaderReference;
 
+import states.editors.EditorPlayState;
+
 import objects.StrumNote;
 
 import flixel.math.FlxRect;
@@ -544,13 +546,17 @@ class Note extends FlxSprite
 			&& ClientPrefs.data.playOpponent)
 			)
 		{
-			if (!wasGoodHit) return;
+			if (!wasGoodHit && ((ClientPrefs.data.playOpponent && !mustPress) || ((!ClientPrefs.data.playOpponent && mustPress)))) return; //只针对对方箭头
 			
 			updateHitbox();
 			var swagRect:FlxRect = clipRect;
 			if(swagRect == null) swagRect = new FlxRect(0, 0, frameWidth, frameHeight);
+
+			var speedData:Float = 0;
+			if (Type.getClass(FlxG.state) != PlayState) speedData = EditorPlayState.songSpeed;
+			else speedData = PlayState.instance.songSpeed;
 			
-			var time:Float = FlxMath.bound((Conductor.songPosition - strumTime) / (height / (0.45 * FlxMath.roundDecimal(PlayState.instance.songSpeed, 2))), 0, 1);
+			var time:Float = FlxMath.bound((Conductor.songPosition - strumTime) / (height / (0.45 * FlxMath.roundDecimal(speedData, 2))), 0, 1);
 			
 			swagRect.x = 0;
 			swagRect.y = time * frameHeight;
@@ -565,9 +571,9 @@ class Note extends FlxSprite
 		if (number == 0){
 			earlyHitMult = 0;
 			lateHitMult = 1;	   //写1而不是0.5是用于修复长条先miss问题
-		}else if (number == maxNumber - 1){
-			earlyHitMult = 0.5;
-			lateHitMult = 0;	  		
+		}else if (number == maxNumber){
+			earlyHitMult = 0.75;
+			lateHitMult = 0.25;	  		
 			noAnimation = true; //better anim play
 		}else{
 			earlyHitMult = 0.5;
