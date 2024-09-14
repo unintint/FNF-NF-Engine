@@ -112,7 +112,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    FlxG.cameras.add(camOther, false);		
 	    
 	    var extraLoad:Bool = false;
-		var filesLoad = 'data/' + game.songName + '/resultBG';
+		var filesLoad = 'data/' + game.songName + '/background';
         if (FileSystem.exists(Paths.modFolders(filesLoad + '.png'))){
             extraLoad = true;
         } else {

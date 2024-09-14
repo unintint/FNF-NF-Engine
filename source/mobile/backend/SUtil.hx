@@ -95,7 +95,6 @@ class SUtil
 		{
 			AndroidPermissions.requestPermission('READ_EXTERNAL_STORAGE');
 			AndroidPermissions.requestPermission('WRITE_EXTERNAL_STORAGE');
-			showPopUp("外传7723的是傻逼" + "\n这是北狐的QQ群" + "\n723948450" + "\nMaoPou留言；", '看我看我!');
 			showPopUp("If you accepted the permissions you are all good!" + "\nIf you didn\'t then expect a crash" + "\nPress Ok to see what happens", 'Notice!');
 			if (!AndroidEnvironment.isExternalStorageManager())
 				AndroidSettings.requestSetting("android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION");
