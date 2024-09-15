@@ -617,13 +617,15 @@ class FreeplayState extends MusicBeatState
 
 	var rateMutex:Mutex = new Mutex();
 	function updateInfo() {
+		
+		var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
+		var jsonData:SwagSong = null;
+		var speed:Float = 0;
+		var count:Int = 0;
 		try
 		{
-	    var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
-
-		var jsonData = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
-		var speed:Float = jsonData.speed;
-		var count:Int = 0;
+		jsonData = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+		speed = jsonData.speed;
 		} catch(a:Any){
 			return;
 		}

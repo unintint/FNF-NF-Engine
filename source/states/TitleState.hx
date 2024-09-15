@@ -456,9 +456,17 @@ class TitleState extends MusicBeatState
 			if (touch.justPressed)
 			{
 				pressedEnter = true;
-			}
+			} 
 		}
 		#end
+		
+		#if android
+		if (videoBool){
+			pressedEnter = false;
+			if (FlxG.android.justReleased.BACK) pressedEnter = true;
+		}
+		#end
+		
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
@@ -790,7 +798,7 @@ class TitleState extends MusicBeatState
 	var videobool:Bool = false;
 	function startVideo(name:String)
 	{
-	    skipVideo = new FlxText(0, FlxG.height - 26, 0, "Press " + #if android "" #else "Enter " #end + "to skip", 18);
+	    skipVideo = new FlxText(0, FlxG.height - 26, 0, "Press " + #if android "Back on your Phone " #else "Enter " #end + "to skip", 18);
 		skipVideo.setFormat(Assets.getFont("assets/fonts/montserrat.ttf").fontName, 18);
 		skipVideo.alpha = 0;
 		skipVideo.alignment = CENTER;
@@ -847,7 +855,7 @@ class TitleState extends MusicBeatState
 	function videoEnd()
 	{
 	    skipVideo.visible = false;
-		video.stop();
+		if (video != null) video.stop();
 		//video.visible = false;
 		startCutscenesOut();
 		videobool = false;
