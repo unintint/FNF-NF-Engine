@@ -589,12 +589,12 @@ class TitleState extends MusicBeatState
 			if(controls.UI_RIGHT) swagShader.hue += elapsed * 0.1;
 		}
 
-		if (videobool)
+		if (videoBool)
 		{
 			if(pressedEnter)
 			{
 				video.stop();
-				videobool = false;
+				videoBool = false;
 				skipVideo.visible = false;
 				startCutscenesOut();
 			}
@@ -795,7 +795,7 @@ class TitleState extends MusicBeatState
 	
 	#if VIDEOS_ALLOWED
 	var video:FlxVideoSprite;
-	var videobool:Bool = false;
+	var videoBool:Bool = false;
 	function startVideo(name:String)
 	{
 	    skipVideo = new FlxText(0, FlxG.height - 26, 0, "Press " + #if android "Back on your Phone " #else "Enter " #end + "to skip", 18);
@@ -838,7 +838,7 @@ class TitleState extends MusicBeatState
 		add(video);
 		video.load(filepath);
 		video.play();
-		videobool = true;
+		videoBool = true;
 
 		video.bitmap.onEndReached.add(function() {
 			videoEnd();
@@ -858,7 +858,7 @@ class TitleState extends MusicBeatState
 		if (video != null) video.stop();
 		//video.visible = false;
 		startCutscenesOut();
-		videobool = false;
+		videoBool = false;
 		trace("end");
 	}
 	
