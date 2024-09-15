@@ -122,7 +122,7 @@ class TitleState extends MusicBeatState
 		#if android
 		if (AppData.getVersionName() != Application.current.meta.get('version')
 		    || AppData.getAppName() != Application.current.meta.get('file')
-			|| !(AppData.getPackageName() != Application.current.meta.get('packageName') 
+			|| (AppData.getPackageName() != Application.current.meta.get('packageName') 
 				&& AppData.getPackageName() != Application.current.meta.get('packageName') + 'Backup1' //共存
 				&& AppData.getPackageName() != Application.current.meta.get('packageName') + 'Backup2' //共存
 				&& AppData.getPackageName() != 'com.antutu.ABenchMark' //超频测试
