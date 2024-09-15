@@ -29,7 +29,7 @@ class PirateState extends MusicBeatState
                 请使用正版进行游玩\n
                 ";
 		warnText = new FlxText(0, 0, FlxG.width, guh, 32);
-		warnText.setFormat("VCR OSD Mono", 32, FlxColor.RED, CENTER);
+		warnText.setFormat(Paths.font("Lang-ZH.ttf"), 32, FlxColor.RED, CENTER);
 		warnText.screenCenter(Y);
 		add(warnText);
 
