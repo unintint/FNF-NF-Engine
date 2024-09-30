@@ -98,7 +98,7 @@ class BackButton extends FlxSpriteGroup
     var saveColor:FlxColor = 0;
     var saveColor2:FlxColor = 0;
 
-	public function new(X:Float, Y:Float, width:Float = 0, height:Float = 0, texts:String = '', color:FlxColor = FlxColor.WHITE, onClick:Void->Void = null)
+	public function new(X:Float, Y:Float, width:Float = 0, height:Float = 0, texts:String = '', color:FlxColor = FlxColor.WHITE, onClick:Void->Void = null, flipButton:Bool = false)
     {
         super(X, Y);
 
@@ -110,7 +110,7 @@ class BackButton extends FlxSpriteGroup
         button.scale.set(0.4, 0.4);
         button.antialiasing = ClientPrefs.data.antialiasing;
         button.y += background.height / 2 - button.height / 2;
-        button.flipX = true;
+        if (flipButton) button.flipX = true;
         add(button);
 
         text = new FlxText(40, 0, 0, texts, 25);

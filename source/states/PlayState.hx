@@ -1068,7 +1068,7 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown()
 	{
-		new FlxTimer().start(0.05, function(tmr:FlxTimer){mobileControls.visible = true;});
+		new FlxTimer().start(1, function(tmr:FlxTimer){mobileControls.active = mobileControls.visible = true;});
 		if (ClientPrefs.data.pauseButton)
 		pauseButton_menu.visible = true;
 				

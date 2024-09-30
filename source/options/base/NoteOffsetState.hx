@@ -443,7 +443,7 @@ class NoteOffsetState extends MusicBeatState
 			updateMode();
 		}
 
-		if(controls.BACK)
+		if(controls.BACK || virtualPad.buttonB.justPressed)
 		{
 			if(zoomTween != null) zoomTween.cancel();
 			if(beatTween != null) beatTween.cancel();

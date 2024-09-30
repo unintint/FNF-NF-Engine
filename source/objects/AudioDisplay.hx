@@ -3,6 +3,9 @@ package objects;
 import flixel.sound.FlxSound;
 import funkin.vis.dsp.SpectralAnalyzer;
 
+import sys.thread.Thread;
+import sys.thread.Mutex;
+
 class AudioDisplay extends FlxSpriteGroup
 {
     var analyzer:SpectralAnalyzer;
@@ -29,27 +32,36 @@ class AudioDisplay extends FlxSpriteGroup
       @:privateAccess
       if (snd != null) 
       {
-        analyzer = new SpectralAnalyzer(snd._channel.__audioSource, Std.int(line * 1.2), 1, 5);
-        analyzer.fftN = 256;  
+        analyzer = new SpectralAnalyzer(snd._channel.__audioSource, Std.int(line * 1), 1, 5);
+        analyzer.fftN = 1024;  
       }
     }
 
     public var stopUpdate:Bool = false;
+    var updateMutex:Mutex = new Mutex();
     override function update(elapsed:Float)
     {
       if (stopUpdate) return;
 
-      var levels = analyzer.getLevels();
+      //Thread.create(() -> {			
+				//updateMutex.acquire();
 
-      for (i in 0...members.length)
-      {
-      var animFrame:Int = Math.round(levels[i].value * _height);
+        var levels = analyzer.getLevels();
 
-      animFrame = Math.round(animFrame * FlxG.sound.volume);
+          for (i in 0...members.length)
+          {
+          var animFrame:Int = Math.round(levels[i].value * _height);
+    
+          animFrame = Math.round(animFrame * FlxG.sound.volume);
+    
+          members[i].scale.y = FlxMath.lerp(animFrame, members[i].scale.y, Math.exp(-elapsed * 16));
+          if (members[i].scale.y < _height / 40) members[i].scale.y = _height / 40;
+          members[i].y = this.y -members[i].scale.y / 2;
+          }
+       // updateMutex.release();
+			//});
 
-      members[i].scale.y = FlxMath.lerp(animFrame, members[i].scale.y, Math.exp(-elapsed * 16));
-      members[i].y = this.y -members[i].scale.y / 2;
-      }
+      
       super.update(elapsed);
     }
 
@@ -58,7 +70,7 @@ class AudioDisplay extends FlxSpriteGroup
       if (snd != null && analyzer == null) 
       {
         analyzer = new SpectralAnalyzer(snd._channel.__audioSource, Std.int(line * 1.2), 1, 5);
-        analyzer.fftN = 256;       
+        analyzer.fftN = 1024;       
       }
     }
 
@@ -72,6 +84,9 @@ class AudioDisplay extends FlxSpriteGroup
 
     public function clearUpdate() {
       for (i in 0...members.length)
-        members[i].scale.y = 0;
+      {
+        members[i].scale.y = _height / 40;
+        members[i].y = this.y -members[i].scale.y / 2;
+      }
     }
 }

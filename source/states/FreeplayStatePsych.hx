@@ -7,8 +7,6 @@ import backend.Song;
 import objects.HealthIcon;
 import objects.MusicPlayer;
 
-import states.FreeplayState.SongMetadata;
-
 import substates.GameplayChangersSubstate;
 import substates.ResetScoreSubState;
 
@@ -19,7 +17,7 @@ import haxe.Json;
 
 class FreeplayStatePsych extends MusicBeatState
 {
-	var songs:Array<SongMetadata> = [];
+	var songs:Array<SongMetadataPsych> = [];
 
 	var selector:FlxText;
 	private static var curSelected:Int = 0;
@@ -199,7 +197,7 @@ class FreeplayStatePsych extends MusicBeatState
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
 	{
-		songs.push(new SongMetadata(songName, weekNum, songCharacter, color));
+		songs.push(new SongMetadataPsych(songName, weekNum, songCharacter, color));
 	}
 
 	function weekIsLocked(name:String):Bool
@@ -599,4 +597,28 @@ class FreeplayStatePsych extends MusicBeatState
 		if (!FlxG.sound.music.playing && !stopMusicPlay)
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 	}	
+}
+
+class SongMetadataPsych
+{
+	public var songName:String = "";
+	public var week:Int = 0;
+	public var songCharacter:String = "";
+	public var color:Int = -91919191;
+	public var folder:String = "";
+	public var lastDifficulty:String = null;
+	public var bg:Dynamic;
+	public var searchnum:Int = 0;
+
+	public function new(song:String, week:Int, songCharacter:String, color:Int)
+	{
+		this.songName = song;
+		this.week = week;
+		this.songCharacter = songCharacter;
+		this.color = color;
+		this.folder = Mods.currentModDirectory;
+		this.bg = Paths.image('menuDesat');
+		this.searchnum = 0;
+		if(this.folder == null) this.folder = '';
+	}
 }

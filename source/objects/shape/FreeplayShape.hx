@@ -4,6 +4,7 @@ import openfl.display.BitmapData;
 import openfl.display.BitmapDataChannel;
 import flash.geom.Point;
 import flash.geom.Matrix;
+import flash.geom.ColorTransform;
 import openfl.geom.Rectangle;
 import openfl.display.Shape;
 import objects.shape.ShapeEX;
@@ -573,7 +574,7 @@ class EventRect extends FlxSpriteGroup //freeplay bottom bg rect
     public var onClick:Void->Void = null;
     var _y:Float = 0;
 
-	public function new(X:Float, Y:Float, texts:String, color:FlxColor, onClick:Void->Void = null)
+	public function new(X:Float, Y:Float, texts:String, color:FlxColor, onClick:Void->Void = null, specialCheck:Bool = false)
     {
         super(X, Y);
 		
@@ -596,6 +597,7 @@ class EventRect extends FlxSpriteGroup //freeplay bottom bg rect
 
         _y = Y;
         this.onClick = onClick;
+        this.specialCheck = specialCheck;
 	}
 
     function drawRect(width:Float):BitmapData {
@@ -623,6 +625,7 @@ class EventRect extends FlxSpriteGroup //freeplay bottom bg rect
 	public var onFocus:Bool = false;
 	public var ignoreCheck:Bool = false;
 	private var _needACheck:Bool = false;
+    var specialCheck = false;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
@@ -631,7 +634,7 @@ class EventRect extends FlxSpriteGroup //freeplay bottom bg rect
         if(!ignoreCheck)
             onFocus = FlxG.mouse.overlaps(this);
 
-        if(onFocus && onClick != null && FlxG.mouse.justReleased)
+        if(onFocus && onClick != null && ((FlxG.mouse.justReleased && !specialCheck) || (FlxG.mouse.justPressed && specialCheck)))
             onClick();
 
         if (onFocus)
@@ -655,13 +658,13 @@ class SongRect extends FlxSpriteGroup //songs member for freeplay
     public var background:FlxSprite;
     var icon:HealthIcon;
     var songName:FlxText;
-    var muscan:FlxText;
+    var musican:FlxText;
 
     public var member:Int;
     public var name:String;
     public var haveAdd:Bool = false;
 
-	public function new(X:Float, Y:Float, songNameS:String, songChar:String, songColor:FlxColor)
+	public function new(X:Float, Y:Float, songNameS:String, songChar:String, songmusican:String, songColor:Array<Int>)
     {
         super(X, Y);
 
@@ -693,15 +696,16 @@ class SongRect extends FlxSpriteGroup //songs member for freeplay
         resizedBitmapData.draw(bitmap, matrix);
 		resizedBitmapData.copyChannel(mask.pixels, new Rectangle(0, 0, mask.width, mask.height), new Point(), BitmapDataChannel.ALPHA, BitmapDataChannel.ALPHA);
 
-        background.pixels = resizedBitmapData;
-        background.color = songColor;
-        background.antialiasing = ClientPrefs.data.antialiasing;
-        add(background);
+        var putBitmapData:BitmapData = new BitmapData(Std.int(mask.width), Std.int(mask.height), true, 0x00000000);
+        putBitmapData.draw(resizedBitmapData);
+        putBitmapData.draw(drawLine(resizedBitmapData.width, resizedBitmapData.height));
 
-        var lineBitmap:BitmapData = drawLine(resizedBitmapData.width, resizedBitmapData.height);
-        var lineSprite = new FlxSprite();
-        lineSprite.pixels = lineBitmap;
-        add(lineSprite); //只能拆分不然会被着色
+        background.pixels = putBitmapData;
+        background.antialiasing = ClientPrefs.data.antialiasing;
+        if (!extraLoad){
+            background.color =  FlxColor.fromRGB(songColor[0], songColor[1], songColor[2]);
+        }
+        add(background);
 
         icon = new HealthIcon(songChar);
         icon.setGraphicSize(Std.int(background.height * 0.8));
@@ -714,6 +718,11 @@ class SongRect extends FlxSpriteGroup //songs member for freeplay
 		songName.font = Paths.font('montserrat.ttf'); 	
         songName.antialiasing = ClientPrefs.data.antialiasing;	
         add(songName);
+
+        musican = new FlxText(100, 35, 0, 'Musican: ' + songmusican, 15);
+		musican.font = Paths.font('montserrat.ttf'); 	
+        musican.antialiasing = ClientPrefs.data.antialiasing;	
+        add(musican);
 
         this.name = songNameS;
 	}

@@ -8,6 +8,7 @@ import haxe.ds.ArraySort;
 
 import sys.thread.Thread;
 import sys.thread.Mutex;
+import openfl.system.System;
 
 import openfl.filters.BlurFilter;
 import openfl.filters.GlowFilter;
@@ -117,14 +118,6 @@ class FreeplayState extends MusicBeatState
 			if(weekIsLocked(WeekData.weeksList[i])) continue;
 
 			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
-			var leSongs:Array<String> = [];
-			var leChars:Array<String> = [];
-
-			for (j in 0...leWeek.songs.length)
-			{
-				leSongs.push(leWeek.songs[j][0]);
-				leChars.push(leWeek.songs[j][1]);
-			}
 
 			WeekData.setDirectoryFromWeek(leWeek);
 			for (song in leWeek.songs)
@@ -134,7 +127,9 @@ class FreeplayState extends MusicBeatState
 				{
 					colors = [146, 113, 253];
 				}
-				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				var muscan:String = leWeek.musican;
+				if (leWeek.musican == null) muscan = 'N/A';
+				addSong(song[0], i, song[1], muscan, colors);
 			}
 		}
 
@@ -163,7 +158,7 @@ class FreeplayState extends MusicBeatState
 		{
 			Mods.currentModDirectory = songs[i].folder;
 			
-			var songRect:SongRect = new SongRect(660, 50 + i * 100, songs[i].songName, songs[i].songCharacter, songs[i].color);
+			var songRect:SongRect = new SongRect(660, 50 + i * 100, songs[i].songName, songs[i].songCharacter, songs[i].musican, songs[i].color);
 			add(songRect);
 			songRect.member = i;
 			grpSongs.push(songRect);
@@ -270,9 +265,9 @@ class FreeplayState extends MusicBeatState
 		add(editorEvent);
 		resetEvent = new EventRect(editorEvent.x + editorEvent.width - 1, bottomBG.y, "reset", 0xfd6dff, specEvent);
 		add(resetEvent);
-		randomEvent = new EventRect(resetEvent.x + resetEvent.width - 1, bottomBG.y, "random", 0x6dff6d, specEvent);
+		randomEvent = new EventRect(resetEvent.x + resetEvent.width - 1, bottomBG.y, "random", 0x6dff6d, specEvent, true);
 		add(randomEvent);
-		skipEvent = new EventRect(randomEvent.x + randomEvent.width - 1, bottomBG.y, "skip", 0x61edfa, specEvent);
+		skipEvent = new EventRect(randomEvent.x + randomEvent.width - 1, bottomBG.y, "skip", 0x61edfa, specEvent, true);
 		add(skipEvent);
 		eventArray.push(optionEvent);
 		eventArray.push(modsEvent);
@@ -524,7 +519,6 @@ class FreeplayState extends MusicBeatState
 
 	function songsRectPosUpdate(forceUpdate:Bool = false) 
 	{
-		if (!forceUpdate && lerpPosition == position) return; //优化
 		for (i in 0...grpSongs.length){
 			grpSongs[i].y = lerpPosition + i * 100 + grpSongs[i].lerpPosY;
 			grpSongs[i].x = 660 + Math.abs(grpSongs[i].y + grpSongs[i].background.height / 2 - FlxG.height / 2) / FlxG.height / 2 * 250 + grpSongs[i].lerpPosX;
@@ -552,7 +546,7 @@ class FreeplayState extends MusicBeatState
 
 		if(playSound) FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
-		var newColor:Int = songs[curSelected].color;
+		var newColor:Int = FlxColor.fromRGB(songs[curSelected].color[0], songs[curSelected].color[1], songs[curSelected].color[2]);
 		if(newColor != intendedColor)
 		{
 			intendedColor = newColor;
@@ -589,7 +583,7 @@ class FreeplayState extends MusicBeatState
 			if (start && num > curSelected) grpSongs[num].lerpPosY = Difficulty.list.length * 70;
 		}
 		
-		grpSongs[curSelected].createDiff(songs[curSelected].color, start);
+		grpSongs[curSelected].createDiff(FlxColor.fromRGB(songs[curSelected].color[0], songs[curSelected].color[1], songs[curSelected].color[2]), start);
 		updateDiff();
 	}
 
@@ -605,7 +599,15 @@ class FreeplayState extends MusicBeatState
 
 	var rectMutex:Mutex = new Mutex();
 	function updateRect() {
-		magenta.loadGraphic(Paths.image('menuDesat'));
+		var extraLoad:Bool = false;
+        var filesLoad = 'data/' + songs[curSelected].songName + '/background';
+        if (FileSystem.exists(Paths.modFolders(filesLoad + '.png'))){
+            extraLoad = true;
+        } else {
+            filesLoad = 'menuDesat';
+            extraLoad = false;
+        }			
+		magenta.loadGraphic(Paths.image(filesLoad, null, true, extraLoad));
 		magenta.scale.x = FlxG.width * 1.05 / magenta.width;
 		magenta.scale.y = FlxG.height * 1.05 / magenta.height;
 		magenta.updateHitbox();
@@ -646,7 +648,7 @@ class FreeplayState extends MusicBeatState
 			rate = FlxMath.roundDecimal(rate, 2);
 			speed = FlxMath.roundDecimal(speed, 2);
 
-			infoNote.maxData = Math.floor(rate * 500);
+			infoNote.maxData = Math.floor(rate * 300);
 			infoNote.data = count;
 			infoRating.data = rate;
 			infoSpeed.data = speed;
@@ -710,7 +712,7 @@ class FreeplayState extends MusicBeatState
 		{
 			grpSongs[curSelected].onFocus = true;
 			grpSongs[curSelected].lerpPosX = grpSongs[curSelected].posX;
-			grpSongs[curSelected].createDiff(songs[curSelected].color, true);
+			grpSongs[curSelected].createDiff(FlxColor.fromRGB(songs[curSelected].color[0], songs[curSelected].color[1], songs[curSelected].color[2]), true);
 		}
 
 		if (grpSongs.length > 0)
@@ -785,7 +787,7 @@ class FreeplayState extends MusicBeatState
 				try{
 					voiceDis.audioDis.changeAnalyzer(FlxG.sound.music);
 					if (vocals != null) instDis.audioDis.changeAnalyzer(vocals);
-					else instDis.audioDis.changeAnalyzer(FlxG.sound.music);
+					else instDis.audioDis.clearUpdate();
 				} catch(e:Any){
 					instDis.audioDis.clearUpdate();
 				}
@@ -840,9 +842,9 @@ class FreeplayState extends MusicBeatState
 		return null;
 	}
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
+	public function addSong(songName:String, weekNum:Int, songCharacter:String, songMusican:String, color:Array<Int>)
 	{
-		songs.push(new SongMetadata(songName, weekNum, songCharacter, color));
+		songs.push(new SongMetadata(songName, weekNum, songCharacter, songMusican, color));
 	}
 
 	function weekIsLocked(name:String):Bool
@@ -858,13 +860,14 @@ class SongMetadata
 	public var songName:String = "";
 	public var week:Int = 0;
 	public var songCharacter:String = "";
-	public var color:Int = -7179779;
+	public var color:Array<Int> = [0, 0, 0];
 	public var folder:String = "";
 	public var lastDifficulty:String = null;
 	public var bg:Dynamic;
 	public var searchnum:Int = 0;
+	public var musican:String = 'N/A';
 
-	public function new(song:String, week:Int, songCharacter:String, color:Int)
+	public function new(song:String, week:Int, songCharacter:String, musican:String, color:Array<Int>)
 	{
 		this.songName = song;
 		this.week = week;
@@ -873,6 +876,7 @@ class SongMetadata
 		this.folder = Mods.currentModDirectory;
 		this.bg = Paths.image('menuDesat');
 		this.searchnum = 0;
+		this.musican = musican;
 		if(this.folder == null) this.folder = '';
 	}
 }
