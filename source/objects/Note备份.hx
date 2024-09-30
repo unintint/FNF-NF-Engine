@@ -481,12 +481,6 @@ class Note extends FlxSprite
 				}		
 			}			
 		}
-
-		if (tooLate && !inEditor)
-		{
-			if (alpha > 0.3)
-				alpha = 0.3;
-		}
 	}
 
 	override public function destroy()
@@ -495,7 +489,6 @@ class Note extends FlxSprite
 		_lastValidChecked = '';
 	}
 
-	
 	public function followStrumNote(myStrum:StrumNote, fakeCrochet:Float, songSpeed:Float = 1)
 	{
 		var strumX:Float = myStrum.x;

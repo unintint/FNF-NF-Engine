@@ -342,7 +342,13 @@ class FreeplayState extends MusicBeatState
 						}
 					}
 				}
-				updateInfo(); //难度数据更新
+				try{
+					updateInfo(); //难度数据更新
+				} catch (e:Dynamic) {
+						infoNote.data = 0;
+						infoRating.data = 0;
+						infoSpeed.data = 0; //搜索后无歌曲的数据更新
+				}
 			}
 		} else {
 			if (FlxG.mouse.pressed && isPressed == true) 
@@ -567,7 +573,13 @@ class FreeplayState extends MusicBeatState
 
 		createDiff(start);
 		updateRect();
-		updateInfo();
+		try{
+			updateInfo(); //难度数据更新
+		} catch (e:Dynamic) {
+				infoNote.data = 0;
+				infoRating.data = 0;
+				infoSpeed.data = 0; //搜索后无歌曲的数据更新
+		}
 		updateVoice();
 		_updateSongLastDifficulty();
 	}

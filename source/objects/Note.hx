@@ -236,7 +236,7 @@ class Note extends FlxSprite
 		if(noteData > -1) {
 			texture = '';
 			rgbShader = new RGBShaderReference(this, initializeGlobalRGBShader(noteData));
-			if(PlayState.SONG != null && PlayState.SONG.disableNoteRGB) rgbShader.enabled = false;
+			if(PlayState.SONG != null && (PlayState.SONG.disableNoteRGB || !ClientPrefs.data.noteRGB)) rgbShader.enabled = false;
 
 			x += swagWidth * (noteData);
 			if(!isSustainNote && noteData < colArray.length) { //Doing this 'if' check to fix the warnings on Senpai songs
@@ -429,30 +429,40 @@ class Note extends FlxSprite
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-
+		
 		if (mustPress)
 		{
-			canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
-						strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
+			if (!ClientPrefs.data.playOpponent) {
+				canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
+							strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
+		
+				if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
+					tooLate = true;
+			}else{
+				canBeHit = false;
 
-			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
-				tooLate = true;
-		}
-		else
-		{
-			canBeHit = false;
-
-			if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
-			{
-				if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
-					wasGoodHit = true;
+				if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
+				{
+					if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
+						wasGoodHit = true;
+				}		
 			}
-		}
+		}else{
+			if (ClientPrefs.data.playOpponent) {
+				canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
+							strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
+		
+				if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
+					tooLate = true;
+			}else{
+				canBeHit = false;
 
-		if (tooLate && !inEditor)
-		{
-			if (alpha > 0.3)
-				alpha = 0.3;
+				if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
+				{
+					if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
+						wasGoodHit = true;
+				}		
+			}			
 		}
 	}
 
@@ -501,7 +511,7 @@ class Note extends FlxSprite
 	{
 		var center:Float = myStrum.y + offsetY + Note.swagWidth / 2;
 		if(isSustainNote && (mustPress || !ignoreNote) &&
-			(!mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit))))
+			(!mustPress || (wasGoodHit || (prevNote.wasGoodHit && canBeHit))))
 		{
 			var swagRect:FlxRect = clipRect;
 			if(swagRect == null) swagRect = new FlxRect(0, 0, frameWidth, frameHeight);
@@ -526,7 +536,17 @@ class Note extends FlxSprite
 	}
 
 	public function hitMultUpdate(number:Int = 0, maxNumber:Int = 0){
-
+		if (number == 0){
+			earlyHitMult = 0;
+			lateHitMult = 1;	   //写1而不是0.5是用于修复长条先miss问题
+		}else if (number == maxNumber){
+			earlyHitMult = 0.75;
+			lateHitMult = 0.25;	  		
+			noAnimation = true; //better anim play
+		}else{
+			earlyHitMult = 0.5;
+			lateHitMult = 0.75;	
+		}
 	} //this shit can make hold note work better
 
 	@:noCompletion
