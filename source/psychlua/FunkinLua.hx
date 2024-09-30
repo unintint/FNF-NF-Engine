@@ -1504,11 +1504,12 @@ class FunkinLua {
 				result = LuaL.dostring(lua, scriptName);
 
 			var resultStr:String = Lua.tostring(lua, result);
-			if(resultStr != null && result != 0) {
+			if(resultStr != null && result != 0 && resultStr.indexOf('cannot open') == -1) {
 				trace(resultStr);
 				#if (windows || mobile || js || wasm)
 				SUtil.showPopUp(resultStr, 'Error on lua script!');
 				#else
+				trace(resultStr.indexOf('cannot open'));
 				luaTrace('$scriptName\n$resultStr', true, false, FlxColor.RED);
 				#end
 				lua = null;
