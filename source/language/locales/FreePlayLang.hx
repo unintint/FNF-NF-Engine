@@ -33,6 +33,12 @@ class FreePlayLang
     }
 
     static public function updateLang() {
-        data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/freeplay.json'));
+		try{
+            data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/freeplay.json'));
+        } catch(e:Any) {
+            try{
+                data = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/freeplay.json'));
+            }
+        }
     }
 }

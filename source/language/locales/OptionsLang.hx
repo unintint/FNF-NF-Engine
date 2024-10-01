@@ -177,6 +177,12 @@ class OptionsLang
     }
 
     static public function updateLang() {
-        data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/options.json'));
+        try{
+            data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/options.json'));
+        } catch(e:Any) {
+            try{
+                data = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/options.json'));
+            }
+        }
     }
 }
