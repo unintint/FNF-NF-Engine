@@ -163,7 +163,7 @@ class TitleState extends MusicBeatState
     
     			http.onData = function (data:String)
     			{
-    				updateVersion = data.split('\n')[1].trim();
+    				updateVersion = data.split('\n')[0].trim();
     				var curVersion:Float = MainMenuState.novaFlareEngineDataVersion;
     				trace('version online: ' + data.split('\n')[0].trim() + ', your version: ' + MainMenuState.novaFlareEngineVersion);
     				if(Std.parseFloat(updateVersion) > curVersion) {
