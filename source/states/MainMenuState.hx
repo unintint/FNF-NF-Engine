@@ -196,15 +196,15 @@ class MainMenuState extends MusicBeatState
 
 		//FlxG.camera.follow(camFollow, null, 0);
 
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "NovaFlare Engine v" + novaFlareEngineVersion + " -HOTFIX -2", 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, Language.get('novaFlareEngine', 'mm') + " v " + novaFlareEngineVersion + " -HOTFIX -2", 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat(Paths.font(Language.get('fontName', 'ma') + '.ttf'), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionShit.antialiasing = ClientPrefs.data.antialiasing;
 		add(versionShit);
 		versionShit.cameras = [camHUD];
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + '0.2.8', 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, Language.get('fridayNightFunkin', 'mm') + " v " + '0.2.8', 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat(Paths.font(Language.get('fontName', 'ma') + '.ttf'), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 		versionShit.antialiasing = ClientPrefs.data.antialiasing;
         versionShit.cameras = [camHUD];

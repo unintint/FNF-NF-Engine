@@ -1442,6 +1442,8 @@ class PlayState extends MusicBeatState
 				for (i in 0...event[1].length)
 					makeEvent(event, i);
 		}
+
+		Note.checkSkin();
 		
         if (unspawnNotes.length == 0){
     		for (section in noteData)
@@ -1548,6 +1550,8 @@ class PlayState extends MusicBeatState
     
     		unspawnNotes.sort(sortByTime);
 		}
+
+		Note.defaultNoteSkin = 'noteSkins/NOTE_assets';
 		
 		if (extraEvents.length > 0)
 		    for (event in 0...extraEvents.length)
@@ -1993,8 +1997,6 @@ class PlayState extends MusicBeatState
 				    if (fixDesyncedStep >= 10){
 				        fixDesyncedStep = 0;
 					    resyncVocals(true);
-					} else {
-					    resyncVocals();
 					}
 				}
 				checkIfDesynced = false;

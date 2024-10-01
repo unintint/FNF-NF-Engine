@@ -6,11 +6,10 @@ import flixel.addons.transition.FlxTransitionableState;
 
 class GeneralGroup
 {
-    //var languages = ClientPrefs.data.language;
     static public function add(follow:OptionBG) {
 
         var option:Option = new Option(
-            Language.getStr('General'),
+            Language.get('General'),
             TITLE
         );
         follow.addOption(option);
@@ -19,7 +18,7 @@ class GeneralGroup
         follow.add(reset);
 
         var option:Option = new Option(
-            Language.getStr('framerate'),
+            Language.get('framerate'),
             'framerate',
             INT,
             24,
@@ -29,9 +28,17 @@ class GeneralGroup
         follow.addOption(option);
         option.onChange = onChangeFramerate;
 
-        var langArray:Array<String> = [Language.member[0], Language.member[1]];
+        var langArray:Array<String> = [];
+        var contents:Array<String> = FileSystem.readDirectory(Paths.getPath('language'));
+        for (item in contents) {
+            var itemPath = Paths.getPath('language') + '/' + item;
+            
+            if (FileSystem.isDirectory(itemPath)) {
+                langArray.push(item);
+            }
+        }
         var option:Option = new Option(
-            Language.getStr('languageName'),
+            Language.get('language'),
             'language',
             STRING,
             langArray
@@ -42,7 +49,7 @@ class GeneralGroup
         var colorblindFilterArray:Array<String> = ['None', 'Protanopia', 'Protanomaly', 'Deuteranopia','Deuteranomaly','Tritanopia','Tritanomaly','Achromatopsia','Achromatomaly'];
 
         var option:Option = new Option(
-            Language.getStr('colorblindMode'),
+            Language.get('colorblindMode'),
             'colorblindMode',
             STRING,
             colorblindFilterArray
@@ -51,14 +58,14 @@ class GeneralGroup
         option.onChange = onChangeFilter;
 
         var option:Option = new Option(
-            Language.getStr('lowQuality'),
+            Language.get('lowQuality'),
             'lowQuality',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('gameQuality'),
+            Language.get('gameQuality'),
             'gameQuality',
             INT,
             0,
@@ -67,35 +74,35 @@ class GeneralGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('antialiasing'),
+            Language.get('antialiasing'),
             'antialiasing',
             BOOL
         );
         follow.addOption(option);
         
         var option:Option = new Option(
-            Language.getStr('flashing'),
+            Language.get('flashing'),
             'flashing',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('shaders'),
+            Language.get('shaders'),
             'shaders',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('cacheOnGPU'),
+            Language.get('cacheOnGPU'),
             'cacheOnGPU',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('autoPause'),
+            Language.get('autoPause'),
             'autoPause',
             BOOL
         );
@@ -130,6 +137,7 @@ class GeneralGroup
 
     static function onChangeLanguage()
     {
+        Language.resetData();
         FlxTransitionableState.skipNextTransIn = true;
 		FlxTransitionableState.skipNextTransOut = true;
         MusicBeatState.switchState(new OptionsState());

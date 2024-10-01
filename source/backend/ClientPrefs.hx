@@ -78,6 +78,7 @@ import states.TitleState;
 	public var comboOffsetFix:Bool = true;
 	//KeyBoard s
 	public var keyboardAlpha:Float = 0.8;
+	public var keyboardTimeDisplay:Bool = true;
 	public var keyboardTime:Float = 500;
 	public var keyboardBGColor:String = 'WHITE';
 	public var keyboardTextColor:String = 'BLACK';
@@ -114,6 +115,7 @@ import states.TitleState;
 	public var CustomFadeSound:Float = 0.5;
 	public var CustomFadeText:Bool = true;
 	public var skipTitleVideo:Bool = false;		
+	public var audioDisplayQuality:Int = 1;
 	public var freeplayOld:Bool = false;
 	public var resultsScreen:Bool = true;
 	public var loadingScreen:Bool = false;

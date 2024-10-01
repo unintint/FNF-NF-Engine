@@ -32,8 +32,8 @@ class AudioDisplay extends FlxSpriteGroup
       @:privateAccess
       if (snd != null) 
       {
-        analyzer = new SpectralAnalyzer(snd._channel.__audioSource, Std.int(line * 1), 1, 5);
-        analyzer.fftN = 1024;  
+        analyzer = new SpectralAnalyzer(snd._channel.__audioSource, Std.int(line * 1 + Math.abs(0.05 * (4 - ClientPrefs.data.audioDisplayQuality))), 1, 5);
+        analyzer.fftN = 256 * ClientPrefs.data.audioDisplayQuality;  
       }
     }
 
@@ -43,23 +43,19 @@ class AudioDisplay extends FlxSpriteGroup
     {
       if (stopUpdate) return;
 
-      //Thread.create(() -> {			
-				//updateMutex.acquire();
+      var levels = analyzer.getLevels();
 
-        var levels = analyzer.getLevels();
+      for (i in 0...members.length)
+      {
+      var animFrame:Int = Math.round(levels[i].value * _height);
 
-          for (i in 0...members.length)
-          {
-          var animFrame:Int = Math.round(levels[i].value * _height);
-    
-          animFrame = Math.round(animFrame * FlxG.sound.volume);
-    
-          members[i].scale.y = FlxMath.lerp(animFrame, members[i].scale.y, Math.exp(-elapsed * 16));
-          if (members[i].scale.y < _height / 40) members[i].scale.y = _height / 40;
-          members[i].y = this.y -members[i].scale.y / 2;
-          }
-       // updateMutex.release();
-			//});
+      animFrame = Math.round(animFrame * FlxG.sound.volume);
+
+      members[i].scale.y = FlxMath.lerp(animFrame, members[i].scale.y, Math.exp(-elapsed * 16));
+      if (members[i].scale.y < _height / 40) members[i].scale.y = _height / 40;
+      members[i].y = this.y -members[i].scale.y / 2;
+      }
+      
 
       
       super.update(elapsed);
@@ -69,8 +65,8 @@ class AudioDisplay extends FlxSpriteGroup
       @:privateAccess
       if (snd != null && analyzer == null) 
       {
-        analyzer = new SpectralAnalyzer(snd._channel.__audioSource, Std.int(line * 1.2), 1, 5);
-        analyzer.fftN = 1024;       
+        analyzer = new SpectralAnalyzer(snd._channel.__audioSource, Std.int(line * 1 + Math.abs(0.05 * (4 - ClientPrefs.data.audioDisplayQuality))), 1, 5);
+        analyzer.fftN = 256 * ClientPrefs.data.audioDisplayQuality;       
       }
     }
 

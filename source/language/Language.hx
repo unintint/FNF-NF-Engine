@@ -4,21 +4,23 @@ import language.locales.*;
 
 class Language
 {
-    public static var member:Array<String> = 
-        [
-            EN.langTran.get('LangName'),
-            ZH.langTran.get('LangName')
-        ];
-
-    static public function getStr(name:String):String
-    {
-        switch(ClientPrefs.data.language)
+    public static function get(value:String, type:String = 'op'):String {
+        switch(type)
         {
-            case 'English':
-                return  EN.langTran.get(name);
-            case '简体中文':
-                return ZH.langTran.get(name);
+            case 'mm': return MainMenuLang.get(value);
+            case 'ma': return MainLang.get(value);
+            case 'fp': return FreePlayLang.get(value);
+            case 'op': return OptionsLang.get(value);
+            case 'pa': return PauseLang.get(value);
         }
-        return  EN.langTran.get(name);
-    }    
+        return "error";
+    }
+
+    public static function resetData() {
+        MainMenuLang.updateLang();
+        MainLang.updateLang();
+        FreePlayLang.updateLang();
+        OptionsLang.updateLang();
+        PauseLang.updateLang();
+    }
 }

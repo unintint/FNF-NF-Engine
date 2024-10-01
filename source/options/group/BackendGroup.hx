@@ -4,7 +4,7 @@ class BackendGroup
 {
     static public function add(follow:OptionBG) {
         var option:Option = new Option(
-            Language.getStr('Backend'),
+            Language.get('Backend'),
             TITLE
         );
         follow.addOption(option);
@@ -15,13 +15,13 @@ class BackendGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            Language.getStr('Gameplaybackend'),
+            Language.get('Gameplaybackend'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('fixLNL'),
+            Language.get('fixLNL'),
             'fixLNL',
             INT,
             0,
@@ -32,7 +32,7 @@ class BackendGroup
         var PauseMusicArray:Array<String> = ['None', 'Breakfast', 'Tea Time'];
 
         var option:Option = new Option(
-            Language.getStr('pauseMusic'),
+            Language.get('pauseMusic'),
             'pauseMusic',
             STRING,
             PauseMusicArray
@@ -47,7 +47,7 @@ class BackendGroup
 					hitsoundArray.push(file.replace('.ogg', ''));				
 			}
         var option:Option = new Option(
-            Language.getStr('hitsoundType'),
+            Language.get('hitsoundType'),
             'hitsoundType',
             STRING,
             hitsoundArray
@@ -56,7 +56,7 @@ class BackendGroup
         option.onChange = onChangeHitsound;
 
         var option:Option = new Option(
-            Language.getStr('hitsoundVolume'),
+            Language.get('hitsoundVolume'),
             'hitsoundVolume',
             FLOAT,
             0,
@@ -66,14 +66,14 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('oldHscriptVersion'),
+            Language.get('oldHscriptVersion'),
             'oldHscriptVersion',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('pauseButton'),
+            Language.get('pauseButton'),
             'pauseButton',
             BOOL
         );
@@ -81,7 +81,7 @@ class BackendGroup
 
         #if android
         var option:Option = new Option(
-            Language.getStr('gameOverVibration'),
+            Language.get('gameOverVibration'),
             'gameOverVibration',
             BOOL
         );
@@ -89,7 +89,7 @@ class BackendGroup
         #end
 
         var option:Option = new Option(
-            Language.getStr('ratingOffset'),
+            Language.get('ratingOffset'),
             'ratingOffset',
             INT,
             -500,
@@ -99,14 +99,14 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('NoteOffsetState'),
+            Language.get('NoteOffsetState'),
             'NoteOffsetState',
             STATE
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('safeFrames'),
+            Language.get('safeFrames'),
             'safeFrames',
             FLOAT,
             0,
@@ -116,7 +116,7 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('marvelousWindow'),
+            Language.get('marvelousWindow'),
             'marvelousWindow',
             INT,
             0,
@@ -126,7 +126,7 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('sickWindow'),
+            Language.get('sickWindow'),
             'sickWindow',
             INT,
             0,
@@ -136,7 +136,7 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('goodWindow'),
+            Language.get('goodWindow'),
             'goodWindow',
             INT,
             0,
@@ -146,7 +146,7 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('badWindow'),
+            Language.get('badWindow'),
             'badWindow',
             INT,
             0,
@@ -156,14 +156,14 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('marvelousRating'),
+            Language.get('marvelousRating'),
             'marvelousRating',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('marvelousSprite'),
+            Language.get('marvelousSprite'),
             'marvelousSprite',
             BOOL
         );
@@ -172,20 +172,20 @@ class BackendGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            Language.getStr('Appbackend'),
+            Language.get('Appbackend'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('discordRPC'),
+            Language.get('discordRPC'),
             'discordRPC',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('checkForUpdates'),
+            Language.get('checkForUpdates'),
             'checkForUpdates',
             BOOL
         );
@@ -194,7 +194,7 @@ class BackendGroup
 
         #if mobile
         var option:Option = new Option(
-            Language.getStr('screensaver'),
+            Language.get('screensaver'),
             'screensaver',
             BOOL
         );
@@ -203,7 +203,7 @@ class BackendGroup
         
         #if mobile
         var option:Option = new Option(
-            'Check game whether miss files',
+            Language.get('filesCheck'),
             'filesCheck',
             BOOL
         );

@@ -4,7 +4,7 @@ class InputGroup
 {
     static public function add(follow:OptionBG) {
         var option:Option = new Option(
-            Language.getStr('Input'),
+            Language.get('Input'),
             TITLE
         );
         follow.addOption(option);
@@ -15,21 +15,21 @@ class InputGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            Language.getStr('ControlsSubState'),
+            Language.get('ControlsSubState'),
             'ControlsSubState',
             STATE
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('TouchMain'),
+            Language.get('TouchMain'),
             TEXT
         );
         follow.addOption(option);
         
         #if desktop
         var option:Option = new Option(
-            Language.getStr('needMobileControl'),
+            Language.get('needMobileControl'),
             'needMobileControl',
             BOOL
         );
@@ -37,7 +37,7 @@ class InputGroup
         #end
 
         var option:Option = new Option(
-            Language.getStr('controlsAlpha'),
+            Language.get('controlsAlpha'),
             'controlsAlpha',
             FLOAT,
             0,
@@ -47,20 +47,20 @@ class InputGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('TouchGame'),
+            Language.get('TouchGame'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('MobileControlSelectSubState'),
+            Language.get('MobileControlSelectSubState'),
             'MobileControlSelectSubState',
             STATE
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('dynamicColors'),
+            Language.get('dynamicColors'),
             'dynamicColors',
             BOOL
         );
@@ -69,7 +69,7 @@ class InputGroup
         var hitboxLocationArray:Array<String> = ['Bottom', 'Top'];
 
         var option:Option = new Option(
-            Language.getStr('hitboxLocation'),
+            Language.get('hitboxLocation'),
             'hitboxLocation',
             STRING,
             hitboxLocationArray
@@ -77,7 +77,7 @@ class InputGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('playControlsAlpha'),
+            Language.get('playControlsAlpha'),
             'playControlsAlpha',
             FLOAT,
             0,
@@ -87,7 +87,7 @@ class InputGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('extraKey'),
+            Language.get('extraKey'),
             'extraKey',
             INT,
             0,
@@ -96,7 +96,7 @@ class InputGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('MobileExtraControl'),
+            Language.get('MobileExtraControl'),
             'MobileExtraControl',
             STATE
         );

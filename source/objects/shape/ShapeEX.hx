@@ -114,7 +114,7 @@ class BackButton extends FlxSpriteGroup
         add(button);
 
         text = new FlxText(40, 0, 0, texts, 25);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf');
         text.antialiasing = ClientPrefs.data.antialiasing;	
         add(text);
 

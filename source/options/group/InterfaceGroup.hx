@@ -4,7 +4,7 @@ class InterfaceGroup
 {
     static public function add(follow:OptionBG) {
         var option:Option = new Option(
-            Language.getStr('UserInterface'),
+            Language.get('UserInterface'),
             TITLE
         );
         follow.addOption(option);
@@ -15,7 +15,7 @@ class InterfaceGroup
         var CustomFadeArray:Array<String> = ['Move', 'Alpha'];
 
         var option:Option = new Option(
-            Language.getStr('CustomFade'),
+            Language.get('CustomFade'),
             'CustomFade',
             STRING,
             CustomFadeArray
@@ -23,7 +23,7 @@ class InterfaceGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('CustomFadeSound'),
+            Language.get('CustomFadeSound'),
             'CustomFadeSound',
             FLOAT,
             0,
@@ -33,35 +33,44 @@ class InterfaceGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('CustomFadeText'),
+            Language.get('CustomFadeText'),
             'CustomFadeText',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('skipTitleVideo'),
+            Language.get('skipTitleVideo'),
             'skipTitleVideo',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('freeplayOld'),
+            Language.get('audioDisplayQuality'),
+            'audioDisplayQuality',
+            INT,
+            1,
+            4
+        );
+        follow.addOption(option);
+
+        var option:Option = new Option(
+            Language.get('freeplayOld'),
             'freeplayOld',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('resultsScreen'),
+            Language.get('resultsScreen'),
             'resultsScreen',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('loadingScreen'),
+            Language.get('loadingScreen'),
             'loadingScreen',
             BOOL
         );

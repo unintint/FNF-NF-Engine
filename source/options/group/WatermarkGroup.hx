@@ -4,7 +4,7 @@ class WatermarkGroup
 {
     static public function add(follow:OptionBG) {
         var option:Option = new Option(
-            Language.getStr('Watermark'),
+            Language.get('Watermark'),
             TITLE
         );
         follow.addOption(option);
@@ -15,27 +15,27 @@ class WatermarkGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            Language.getStr('FPScounter'),
+            Language.get('FPScounter'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('showFPS'),
+            Language.get('showFPS'),
             'showFPS',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('showExtra'),
+            Language.get('showExtra'),
             'showExtra',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('rainbowFPS'),
+            Language.get('rainbowFPS'),
             'rainbowFPS',
             BOOL
         );
@@ -44,7 +44,7 @@ class WatermarkGroup
         var memoryTypeArray:Array<String> = ["Usage", "Reserved", "Current", "Large"];
 
         var option:Option = new Option(
-            Language.getStr('memoryType'),
+            Language.get('memoryType'),
             'memoryType',
             STRING,
             memoryTypeArray
@@ -52,7 +52,7 @@ class WatermarkGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('FPSScale'),
+            Language.get('FPSScale'),
             'FPSScale',
             FLOAT,
             0,
@@ -62,20 +62,20 @@ class WatermarkGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('Watermark'),
+            Language.get('Watermark'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('showWatermark'),
+            Language.get('showWatermark'),
             'showWatermark',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('WatermarkScale'),
+            Language.get('WatermarkScale'),
             'WatermarkScale',
             FLOAT,
             0,

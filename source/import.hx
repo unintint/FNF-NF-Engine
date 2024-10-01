@@ -50,6 +50,8 @@ import backend.Mods;
 
 import backend.ui.*; //Psych-UI
 
+import language.Language;
+
 import objects.Alphabet;
 import objects.BGSprite;
 import objects.AudioDisplay;

@@ -32,14 +32,14 @@ class OptionsState extends MusicBeatState
 	override function create()
 	{
 			optionName = [
-				Language.getStr('General'), 
-				Language.getStr('Gameplay'), 
-				Language.getStr('Backend'), 
-				Language.getStr('Game UI'), 
-				Language.getStr('Skin'), 
-				Language.getStr('Input'), 
-				Language.getStr('User Interface'), 
-				Language.getStr('Watermark')];
+				Language.get('General'), 
+				Language.get('Gameplay'), 
+				Language.get('Backend'), 
+				Language.get('GameUITitle'), 
+				Language.get('Skin'), 
+				Language.get('Input'), 
+				Language.get('UserInterfaceTitle'), 
+				Language.get('Watermark')];
 
 		persistentUpdate = persistentDraw = true;
 
@@ -73,7 +73,7 @@ class OptionsState extends MusicBeatState
 			cataArray.push(option);
 		}
 
-		var back = new BackButton(0,0, 250, 75, 'back', 0x53b7ff, backMenu);
+		var back = new BackButton(0,0, 250, 75, Language.get('back', 'ma'), 0x53b7ff, backMenu);
 		back.y = FlxG.height - 75;
 		add(back);
 
@@ -239,6 +239,7 @@ class OptionsState extends MusicBeatState
 					else  MusicBeatState.switchState(new FreeplayStatePsych());
 				case 2:
 					MusicBeatState.switchState(new PlayState());
+					FlxG.mouse.visible = false;
 			}
 			stateType = 0;
 		}

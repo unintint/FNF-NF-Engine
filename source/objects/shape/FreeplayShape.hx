@@ -172,7 +172,8 @@ class InfoText extends FlxSpriteGroup //freeplay info
         this.maxData = maxData;
 
         var text:FlxText = new FlxText(0, 0, 0, texts, 18);
-		text.font = Paths.font('montserrat.ttf');	    		
+		text.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf');	
+        text.antialiasing = ClientPrefs.data.antialiasing;    		
         add(text);
         
         BlackBG = new Rect(130, text.height / 2 - 3, FlxG.width * 0.26, 5, 5, 5, FlxColor.WHITE, 0.6);
@@ -182,7 +183,8 @@ class InfoText extends FlxSpriteGroup //freeplay info
         add(WhiteBG);    
 
         dataText = new FlxText(490, 0, 0, Std.string(data), 18);
-		dataText.font = Paths.font('montserrat.ttf');	    		
+		dataText.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf');	
+        dataText.antialiasing = ClientPrefs.data.antialiasing;    		
         add(dataText);
 
         data = 0;
@@ -264,7 +266,7 @@ class MusicLine extends FlxSpriteGroup
         add(whiteLine);
 
         timeDis = new FlxText(0, 20, 0, '0', 18);
-		timeDis.font = Paths.font('montserrat.ttf');	
+		timeDis.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf');	
         timeDis.alignment = LEFT;  	    		
         timeDis.antialiasing = ClientPrefs.data.antialiasing;
         add(timeDis);
@@ -280,13 +282,13 @@ class MusicLine extends FlxSpriteGroup
         add(rateReduceRect);
 
         timeMaxDis = new FlxText(0, 20, 0, '0', 18);
-		timeMaxDis.font = Paths.font('montserrat.ttf');	  
+		timeMaxDis.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf');	  
         timeMaxDis.alignment = RIGHT;  	
         timeMaxDis.antialiasing = ClientPrefs.data.antialiasing;	
         add(timeMaxDis);
 
         playRate = new FlxText(0, 20, 0, '1', 18);
-		playRate.font = Paths.font('montserrat.ttf');	
+		playRate.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf');	
         timeDis.alignment = CENTER;    		
         playRate.antialiasing = ClientPrefs.data.antialiasing;
         add(playRate);
@@ -360,7 +362,7 @@ class MusicRect extends FlxSpriteGroup
         add(bg);
 
         display = new FlxText(0, 0, 0, text, 15);
-		display.font = Paths.font('montserrat.ttf');		    		
+		display.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf');		    		
         display.antialiasing = ClientPrefs.data.antialiasing;
         add(display);
         display.x += bg.width / 2 - display.width / 2;
@@ -405,7 +407,7 @@ class ExtraTopRect extends FlxSpriteGroup
         super(X, Y);
 		
         text = new FlxText(textOffset, 0, 0, texts, 17);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
 
         background = new FlxSprite(0, 0);
@@ -579,7 +581,7 @@ class EventRect extends FlxSpriteGroup //freeplay bottom bg rect
         super(X, Y);
 		
         text = new FlxText(0, 0, 0, texts, 18);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
 
         background = new FlxSprite().loadGraphic(drawRect(text.width + 60));
@@ -715,12 +717,14 @@ class SongRect extends FlxSpriteGroup //songs member for freeplay
         add(icon);
 
         songName = new FlxText(100, 5, 0, songNameS, 25);
-		songName.font = Paths.font('montserrat.ttf'); 	
+        songName.borderSize = 0;
+        songName.setFormat(Paths.font(Language.get('fontName', 'ma') + '.ttf'), 25, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, 0xA1393939);
         songName.antialiasing = ClientPrefs.data.antialiasing;	
         add(songName);
 
         musican = new FlxText(100, 35, 0, 'Musican: ' + songmusican, 15);
-		musican.font = Paths.font('montserrat.ttf'); 	
+        musican.borderSize = 0;
+		musican.setFormat(Paths.font(Language.get('fontName', 'ma') + '.ttf'), 15, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, 0xA1393939);
         musican.antialiasing = ClientPrefs.data.antialiasing;	
         add(musican);
 
@@ -818,13 +822,15 @@ class SongRect extends FlxSpriteGroup //songs member for freeplay
     }
 
     var haveDiffDis:Bool = false;
-    public function createDiff(color:FlxColor, imme:Bool = false) 
+    public function createDiff(color:FlxColor, charter:Array<String>, imme:Bool = false) 
     {
         desDiff();
         haveDiffDis = true;
         for (diff in 0...Difficulty.list.length)
         {
-            var rect = new DiffRect(Difficulty.list[diff], color, this);
+            var chart:String = charter[diff];
+            if (charter[diff] == null) chart = charter[0];
+            var rect = new DiffRect(Difficulty.list[diff], color, chart, this);
             diffRectGroup.add(rect);
             diffRectArray.push(rect);
             rect.member = diff;
@@ -856,7 +862,6 @@ class DiffRect extends FlxSpriteGroup //songs member for freeplay
 {
     var background:Rect;
     var triItems:FlxSpriteGroup;
-    var bgLine:FlxSprite;
 
     var diffName:FlxText;
     var charterName:FlxText;
@@ -865,7 +870,7 @@ class DiffRect extends FlxSpriteGroup //songs member for freeplay
 
     public var member:Int;
 
-	public function new(name:String, color:FlxColor, point:SongRect)
+	public function new(name:String, color:FlxColor, charter:String, point:SongRect)
     {
         super();
 
@@ -882,13 +887,18 @@ class DiffRect extends FlxSpriteGroup //songs member for freeplay
         }
 
         diffName = new FlxText(15, 5, 0, name, 20);
-		diffName.font = Paths.font('montserrat.ttf'); 	
+        diffName.borderSize = 0;
+		diffName.setFormat(Paths.font(Language.get('fontName', 'ma') + '.ttf'), 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, 0xA1393939);
         diffName.antialiasing = ClientPrefs.data.antialiasing;	
         add(diffName);
 
-        bgLine = new FlxSprite();
-        bgLine.pixels = drawLine(background.width, background.height);
-        add(bgLine);
+        charterName = new FlxText(15, 30, 0, 'Charter: ' + charter, 12);
+        charterName.borderSize = 0;
+		charterName.setFormat(Paths.font(Language.get('fontName', 'ma') + '.ttf'), 12, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, 0xA1393939);
+        charterName.antialiasing = ClientPrefs.data.antialiasing;	
+        add(charterName);
+
+        //background.pixels.draw(drawLine(background.width, background.height));
 
         this.follow = point;
 
@@ -1000,7 +1010,7 @@ class BackRect extends FlxSpriteGroup //back button
         add(button);
 
         text = new FlxText(70, 0, 0, texts, 18);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         add(text);
 
@@ -1118,7 +1128,7 @@ class PlayRect extends FlxSpriteGroup //back button
         add(button);
 
         text = new FlxText(60, 0, 0, texts, 18);
-		text.font = Paths.font('montserrat.ttf'); 	
+		text.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         add(text);
 
@@ -1211,26 +1221,27 @@ class SearchButton extends FlxSpriteGroup
         search = new PsychUIInputText(5, 5, Std.int(width - 10), '', 30);
         search.bg.visible = false;
         search.behindText.alpha = 0;
-        search.textObj.font = Paths.font('montserrat.ttf');
+        search.textObj.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf');
+        search.textObj.antialiasing = ClientPrefs.data.antialiasing;
         search.textObj.color = FlxColor.WHITE;
         search.caret.color = 0x727E7E7E;
         search.onChange = function(old:String, cur:String) {
             if (cur == '') tapText.visible = true;
             else tapText.visible = false;
             FreeplayState.instance.updateSearch(cur);
-            itemDis.text = Std.string(FreeplayState.instance.songs.length) + ' maps has found';
+            itemDis.text = Std.string(FreeplayState.instance.songs.length) + Language.get('mapsFound', 'fp');
         }
         add(search);
         
-        tapText = new FlxText(5, 5, 0, 'Tap here to search', 30);
-		tapText.font = Paths.font('montserrat.ttf'); 	
+        tapText = new FlxText(5, 5, 0, Language.get('tapToSearch', 'fp'), 30);
+		tapText.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf'); 	
         tapText.antialiasing = ClientPrefs.data.antialiasing;	
         tapText.alpha = 0.6;
         add(tapText);
 
-        itemDis = new FlxText(5, 5 + tapText.height, 0, Std.string(FreeplayState.instance.songs.length) + ' maps has found', 18);
+        itemDis = new FlxText(5, 5 + tapText.height, 0, Std.string(FreeplayState.instance.songs.length) + Language.get('mapsFound', 'fp'), 18);
         itemDis.color = 0xFF52F9;
-		itemDis.font = Paths.font('montserrat.ttf'); 	
+		itemDis.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf'); 	
         itemDis.antialiasing = ClientPrefs.data.antialiasing;	
         add(itemDis);
     }
@@ -1267,8 +1278,8 @@ class OrderRect extends FlxSpriteGroup {
         resetUpdate();
         add(display);
 
-        var text = new FlxText(0, 0, 0, 'Search results sorted alphabetically from a to z', 18);
-		text.font = Paths.font('montserrat.ttf'); 	
+        var text = new FlxText(0, 0, 0, Language.get('searchSorted', 'fp'), 18);
+		text.font =  Paths.font(Language.get('fontName', 'ma') + '.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         add(text);
 

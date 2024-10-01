@@ -656,6 +656,7 @@ class LoadingState extends MusicBeatState
 	
 	static function preloadChart()
 	{
+		Note.checkSkin();
 	    addNote();
 	    
 	    Note.globalRgbShaders = [];
@@ -769,6 +770,8 @@ class LoadingState extends MusicBeatState
 				}
 				unspawnNotes.sort(PlayState.sortByTime);
         	}
+
+			Note.defaultNoteSkin = 'noteSkins/NOTE_assets';
 			mutex.release();      
             loaded++;        
         });

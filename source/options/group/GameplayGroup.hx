@@ -5,7 +5,7 @@ class GameplayGroup
     static public function add(follow:OptionBG) {
 
         var option:Option = new Option(
-            Language.getStr('Gameplay'),
+            Language.get('Gameplay'),
             TITLE
         );
         follow.addOption(option);
@@ -14,42 +14,42 @@ class GameplayGroup
         follow.add(reset);
 
         var option:Option = new Option(
-            Language.getStr('downScroll'),
+            Language.get('downScroll'),
             'downScroll',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('middleScroll'),
+            Language.get('middleScroll'),
             'middleScroll',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('flipChart'),
+            Language.get('flipChart'),
             'flipChart',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('ghostTapping'),
+            Language.get('ghostTapping'),
             'ghostTapping',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('guitarHeroSustains'),
+            Language.get('guitarHeroSustains'),
             'guitarHeroSustains',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('noReset'),
+            Language.get('noReset'),
             'noReset',
             BOOL
         );
@@ -58,41 +58,41 @@ class GameplayGroup
         ///////////////////////////////
 
         var option:Option = new Option(
-            Language.getStr('Opponent'),
+            Language.get('Opponent'),
             TEXT
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('playOpponent'),
+            Language.get('playOpponent'),
             'playOpponent',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('opponentCodeFix'),
+            Language.get('opponentCodeFix'),
             'opponentCodeFix',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('botOpponentFix'),
+            Language.get('botOpponentFix'),
             'botOpponentFix',
             BOOL
         );
         follow.addOption(option);    
 
         var option:Option = new Option(
-            Language.getStr('HealthDrainOPPO'),
+            Language.get('HealthDrainOPPO'),
             'HealthDrainOPPO',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            Language.getStr('HealthDrainOPPOMult'),
+            Language.get('HealthDrainOPPOMult'),
             'HealthDrainOPPOMult',
             FLOAT,
             0,

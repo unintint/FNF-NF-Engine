@@ -104,9 +104,15 @@ class KeyboardDisplay extends FlxSpriteGroup
         members[4 + key].alpha = 1 * ClientPrefs.data.keyboardAlpha;
         members[8 + key].color = FlxColor.BLACK;
 
+        total++;
+        totalText.text = Std.string(total);
+        hitArray.unshift(Date.now());
+
+        if (!ClientPrefs.data.keyboardTimeDisplay) return;
+
         var obj:TimeDis = new TimeDis(key, Conductor.songPosition, _x, _y);
         add(obj);
-        
+
         switch(key)
         {
             case 0:
@@ -122,10 +128,6 @@ class KeyboardDisplay extends FlxSpriteGroup
                 if (rightArray.length > 0 && rightArray[rightArray.length - 1].endTime == -999999) rightArray[rightArray.length - 1].endTime = Conductor.songPosition;
                 rightArray.push(obj);
         }
-
-        hitArray.unshift(Date.now());
-        total++;
-        totalText.text = Std.string(total);
     }
 
     public function released(key:Int)

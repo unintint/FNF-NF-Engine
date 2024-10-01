@@ -27,7 +27,7 @@ import openfl.utils.Assets;
 class PauseSubState extends MusicBeatSubstate
 {
 	var filePath:String = 'menuExtend/PauseState/';
-	var font:String = Assets.getFont("assets/fonts/montserrat.ttf").fontName;
+	var font:String;
 
 	var back:FlxSprite;
 	var backShadow:FlxSprite;
@@ -65,7 +65,7 @@ class PauseSubState extends MusicBeatSubstate
 	var stayinMenu:String = 'isChanging'; // base, difficulty, debug, isChanging or options
 	// isChanging = in transition animation
 
-	var options:Array<String> = ['Continue', 'Restart', 'Difficulty', 'Debug', 'Editor', 'Options', 'Exit'];
+	var options:Array<String> = ['Continues', 'Restart', 'Difficulty', 'Debug', 'Editor', 'Options', 'Exit'];
 	var optionsAlphabet:Array<FlxText> = [];
 	var optionsBars:Array<FlxSprite> = [];
 	var curSelected:Int = 0;
@@ -111,6 +111,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function create()
 	{
+		font = Paths.font(Language.get('fontName', 'ma') + '.ttf'); 
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 		pauseMusic = new FlxSound();
 		try
@@ -241,7 +242,7 @@ class PauseSubState extends MusicBeatSubstate
 			options.remove('Debug');
 	
 		for (i in 0...options.length) {
-			var optionText:FlxText = new FlxText(0, 0, 0, options[i], 50);
+			var optionText:FlxText = new FlxText(0, 0, 0, Language.get(options[i].toLowerCase(), 'pa'), 50);
 		
 			optionText.x = -1000;
 			optionText.y = (i - curSelected) * 180 + 325;
@@ -388,7 +389,7 @@ class PauseSubState extends MusicBeatSubstate
 		
 		botText.text = 'Botplay: ' + (PlayState.instance.cpuControlled ? 'ON' : 'OFF');
 
-		cheatingText.text = 'Cheating: ' + (PlayState.chartingMode ? 'ON' : 'OFF');
+		cheatingText.text = 'Chart editor debug: ' + (PlayState.chartingMode ? 'ON' : 'OFF');
 		
 		
 		for (i in menuText)
@@ -569,7 +570,7 @@ class PauseSubState extends MusicBeatSubstate
 						FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 						FlxG.sound.music.time = pauseMusic.time;
 					}
-				case 'Continue':
+				case 'Continues':
 					closeMenu(
 						function(tmr:FlxTimer) close()
 					);

@@ -87,7 +87,7 @@ class Note extends FlxSprite
 	public static var SUSTAIN_SIZE:Int = 44;
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var colArray:Array<String> = ['purple', 'blue', 'green', 'red'];
-	public static var defaultNoteSkin(default, never):String = 'noteSkins/NOTE_assets';
+	public static var defaultNoteSkin:String = 'noteSkins/NOTE_assets';
 
 	public var noteSplashData:NoteSplashData = {
 		disabled: false,
@@ -128,6 +128,11 @@ class Note extends FlxSprite
 	public var hitsoundDisabled:Bool = false;
 	public var hitsoundChartEditor:Bool = true;
 	public var hitsound:String = 'hitsound';
+
+	public var noteSplashBrt:Int = 0;
+	public var noteSplashSat:Int = 0;
+	public var noteSplashHue:Int = 0;
+    // fix old lua😡
 
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
@@ -548,6 +553,11 @@ class Note extends FlxSprite
 			lateHitMult = 0.75;	
 		}
 	} //this shit can make hold note work better
+
+	public static function checkSkin() //加载检测独立出来检测省的和原来一样粑粑
+	{
+		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin) defaultNoteSkin = 'NOTE_assets';
+	}
 
 	@:noCompletion
 	override function set_clipRect(rect:FlxRect):FlxRect

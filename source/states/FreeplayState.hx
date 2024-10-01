@@ -127,9 +127,11 @@ class FreeplayState extends MusicBeatState
 				{
 					colors = [146, 113, 253];
 				}
-				var muscan:String = leWeek.musican;
-				if (leWeek.musican == null) muscan = 'N/A';
-				addSong(song[0], i, song[1], muscan, colors);
+				var muscan:String = song[3];
+				if (song[3] == null) muscan = 'N/A';
+				var charter:Array<String> = song[4];
+				if (song[4] == null) charter = ['N/A', 'N/A', 'N/A'];
+				addSong(song[0], i, song[1], muscan, charter, colors);
 			}
 		}
 
@@ -186,22 +188,22 @@ class FreeplayState extends MusicBeatState
 		var infoBG:Rect = new Rect(12, FlxG.height * 0.42, FlxG.width * 0.45 - 12, FlxG.height * 0.15, 20, 20, FlxColor.BLACK, 0.5);
 		add(infoBG);
 
-		infoSpeed = new InfoText(infoBG.x + 15, infoBG.y + 7, "speed", 5);
+		infoSpeed = new InfoText(infoBG.x + 15, infoBG.y + 7, Language.get('speed', 'fp'), 5);
 		add(infoSpeed);
 
-		infoNote = new InfoText(infoBG.x + 15, infoBG.y + 38, "note count", 10);
+		infoNote = new InfoText(infoBG.x + 15, infoBG.y + 38, Language.get('noteCount', 'fp'), 10);
 		add(infoNote);
 
-		infoRating = new InfoText(infoBG.x + 15, infoBG.y + 70, "rating", 20);
+		infoRating = new InfoText(infoBG.x + 15, infoBG.y + 70, Language.get('rating', 'fp'), 20);
 		add(infoRating);
 
 		var extraBG:Rect = new Rect(12, FlxG.height * 0.585, FlxG.width * 0.45 - 12, FlxG.height * 0.3, 20, 20, FlxColor.BLACK, 0.5);
 		add(extraBG);
 
-		extraAudio = new ExtraTopRect(extraBG.x, extraBG.y, extraBG.width / 2, 50, 11, true, 'Audio DisPlay', 0, FlxColor.BLACK, extraChange);
+		extraAudio = new ExtraTopRect(extraBG.x, extraBG.y, extraBG.width / 2, 50, 11, true, Language.get('audioDisplay', 'fp'), 0, FlxColor.BLACK, extraChange);
 		add(extraAudio);
 
-		extraHS = new ExtraTopRect(extraBG.x + extraAudio.width, extraBG.y, extraBG.width / 2, 50, 11, false, 'History Score', 0, FlxColor.BLACK, extraChange);
+		extraHS = new ExtraTopRect(extraBG.x + extraAudio.width, extraBG.y, extraBG.width / 2, 50, 11, false, Language.get('historyScore', 'fp'), 0, FlxColor.BLACK, extraChange);
 		add(extraHS);
 
 		camAudio = new FlxCamera(Std.int(extraAudio.x), Std.int(extraAudio.y + extraAudio.height), Std.int(extraBG.width), Std.int(extraBG.height - extraAudio.height));
@@ -226,19 +228,19 @@ class FreeplayState extends MusicBeatState
 		add(voiceLine);
 
 		timeSave = new FlxText(10, 0, 0, '', 15);
-		timeSave.font = Paths.font('montserrat.ttf'); 	
+		timeSave.font = Paths.font(Language.get('fontName', 'ma') + '.ttf');
         timeSave.antialiasing = ClientPrefs.data.antialiasing;	
 		timeSave.camera = camHS;
 		add(timeSave);
 
 		accSave = new FlxText(10, 20, 0, '', 15);
-		accSave.font = Paths.font('montserrat.ttf'); 	
+		accSave.font = Paths.font(Language.get('fontName', 'ma') + '.ttf');
         accSave.antialiasing = ClientPrefs.data.antialiasing;	
 		accSave.camera = camHS;
 		add(accSave);
 
 		scoreSave = new FlxText(10 + camHS.width * 0.4, 20, 0, '', 15);
-		scoreSave.font = Paths.font('montserrat.ttf'); 	
+		scoreSave.font = Paths.font(Language.get('fontName', 'ma') + '.ttf');
         scoreSave.antialiasing = ClientPrefs.data.antialiasing;	
 		scoreSave.camera = camHS;
 		add(scoreSave);
@@ -255,19 +257,19 @@ class FreeplayState extends MusicBeatState
 		bottomBG.alpha = 0.6;
 		add(bottomBG);
 
-		optionEvent = new EventRect(215, bottomBG.y, "option", 0x63d6ff, specEvent);
+		optionEvent = new EventRect(215, bottomBG.y, Language.get('option', 'fp'), 0x63d6ff, specEvent);
 		add(optionEvent);
-		modsEvent = new EventRect(optionEvent.x + optionEvent.width - 1, bottomBG.y, "mods", 0xd1fc52, specEvent);
+		modsEvent = new EventRect(optionEvent.x + optionEvent.width - 1, bottomBG.y, Language.get('mods', 'fp'), 0xd1fc52, specEvent);
 		add(modsEvent);
-		ChangersEvent = new EventRect(modsEvent.x + modsEvent.width - 1, bottomBG.y, "changers", 0xff354e, specEvent);
+		ChangersEvent = new EventRect(modsEvent.x + modsEvent.width - 1, bottomBG.y, Language.get('changers', 'fp'), 0xff354e, specEvent);
 		add(ChangersEvent);
-		editorEvent = new EventRect(ChangersEvent.x + ChangersEvent.width - 1, bottomBG.y, "editor", 0xff617e, specEvent);
+		editorEvent = new EventRect(ChangersEvent.x + ChangersEvent.width - 1, bottomBG.y, Language.get('editor', 'fp'), 0xff617e, specEvent);
 		add(editorEvent);
-		resetEvent = new EventRect(editorEvent.x + editorEvent.width - 1, bottomBG.y, "reset", 0xfd6dff, specEvent);
+		resetEvent = new EventRect(editorEvent.x + editorEvent.width - 1, bottomBG.y, Language.get('reset', 'fp'), 0xfd6dff, specEvent);
 		add(resetEvent);
-		randomEvent = new EventRect(resetEvent.x + resetEvent.width - 1, bottomBG.y, "random", 0x6dff6d, specEvent, true);
+		randomEvent = new EventRect(resetEvent.x + resetEvent.width - 1, bottomBG.y, Language.get('random', 'fp'), 0x6dff6d, specEvent, true);
 		add(randomEvent);
-		skipEvent = new EventRect(randomEvent.x + randomEvent.width - 1, bottomBG.y, "skip", 0x61edfa, specEvent, true);
+		skipEvent = new EventRect(randomEvent.x + randomEvent.width - 1, bottomBG.y, Language.get('skip', 'fp'), 0x61edfa, specEvent, true);
 		add(skipEvent);
 		eventArray.push(optionEvent);
 		eventArray.push(modsEvent);
@@ -280,10 +282,10 @@ class FreeplayState extends MusicBeatState
 		disLine = new Rect(0, bottomBG.y - 4, FlxG.width, 4, 0, 0, FlxColor.WHITE, 0);
 		add(disLine);
 
-		playButton = new PlayRect(FlxG.width, bottomBG.y, 200, bottomBG.height, "PLAY", 0xFC4EFF, startGame);
+		playButton = new PlayRect(FlxG.width, bottomBG.y, 200, bottomBG.height, Language.get('play', 'ma'), 0xFC4EFF, startGame);
 		add(playButton);
 
-		backButton = new BackRect(0, bottomBG.y, 200, bottomBG.height, "BACK", 0x41E9FF, backMenu);
+		backButton = new BackRect(0, bottomBG.y, 200, bottomBG.height, Language.get('back', 'ma'), 0x41E9FF, backMenu);
 		add(backButton);
 
 		changeSelection(0, false, true);
@@ -318,7 +320,7 @@ class FreeplayState extends MusicBeatState
 
 		if (FlxG.mouse.x >= 660 && FlxG.mouse.x <= FlxG.width && FlxG.mouse.y >= FlxG.height * 0.25 && FlxG.mouse.y <= FlxG.height * 0.9)
 		{
-			position += FlxG.mouse.wheel * 180;
+			position -= FlxG.mouse.wheel * 180;
 			if (FlxG.mouse.pressed) 
 			{
 				isPressed = true;
@@ -587,7 +589,7 @@ class FreeplayState extends MusicBeatState
 	inline private function _updateSongLastDifficulty()
 		songs[curSelected].lastDifficulty = Difficulty.getString(curDifficulty);
 
-	function createDiff(start:Bool = false) 
+	function createDiff(start:Bool = false) //start用于解决搜索难度rect一直重置位置
 	{
 		for (num in 0...grpSongs.length) 
 		{
@@ -595,14 +597,14 @@ class FreeplayState extends MusicBeatState
 			if (start && num > curSelected) grpSongs[num].lerpPosY = Difficulty.list.length * 70;
 		}
 		
-		grpSongs[curSelected].createDiff(FlxColor.fromRGB(songs[curSelected].color[0], songs[curSelected].color[1], songs[curSelected].color[2]), start);
+		grpSongs[curSelected].createDiff(FlxColor.fromRGB(songs[curSelected].color[0], songs[curSelected].color[1], songs[curSelected].color[2]), songs[curSelected].charter, start);
 		updateDiff();
 	}
 
 	public function updateDiff() {
-		timeSave.text = 'Played Time: ' + Std.string(Highscore.getTime(songs[curSelected].songName, curDifficulty));
-		accSave.text = 'Accurate: ' + Std.string(FlxMath.roundDecimal(Highscore.getRating(songs[curSelected].songName, curDifficulty) * 100, 2)) + '%';
-		scoreSave.text = 'Score: ' + Std.string(Highscore.getScore(songs[curSelected].songName, curDifficulty));
+		timeSave.text = Language.get('playedTime', 'fp') + ': ' + Std.string(Highscore.getTime(songs[curSelected].songName, curDifficulty));
+		accSave.text =  Language.get('accurate', 'fp') + ': ' + Std.string(FlxMath.roundDecimal(Highscore.getRating(songs[curSelected].songName, curDifficulty) * 100, 2)) + '%';
+		scoreSave.text =  Language.get('score', 'fp') + ': ' + Std.string(Highscore.getScore(songs[curSelected].songName, curDifficulty));
 		
 		var msArray = Highscore.getMsGroup(songs[curSelected].songName, curDifficulty);
 		var timeArray = Highscore.getTimeGroup(songs[curSelected].songName, curDifficulty);
@@ -620,8 +622,8 @@ class FreeplayState extends MusicBeatState
             extraLoad = false;
         }			
 		magenta.loadGraphic(Paths.image(filesLoad, null, true, extraLoad));
-		magenta.scale.x = FlxG.width * 1.05 / magenta.width;
-		magenta.scale.y = FlxG.height * 1.05 / magenta.height;
+		var scale = Math.max(FlxG.width * 1.05 / magenta.width, FlxG.height * 1.05 / magenta.height);
+		magenta.scale.x = magenta.scale.y = scale;
 		magenta.updateHitbox();
 		magenta.screenCenter();
 		magenta.antialiasing = ClientPrefs.data.antialiasing;
@@ -698,6 +700,7 @@ class FreeplayState extends MusicBeatState
 			saveGrpSongs[rect].ignoreCheck = true;
 			saveGrpSongs[rect].alpha = 0.6;
 			saveGrpSongs[rect].haveAdd = false;
+			if (songs.length == 0) saveGrpSongs[rect].alpha = 0;
 		}
 		
 		var data:Int = 0;
@@ -724,7 +727,7 @@ class FreeplayState extends MusicBeatState
 		{
 			grpSongs[curSelected].onFocus = true;
 			grpSongs[curSelected].lerpPosX = grpSongs[curSelected].posX;
-			grpSongs[curSelected].createDiff(FlxColor.fromRGB(songs[curSelected].color[0], songs[curSelected].color[1], songs[curSelected].color[2]), true);
+			grpSongs[curSelected].createDiff(FlxColor.fromRGB(songs[curSelected].color[0], songs[curSelected].color[1], songs[curSelected].color[2]), songs[curSelected].charter, true);
 		}
 
 		if (grpSongs.length > 0)
@@ -854,9 +857,9 @@ class FreeplayState extends MusicBeatState
 		return null;
 	}
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String, songMusican:String, color:Array<Int>)
+	public function addSong(songName:String, weekNum:Int, songCharacter:String, songMusican:String, songCharter:Array<String>, color:Array<Int>)
 	{
-		songs.push(new SongMetadata(songName, weekNum, songCharacter, songMusican, color));
+		songs.push(new SongMetadata(songName, weekNum, songCharacter, songMusican, songCharter, color));
 	}
 
 	function weekIsLocked(name:String):Bool
@@ -878,8 +881,9 @@ class SongMetadata
 	public var bg:Dynamic;
 	public var searchnum:Int = 0;
 	public var musican:String = 'N/A';
+	public var charter:Array<String> = ['N/A', 'N/A', 'N/A'];
 
-	public function new(song:String, week:Int, songCharacter:String, musican:String, color:Array<Int>)
+	public function new(song:String, week:Int, songCharacter:String, musican:String, charter:Array<String>, color:Array<Int>)
 	{
 		this.songName = song;
 		this.week = week;
@@ -889,6 +893,7 @@ class SongMetadata
 		this.bg = Paths.image('menuDesat');
 		this.searchnum = 0;
 		this.musican = musican;
+		this.charter = charter;
 		if(this.folder == null) this.folder = '';
 	}
 }

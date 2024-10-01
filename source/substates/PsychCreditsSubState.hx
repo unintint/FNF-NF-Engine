@@ -90,12 +90,12 @@ class PsychCreditsSubState extends MusicBeatSubstate
 		intendedColor = bg.color;
 		changeSelection();
 
-		var back = new BackButton(0,0, 250, 75, 'back', 0x53b7ff, function() close());
+		var back = new BackButton(0,0, 250, 75, Language.get('back', 'ma'), 0x53b7ff, function() close());
 		back.y = FlxG.height - 75;
-		add(back);
+		#if !mobile add(back); #end
 
 		addVirtualPad(UP_DOWN, A_B_C);
-		virtualPad.y -= 75;
+		#if !mobile virtualPad.y -= 75; #end
 
 		super.create();
 	}
