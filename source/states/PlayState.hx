@@ -1981,12 +1981,7 @@ class PlayState extends MusicBeatState
 		{
 			Conductor.songPosition += elapsed * 1000 * playbackRate;
 			if(checkIfDesynced)
-			{			    
-			    if (musicCheck(vocals, FlxG.sound.music.time, 20)
-			    || (musicCheck(opponentVocals, FlxG.sound.music.time, 20)))
-			        fixDesyncedStep++;
-			    else fixDesyncedStep = 0;
-			    
+			{			    			   			    
 				var diff:Float = 20 * playbackRate;
 				var timeSub:Float = Conductor.songPosition - Conductor.offset;
 				
@@ -1997,9 +1992,12 @@ class PlayState extends MusicBeatState
 				    if (fixDesyncedStep >= 10){
 				        fixDesyncedStep = 0;
 					    resyncVocals(true);
+					    checkIfDesynced = false;
+					} else {
+					    fixDesyncedStep++;
 					}
 				}
-				checkIfDesynced = false;
+				
 			}
 		}
 
