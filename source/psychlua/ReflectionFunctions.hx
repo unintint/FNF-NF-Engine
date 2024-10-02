@@ -16,15 +16,12 @@ class ReflectionFunctions
 	public static function implement(funk:FunkinLua)
 		{
 		funk.set("getProperty", function(variable:String, ?allowMaps:Bool = false) {
-			try{
-				var split:Array<String> = variable.split('.');
-				if(split.length > 1)
-					return LuaUtils.getVarInArray(LuaUtils.getPropertyLoop(split, true, true, allowMaps), split[split.length-1], allowMaps);
-				return LuaUtils.getVarInArray(LuaUtils.getTargetInstance(), variable, allowMaps);
-			}
+			var split:Array<String> = variable.split('.');
+			if(split.length > 1)
+				return LuaUtils.getVarInArray(LuaUtils.getPropertyLoop(split, true, true, allowMaps), split[split.length-1], allowMaps);
+			return LuaUtils.getVarInArray(LuaUtils.getTargetInstance(), variable, allowMaps);
 		});
 		funk.set("setProperty", function(variable:String, value:Dynamic, allowMaps:Bool = false) {
-			try{
 			var split:Array<String> = variable.split('.');
 			if(split.length > 1) {
 				LuaUtils.setVarInArray(LuaUtils.getPropertyLoop(split, true, true, allowMaps), split[split.length-1], value, allowMaps);
@@ -32,7 +29,6 @@ class ReflectionFunctions
 			}
 			LuaUtils.setVarInArray(LuaUtils.getTargetInstance(), variable, value, allowMaps);
 			return true;
-			}
 		});
 		funk.set("getPropertyFromClass", function(classVar:String, variable:String, ?allowMaps:Bool = false) {
 			var myClass:Dynamic = classCheck(classVar);

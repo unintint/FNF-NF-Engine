@@ -1304,34 +1304,23 @@ class FunkinLua {
 			}
 			return false;
 		});
-		set("startVideo", function(videoFile:String, ?canSkip:Bool = true) {
+		set("startVideo", function(videoFile:String) {
 			#if VIDEOS_ALLOWED
-			if(FileSystem.exists(Paths.video(videoFile)))
-			{
-				if(game.videoCutscene != null)
-				{
-					game.remove(game.videoCutscene);
-					game.videoCutscene.destroy();
-				}
-				game.videoCutscene = game.startVideo(videoFile, false, canSkip);
+			if(FileSystem.exists(Paths.video(videoFile))) {
+				game.startVideo(videoFile);
 				return true;
-			}
-			else
-			{
+			} else {
+			    game.startVideo(videoFile); //just fix bug
 				luaTrace('startVideo: Video file not found: ' + videoFile, false, false, FlxColor.RED);
 			}
 			return false;
 
 			#else
-			PlayState.instance.inCutscene = true;
-			new FlxTimer().start(0.1, function(tmr:FlxTimer)
-			{
-				PlayState.instance.inCutscene = false;
-				if(game.endingSong)
-					game.endSong();
-				else
-					game.startCountdown();
-			});
+			if(game.endingSong) {
+				game.endSong();
+			} else {
+				game.startCountdown();
+			}
 			return true;
 			#end
 		});
@@ -1504,12 +1493,11 @@ class FunkinLua {
 				result = LuaL.dostring(lua, scriptName);
 
 			var resultStr:String = Lua.tostring(lua, result);
-			if(resultStr != null && result != 0 && resultStr.indexOf('cannot open') == -1) {
+			if(resultStr != null && result != 0) {
 				trace(resultStr);
 				#if (windows || mobile || js || wasm)
 				SUtil.showPopUp(resultStr, 'Error on lua script!');
 				#else
-				trace(resultStr.indexOf('cannot open'));
 				luaTrace('$scriptName\n$resultStr', true, false, FlxColor.RED);
 				#end
 				lua = null;

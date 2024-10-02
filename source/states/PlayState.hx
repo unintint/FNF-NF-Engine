@@ -720,6 +720,7 @@ class PlayState extends MusicBeatState
 		#end
 
 		addMobileControls(false);
+		mobileControls.active = mobileControls.visible = true;
 
 		startCallback();
 		RecalculateRating();
@@ -1068,7 +1069,6 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown()
 	{
-		new FlxTimer().start(1, function(tmr:FlxTimer){mobileControls.active = mobileControls.visible = true;});
 		if (ClientPrefs.data.pauseButton)
 		pauseButton_menu.visible = true;
 				
