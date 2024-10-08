@@ -332,7 +332,7 @@ class Shader
 			message += "\n" + shaderInfoLog;
 			message += "\n" + source;
 			var textfix:Array<String> = message.split('#ifdef GL_ES');
-			message = textfix[0].trim();
+			message = textfix[0];
 			#if sys
 			if (compileStatus == 0)
 			{
