@@ -39,6 +39,7 @@ class LoadingState extends MusicBeatState
 
 	static var requestedBitmaps:Map<String, BitmapData> = [];
 	static var mutex:Mutex = new Mutex();
+	static var chartMutex:Mutex = new Mutex();
 	
 	static var isPlayState:Bool = false;
 		
@@ -137,7 +138,7 @@ class LoadingState extends MusicBeatState
 		
 		if (!transitioning)
 		{
-			if (!finishedLoading && checkLoaded() && curPercent == 1)
+			if (!finishedLoading && checkLoaded() && curPercent == 1 && finChartLoad)
 			{
 				transitioning = true;
 				onLoad();
@@ -371,11 +372,15 @@ class LoadingState extends MusicBeatState
 		loadMax = imagesToPrepare.length
 		         + soundsToPrepare.length 
 		         + musicToPrepare.length 
-		         + songsToPrepare.length 
-		         + 1;       
+		         + songsToPrepare.length;
 		loaded = 0;
+		
+		finChartLoad = false;
 
 		//then start threads
+		setSpeed();
+		preloadChart();
+		
 		for (sound in soundsToPrepare) initThread(() -> Paths.sound(sound), 'sound $sound');
 		for (music in musicToPrepare) initThread(() -> Paths.music(music), 'music $music');
 		for (song in songsToPrepare) initThread(() -> Paths.returnSound(null, song, 'songs'), 'song $song');
@@ -426,8 +431,6 @@ class LoadingState extends MusicBeatState
 				}
 				loaded++;
 			});		
-		setSpeed();
-		preloadChart();
 	}
 
 	static function initThread(func:Void->Dynamic, traceData:String)
@@ -635,6 +638,8 @@ class LoadingState extends MusicBeatState
 		}		    	
 	}
 	
+	public static var finChartLoad:Bool = false;
+	
 	public static var unspawnNotes:Array<Note> = [];	
     public static var noteTypes:Array<String> = [];
     public static var events:Array<Array<Dynamic>> = [];    
@@ -668,7 +673,7 @@ class LoadingState extends MusicBeatState
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;	
 		
 		Thread.create(() -> {
-			mutex.acquire();  
+			chartMutex.acquire();  
     	    	
 			for (section in noteData)
 			{
@@ -772,8 +777,8 @@ class LoadingState extends MusicBeatState
         	}
 
 			Note.defaultNoteSkin = 'noteSkins/NOTE_assets';
-			mutex.release();      
-            loaded++;        
+			finChartLoad = true;
+			chartMutex.release();                  
         });
 	}
 }
