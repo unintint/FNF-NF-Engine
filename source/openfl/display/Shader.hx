@@ -331,8 +331,6 @@ class Shader
 			var message = startMessage;
 			message += "\n" + shaderInfoLog;
 			message += "\n" + source;
-			var textfix:Array<String> = message.split('#ifdef GL_ES');
-			message = textfix[0];
 			#if sys
 			if (compileStatus == 0)
 			{
@@ -349,7 +347,7 @@ class Shader
 			#end
 			if (compileStatus == 0)
 				#if (android && !macro)
-				AndroidTools.showAlertDialog("Shader Compile Error!", message, null, null)
+				AndroidTools.showAlertDialog("Shader Compile Error!", message, {name: "OK", func: null}, null)
 				#elseif !ios
 				openfl.Lib.application.window.alert('$message', 'Shader Compile Error!')
 				#else
