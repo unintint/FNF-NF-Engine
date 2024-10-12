@@ -529,7 +529,7 @@ class Paths
 			return fileToCheck;
 		}
 			
-		return #if mobile Sys.getCwd() + #end 'assets/shared' + key;
+		return #if mobile Sys.getCwd() + #end 'assets/shared/' + key;
 	}
 	#end
 
