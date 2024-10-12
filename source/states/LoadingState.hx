@@ -42,6 +42,7 @@ class LoadingState extends MusicBeatState
 	static var requestedBitmaps:Map<String, BitmapData> = [];
 	static var mutex:Mutex = new Mutex();
 	static var chartMutex:Mutex = new Mutex();
+	static var loadMutex:Mutex = new Mutex();
 	
 	static var isPlayState:Bool = false;
 		
@@ -385,7 +386,7 @@ class LoadingState extends MusicBeatState
 		for (sound in soundsToPrepare) initThread(() -> Paths.sound(sound), 'sound $sound');
 		for (music in musicToPrepare) initThread(() -> Paths.music(music), 'music $music');
 		for (song in songsToPrepare) initThread(() -> Paths.returnSound(null, song, 'songs'), 'song $song');
-         trace(imagesToPrepare);     		
+        //trace(imagesToPrepare);     	
 		// for images, they get to have their own thread
 		for (image in imagesToPrepare)
 			Thread.create(() -> {
@@ -783,7 +784,11 @@ class LoadingState extends MusicBeatState
 	
 	static function addLoad()
 	{
-	    loaded.add(1);
+	    Thread.create(() -> {
+			loadMutex.acquire();  
+	        loaded.add(1);
+	        loadMutex.release();    
+	    });
 	}
 }
 
