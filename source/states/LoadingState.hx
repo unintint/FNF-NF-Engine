@@ -374,7 +374,7 @@ class LoadingState extends MusicBeatState
 		loadMax = imagesToPrepare.length
 		         + soundsToPrepare.length 
 		         + musicToPrepare.length 
-		         + songsToPrepare.length;
+		         + songsToPrepare.length
 		         + 1;
 		loaded.store(0);
 
