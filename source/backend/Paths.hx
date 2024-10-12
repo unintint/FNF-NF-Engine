@@ -477,7 +477,6 @@ class Paths
 	}
 
 	inline static public function modsSounds(path:String, key:String) {
-		//trace(modFolders(path + '/' + key + '.' + SOUND_EXT));
 		return modFolders(path + '/' + key + '.' + SOUND_EXT);
 	}
 
@@ -495,10 +494,6 @@ class Paths
 
 	inline static public function modsImagesJson(key:String) {
 		return modFolders('images/' + key + '.json');
-	}
-
-	inline static public function rpgData(key:String) {
-		return modFolders('rpg/' + key + '.rd');
 	}
 
 	/* Goes unused for now
@@ -529,7 +524,12 @@ class Paths
 				return fileToCheck;
 		}
 		
-		return #if mobile Sys.getCwd() + #end 'assets/shared/' + key;	
+		var fileToCheck:String = mods('mods/' + key);
+		if(FileSystem.exists(fileToCheck)) {
+			return fileToCheck;
+		}
+			
+		return #if mobile Sys.getCwd() + #end 'assets/shared' + key;
 	}
 	#end
 
