@@ -524,7 +524,7 @@ class Paths
 				return fileToCheck;
 		}
 		
-		var fileToCheck:String = mods('mods/' + key);
+		var fileToCheck:String = mods(key);
 		if(FileSystem.exists(fileToCheck)) {
 			return fileToCheck;
 		}
