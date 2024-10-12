@@ -32,9 +32,11 @@ import objects.*;
 import sys.thread.Thread;
 import sys.thread.Mutex;
 
+import haxe.atomic.AtomicInt;
+
 class LoadingState extends MusicBeatState
 {
-	public static var loaded:Int = 0;
+	public static var loaded:AtomicInt = new AtomicInt(0);
 	public static var loadMax:Int = 0;
 
 	static var requestedBitmaps:Map<String, BitmapData> = [];
@@ -47,7 +49,7 @@ class LoadingState extends MusicBeatState
 	{
 		this.target = target;
 		this.stopMusic = stopMusic;		
-		loaded = 0;
+		loaded.store(0);
 		startThreads();
 		super();
 	}
@@ -138,13 +140,13 @@ class LoadingState extends MusicBeatState
 		
 		if (!transitioning)
 		{
-			if (!finishedLoading && checkLoaded() && curPercent == 1 && finChartLoad)
+			if (!finishedLoading && checkLoaded() && curPercent == 1)
 			{
 				transitioning = true;
 				onLoad();
 				return;
 			}
-			intendedPercent = loaded / loadMax;
+			intendedPercent = loaded.load() / loadMax;
 		}
 	}
 	
@@ -203,7 +205,7 @@ class LoadingState extends MusicBeatState
 			else trace('failed to cache image $key');
 		}
 		requestedBitmaps.clear();
-		return (loaded == loadMax);
+		return (loaded.load() == loadMax);
 	}
 
 	static function getNextState(target:FlxState, stopMusic = false, intrusive:Bool = true):FlxState
@@ -373,9 +375,8 @@ class LoadingState extends MusicBeatState
 		         + soundsToPrepare.length 
 		         + musicToPrepare.length 
 		         + songsToPrepare.length;
-		loaded = 0;
-		
-		finChartLoad = false;
+		         + 1;
+		loaded.store(0);
 
 		//then start threads
 		setSpeed();
@@ -397,7 +398,7 @@ class LoadingState extends MusicBeatState
 					file = Paths.modsImages(image);
 					if (Paths.currentTrackedAssets.exists(file)) {
 						mutex.release();
-						loaded++;
+						addLoad();
 						return;
 					}
 					else if (FileSystem.exists(file))
@@ -408,7 +409,7 @@ class LoadingState extends MusicBeatState
 						file = Paths.getPath('images/$image.png', IMAGE);
 						if (Paths.currentTrackedAssets.exists(file)) {
 							mutex.release();
-							loaded++;
+							addLoad();
 							return;
 						}
 						else if (OpenFlAssets.exists(file, IMAGE))
@@ -416,7 +417,7 @@ class LoadingState extends MusicBeatState
 						else {
 							trace('no such image $image exists');
 							mutex.release();
-							loaded++;
+							addLoad();
 							return;
 						}
 					}
@@ -429,7 +430,7 @@ class LoadingState extends MusicBeatState
 					mutex.release();
 					trace('ERROR! fail on preloading image $image');
 				}
-				loaded++;
+				addLoad();
 			});		
 	}
 
@@ -448,7 +449,7 @@ class LoadingState extends MusicBeatState
 				mutex.release();
 				trace('ERROR! fail on preloading $traceData');
 			}
-			loaded++;
+			addLoad();
 		});
 	}
 
@@ -638,8 +639,6 @@ class LoadingState extends MusicBeatState
 		}		    	
 	}
 	
-	public static var finChartLoad:Bool = false;
-	
 	public static var unspawnNotes:Array<Note> = [];	
     public static var noteTypes:Array<String> = [];
     public static var events:Array<Array<Dynamic>> = [];    
@@ -777,9 +776,14 @@ class LoadingState extends MusicBeatState
         	}
 
 			Note.defaultNoteSkin = 'noteSkins/NOTE_assets';
-			finChartLoad = true;
+			addLoad();
 			chartMutex.release();                  
         });
+	}
+	
+	static function addLoad()
+	{
+	    loaded.add(1);
 	}
 }
 
