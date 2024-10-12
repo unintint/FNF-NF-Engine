@@ -24,7 +24,6 @@ import objects.Character;
 import states.MainMenuState;
 import states.StoryMenuState;
 import states.FreeplayState;
-import states.FreeplayStatePsych;
 
 import substates.PauseSubState;
 import substates.GameOverSubstate;
@@ -53,7 +52,6 @@ class FunkinLua {
 
 	#if HSCRIPT_ALLOWED
 	public var hscript:HScript = null;
-	public var hscriptBase:HScriptBase = null;
 	#end
 
 	public var callbacks:Map<String, Dynamic> = new Map<String, Dynamic>();
@@ -816,8 +814,8 @@ class FunkinLua {
 			if(PlayState.isStoryMode)
 				MusicBeatState.switchState(new StoryMenuState());
 			else
-				if (!ClientPrefs.data.freeplayOld) MusicBeatState.switchState(new FreeplayState());
-                else MusicBeatState.switchState(new FreeplayStatePsych());
+				MusicBeatState.switchState(new FreeplayState());
+
 			#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
@@ -1001,14 +999,18 @@ class FunkinLua {
 			if(spr != null) spr.makeGraphic(width, height, CoolUtil.colorFromString(color));
 		});
 		set("addAnimationByPrefix", function(obj:String, name:String, prefix:String, framerate:Int = 24, loop:Bool = true) {
-			if(PlayState.instance.getLuaObject(obj,false)!=null) {
-				var cock:FlxSprite = PlayState.instance.getLuaObject(obj,false);
-				cock.animation.addByPrefix(name, prefix, framerate, loop);
-				if(cock.animation.curAnim == null) {
-					cock.animation.play(name, true);
+			var obj:Dynamic = LuaUtils.getObjectDirectly(obj, false);
+			if(obj != null && obj.animation != null)
+			{
+				obj.animation.addByPrefix(name, prefix, framerate, loop);
+				if(obj.animation.curAnim == null)
+				{
+					if(obj.playAnim != null) obj.playAnim(name, true);
+					else obj.animation.play(name, true);
 				}
-				return;
+				return true;
 			}
+			return false;
 		});
 
 		set("addAnimation", function(obj:String, name:String, frames:Array<Int>, framerate:Int = 24, loop:Bool = true) {
@@ -1304,34 +1306,22 @@ class FunkinLua {
 			}
 			return false;
 		});
-		set("startVideo", function(videoFile:String, ?canSkip:Bool = true) {
+		set("startVideo", function(videoFile:String) {
 			#if VIDEOS_ALLOWED
-			if(FileSystem.exists(Paths.video(videoFile)))
-			{
-				if(game.videoCutscene != null)
-				{
-					game.remove(game.videoCutscene);
-					game.videoCutscene.destroy();
-				}
-				game.videoCutscene = game.startVideo(videoFile, false, canSkip);
+			if(FileSystem.exists(Paths.video(videoFile))) {
+				game.startVideo(videoFile);
 				return true;
-			}
-			else
-			{
+			} else {
 				luaTrace('startVideo: Video file not found: ' + videoFile, false, false, FlxColor.RED);
 			}
 			return false;
 
 			#else
-			PlayState.instance.inCutscene = true;
-			new FlxTimer().start(0.1, function(tmr:FlxTimer)
-			{
-				PlayState.instance.inCutscene = false;
-				if(game.endingSong)
-					game.endSong();
-				else
-					game.startCountdown();
-			});
+			if(game.endingSong) {
+				game.endSong();
+			} else {
+				game.startCountdown();
+			}
 			return true;
 			#end
 		});
@@ -1480,10 +1470,7 @@ class FunkinLua {
 		});
 
 		#if DISCORD_ALLOWED DiscordClient.addLuaCallbacks(this); #end
-		#if HSCRIPT_ALLOWED 
-		    HScript.implement(this); 
-		    HScriptBase.implement(this);
-		#end
+		#if HSCRIPT_ALLOWED HScript.implement(this); #end
 		#if ACHIEVEMENTS_ALLOWED Achievements.addLuaCallbacks(this); #end
 		#if flxanimate FlxAnimateFunctions.implement(this); #end
 		ReflectionFunctions.implement(this);
@@ -1598,9 +1585,6 @@ class FunkinLua {
 			hscript.destroy();
 			hscript = null;
 		}
-		
-		if(hscriptBase != null) hscriptBase.interp = null;
-		hscriptBase = null;
 		#end
 	}
 
