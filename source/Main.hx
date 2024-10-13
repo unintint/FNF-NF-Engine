@@ -89,6 +89,9 @@ class Main extends Sprite
 		{
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
+		#if VIDEOS_ALLOWED
+		hxvlc.util.Handle.init(#if (hxvlc >= "1.8.0")  ['--no-lua'] #end);
+		#end
 	}
 
 	private function init(?E:Event):Void
@@ -121,11 +124,11 @@ class Main extends Sprite
 		
         #if mobile
             #if EXTERNAL
-    		if (!FileSystem.exists(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file')))
-    		    FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file'));
+    		if (!FileSystem.exists(Environment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file')))
+    		    FileSystem.createDirectory(Environment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file'));
     		#elseif MEDIA
-    		if (!FileSystem.exists(AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName')))
-    		    FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName'));
+    		if (!FileSystem.exists(Environment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName')))
+    		    FileSystem.createDirectory(Environment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName'));
     		#end       		    		
     		Sys.setCwd(SUtil.getStorageDirectory());
 		#end			
