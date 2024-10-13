@@ -380,8 +380,6 @@ class LoadingState extends MusicBeatState
 		         + songsToPrepare.length
 		         + 1;
 		loaded.store(0);
-		
-		var saveImagesToPrepare:Array<String> = imagesToPrepare.copy(); //几把数据被后面清除了好像
 
 		//then start threads
 		setSpeed();
@@ -391,54 +389,52 @@ class LoadingState extends MusicBeatState
 		for (music in musicToPrepare) initThread(() -> Paths.music(music), 'music $music');
 		for (song in songsToPrepare) initThread(() -> Paths.returnSound(null, song, 'songs'), 'song $song');
         
-		// for images, they get to have their own thread
-		new FlxTimer().start(0.1, function(tmr:FlxTimer){        		                        				                 		
-    		for (image in saveImagesToPrepare)
-    			Thread.create(() -> {
-    				imageMutex.acquire();
-    				try {
-    					var bitmap:BitmapData;
-    					var file:String = null;
-    
-    					#if MODS_ALLOWED
-    					file = Paths.modsImages(image);
-    					if (Paths.currentTrackedAssets.exists(file)) {
-    						imageMutex.release();
-    						addLoad();
-    						return;
-    					}
-    					else if (FileSystem.exists(file))
-    						bitmap = BitmapData.fromFile(file);
-    					else
-    					#end
-    					{
-    						file = Paths.getPath('images/$image.png', IMAGE);
-    						if (Paths.currentTrackedAssets.exists(file)) {
-    							imageMutex.release();
-    							addLoad();
-    							return;
-    						}
-    						else if (OpenFlAssets.exists(file, IMAGE))
-    							bitmap = OpenFlAssets.getBitmapData(file);
-    						else {
-    							trace('no such image $image exists');
-    							imageMutex.release();
-    							addLoad();
-    							return;
-    						}
-    					}
-    					imageMutex.release();
-    
-    					if (bitmap != null) requestedBitmaps.set(file, bitmap);
-    					else trace('oh no the image is null NOOOO ($image)');
-    				}
-    				catch(e:Dynamic) {
-    					imageMutex.release();
-    					trace('ERROR! fail on preloading image $image');
-    				}
-    				addLoad();
-    			});		
-		});
+		// for images, they get to have their own thread   		                        				                 		
+		for (image in imagesToPrepare)
+			Thread.create(() -> {
+				imageMutex.acquire();
+				try {
+					var bitmap:BitmapData;
+					var file:String = null;
+
+					#if MODS_ALLOWED
+					file = Paths.modsImages(image);
+					if (Paths.currentTrackedAssets.exists(file)) {
+						imageMutex.release();
+						addLoad();
+						return;
+					}
+					else if (FileSystem.exists(file))
+						bitmap = BitmapData.fromFile(file);
+					else
+					#end
+					{
+						file = Paths.getPath('images/$image.png', IMAGE);
+						if (Paths.currentTrackedAssets.exists(file)) {
+							imageMutex.release();
+							addLoad();
+							return;
+						}
+						else if (OpenFlAssets.exists(file, IMAGE))
+							bitmap = OpenFlAssets.getBitmapData(file);
+						else {
+							trace('no such image $image exists');
+							imageMutex.release();
+							addLoad();
+							return;
+						}
+					}
+					imageMutex.release();
+
+					if (bitmap != null) requestedBitmaps.set(file, bitmap);
+					else trace('oh no the image is null NOOOO ($image)');
+				}
+				catch(e:Dynamic) {
+					imageMutex.release();
+					trace('ERROR! fail on preloading image $image');
+				}
+				addLoad();
+			});		
 	}
 
 	static function initThread(func:Void->Dynamic, traceData:String)
