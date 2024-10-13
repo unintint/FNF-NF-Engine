@@ -181,7 +181,8 @@ class LoadingState extends MusicBeatState
 		normalNote = new FlxTypedGroup<Note>();
 		for (i in 0...Note.colArray.length)
 		{
-			var note:Note = new Note(0, i);
+			//var note:Note = new Note(0, i);
+			/*
 			note.reloadNote();
 			note.x = 300 + (300 / Note.colArray.length) * i;
 			note.y = 75;
@@ -195,6 +196,7 @@ class LoadingState extends MusicBeatState
 			note.animation.play(Note.colArray[i] + 'Scroll');
 			normalNote.add(note);
 			note.alpha = 0.0001;
+			*/
 		}
 		//用于正确读取note的切割	        		        	
 	}
