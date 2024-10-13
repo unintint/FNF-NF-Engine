@@ -381,7 +381,7 @@ class LoadingState extends MusicBeatState
 		         + 1;
 		loaded.store(0);
 		
-		var saveImagesToPrepare:Array<String> = imagesToPrepare; //几把数据被后面清除了好像
+		var saveImagesToPrepare:Array<String> = imagesToPrepare.copy(); //几把数据被后面清除了好像
 
 		//then start threads
 		setSpeed();
