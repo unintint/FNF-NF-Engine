@@ -129,8 +129,8 @@ class LoadingState extends MusicBeatState
 			if (Math.abs(curPercent - intendedPercent) < 0.001) curPercent = intendedPercent;
 			else curPercent = FlxMath.lerp(intendedPercent, curPercent, Math.exp(-elapsed * 15));
 
-			bar.scale.x = (FlxG.width - button.width) * curPercent;
-			button.x = FlxG.width * curPercent + button.width * curPercent;
+			bar.scale.x = FlxG.width * curPercent;
+			button.x = FlxG.width * curPercent - button.width * curPercent;
 			bar.updateHitbox();
 			button.updateHitbox();
 			var precent:Float = Math.floor(curPercent * 10000) / 100;
@@ -401,7 +401,7 @@ class LoadingState extends MusicBeatState
     					#if MODS_ALLOWED
     					file = Paths.modsImages(image);
     					if (Paths.currentTrackedAssets.exists(file)) {
-    						mutex.release();
+    						imageMutex.release();
     						addLoad();
     						return;
     					}
@@ -412,7 +412,7 @@ class LoadingState extends MusicBeatState
     					{
     						file = Paths.getPath('images/$image.png', IMAGE);
     						if (Paths.currentTrackedAssets.exists(file)) {
-    							mutex.release();
+    							imageMutex.release();
     							addLoad();
     							return;
     						}
@@ -420,7 +420,7 @@ class LoadingState extends MusicBeatState
     							bitmap = OpenFlAssets.getBitmapData(file);
     						else {
     							trace('no such image $image exists');
-    							mutex.release();
+    							imageMutex.release();
     							addLoad();
     							return;
     						}
