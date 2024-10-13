@@ -380,6 +380,8 @@ class LoadingState extends MusicBeatState
 		         + songsToPrepare.length
 		         + 1;
 		loaded.store(0);
+		
+		var saveImagesToPrepare:Array<String> = imagesToPrepare; //几把数据被后面清除了好像
 
 		//then start threads
 		setSpeed();
@@ -388,10 +390,10 @@ class LoadingState extends MusicBeatState
 		for (sound in soundsToPrepare) initThread(() -> Paths.sound(sound), 'sound $sound');
 		for (music in musicToPrepare) initThread(() -> Paths.music(music), 'music $music');
 		for (song in songsToPrepare) initThread(() -> Paths.returnSound(null, song, 'songs'), 'song $song');
-        //trace(imagesToPrepare);     	
+        
 		// for images, they get to have their own thread
-		new FlxTimer().start(0.5, function(tmr:FlxTimer){    		        		                        				                 		
-    		for (image in imagesToPrepare)
+		new FlxTimer().start(0.1, function(tmr:FlxTimer){        		                        				                 		
+    		for (image in saveImagesToPrepare)
     			Thread.create(() -> {
     				imageMutex.acquire();
     				try {
