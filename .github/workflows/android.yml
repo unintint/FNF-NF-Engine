@@ -31,7 +31,7 @@ jobs:
 
       - name: Restore Previous Cache
         id: cache-debug-build-android-restore
-        uses: actions/cache/restore@main
+        uses: actions/cache/restore@v3
         with:
           path: |
             ~/haxelib
