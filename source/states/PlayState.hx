@@ -1927,7 +1927,7 @@ class PlayState extends MusicBeatState
     				super.update(elapsed);
     				return;
     			} else if (ret == LuaUtils.Function_Stop && ClientPrefs.data.CompulsionPause) {
-    			    if(pressPaue < 5) {
+    			    if(pressPaue == ClientPrefs.data.CompulsionPauseNumber) {
     			        pressPaue++;
     			    } else {
     			        pressPaue = 0;
@@ -1971,7 +1971,7 @@ class PlayState extends MusicBeatState
 			if(ret != LuaUtils.Function_Stop) {
 				openPauseMenu();
 			} else if (ret == LuaUtils.Function_Stop && ClientPrefs.data.CompulsionPause) {
-    			    if(pressPaue < 5) {
+    			    if(pressPaue == ClientPrefs.data.CompulsionPauseNumber) {
     			        pressPaue++;
     			    } else {
     			        pressPaue = 0;
