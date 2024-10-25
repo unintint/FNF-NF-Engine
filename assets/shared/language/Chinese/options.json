@@ -45,6 +45,7 @@
     "oldHscriptVersion": "使用 Hscript 为 runhaxecode 工作以兼容旧模组",
     "pauseButton": "在游玩时左上角添加暂停按钮",
     "CompulsionPause": "你可以强制打开暂停菜单",
+    "CompulsionPauseNumber": "按多少次暂停键强行打开暂停菜单",
     "gameOverVibration": "设备将在游戏死亡时振动",
     "ratingOffset": "更改整体判定的偏移",
     "NoteOffsetState": "更改音乐偏移和UI贴图的位置",
