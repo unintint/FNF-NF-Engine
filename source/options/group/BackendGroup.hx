@@ -90,7 +90,7 @@ class BackendGroup
             Language.get('CompulsionPauseNumber'),
             'CompulsionPauseNumber',
             INT,
-            0,
+            1,
             10
         );
         follow.addOption(option);
