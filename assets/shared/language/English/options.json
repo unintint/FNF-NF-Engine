@@ -45,6 +45,7 @@
     "oldHscriptVersion": "Reduced version to use hscript work for runhaxecode",
     "pauseButton": "Add pauseButton in game",
     "CompulsionPause": "You can force open pause menu",
+    "CompulsionPauseNumber": "How many times to press the button to force a pause",
     "gameOverVibration": "Device will vibrate at game over",
     "ratingOffset": "Changes rate offset",
     "NoteOffsetState": "Changes music offset and judgement position",
