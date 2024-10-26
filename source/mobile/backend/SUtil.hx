@@ -24,18 +24,12 @@ import sys.FileSystem;
 class SUtil
 {
 	#if sys
-	public static function getStorageDirectory(type:StorageType = #if EXTERNAL EXTERNAL #elseif OBB EXTERNAL_OBB #elseif MEDIA EXTERNAL_MEDIA #else EXTERNAL_DATA #end):String
+	public static function getStorageDirectory(type:StorageType = EXTERNAL):String
 	{
 		var daPath:String = '';
 		#if android
  		switch (type)
 		{
-			case EXTERNAL_DATA:
-				daPath = AndroidContext.getExternalFilesDir();
-			case EXTERNAL_OBB:
-				daPath = AndroidContext.getObbDir();
-			case EXTERNAL_MEDIA:
-				daPath = AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + lime.app.Application.current.meta.get('packageName');
 			case EXTERNAL:
 				daPath = AndroidEnvironment.getExternalStorageDirectory() + '/.' + lime.app.Application.current.meta.get('file');
 		}
@@ -139,8 +133,5 @@ class SUtil
 
 enum StorageType
 {
-	EXTERNAL_DATA;
-	EXTERNAL_OBB;
-	EXTERNAL_MEDIA;
 	EXTERNAL;
 }
