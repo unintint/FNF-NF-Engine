@@ -646,19 +646,45 @@ class FunkinLua {
 			}
 		});
 
-		set("noteTweenScaling", function(tag:String, note:Int, value:Dynamic, duration:Float, ease:String) {
-			LuaUtils.cancelTween(tag);
-			if(note < 0) note = 0;
-			var testicle:StrumNote = game.strumLineNotes.members[note % game.strumLineNotes.length];
+		set("noteTweenScale", function(tag:String, note:Int, scale:Float, duration:Float, ease:String) {
+    			LuaUtils.cancelTween(tag);
 
-			if(testicle != null) {
-				game.modchartTweens.set(tag, FlxTween.tween(testicle, {scale: value}, duration, {ease: LuaUtils.getTweenEaseByString(ease),
-					onComplete: function(twn:FlxTween) {
-						game.callOnLuas('onTweenCompleted', [tag]);
-						game.modchartTweens.remove(tag);
-					}
-				}));
-			}
+    			if (note < 0) note = 0;
+    			var strumCount = game.strumLineNotes.length;
+
+   			if (note >= strumCount) {
+        		// Make sure the note index is within bounds
+        			return;
+    			}
+
+    			// Tween for the strum line note
+    			var targetNote:StrumNote = game.strumLineNotes.members[note % strumCount];
+    			if (targetNote != null) {
+        			// Tween both x and y scale for the strum line note
+        			game.modchartTweens.set(tag, FlxTween.tween(targetNote.scale, {x: scale, y: scale}, duration, {
+            			ease: LuaUtils.getTweenEaseByString(ease),
+            			onComplete: function(twn:FlxTween) 
+				{
+                		game.callOnLuas('onTweenCompleted', [tag]);
+                		game.modchartTweens.remove(tag);
+            			}
+        		    }));
+    			}
+
+    			// Loop through all unspawned notes to find matching falling notes
+    			for (i in 0...game.unspawnNotes.length) {
+        			var fallingNote = game.unspawnNotes[i];
+        			if (fallingNote.noteData == (note % 4)) { // Check if the note corresponds to the same column (0-3 for opponent, 4-7 for player)
+            			// Tween both x and y scale for the falling note
+            			game.modchartTweens.set(tag + '_falling_' + i, FlxTween.tween(fallingNote.scale, {x: scale, y: scale}, duration, {
+                		ease: LuaUtils.getTweenEaseByString(ease),
+                		onComplete: function(twn:FlxTween) {
+                    		game.callOnLuas('onTweenCompleted', [tag + '_falling_' + i]);
+                    		game.modchartTweens.remove(tag + '_falling_' + i);
+                		}
+            			}));
+        			}
+    			}
 		});
 
 		set("mouseClicked", function(button:String) {
