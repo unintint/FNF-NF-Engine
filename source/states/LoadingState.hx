@@ -146,7 +146,11 @@ class LoadingState extends MusicBeatState
 			if (!finishedLoading && checkLoaded() && curPercent == 1)
 			{
 				transitioning = true;
-				onLoad();
+				
+				new FlxTimer().start(0.1, function(tmr:FlxTimer){		  
+		            onLoad();
+		        });						
+				
 				return;
 			}
 			intendedPercent = loaded.load() / loadMax;

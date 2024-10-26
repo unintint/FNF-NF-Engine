@@ -67,9 +67,9 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
-		#if (android && EXTERNAL || MEDIA)
+		#if android
 		SUtil.doPermissionsShit();
-		#end			
+	        #end
 		mobile.backend.CrashHandler.init();
 
 		#if windows
@@ -123,16 +123,12 @@ class Main extends Sprite
 		ClientPrefs.loadDefaultKeys();
 		
         #if mobile
-            #if EXTERNAL
-    		if (!FileSystem.exists(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file')))
-    		    FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file'));
-    		#elseif MEDIA
-    		if (!FileSystem.exists(AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName')))
-    		    FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName'));
-    		#end       		    		
-    		Sys.setCwd(SUtil.getStorageDirectory());
-		#end			
-
+	    #if android
+    	    if (!FileSystem.exists(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file')))
+    	        FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file'));		    		
+	    #end
+    	    Sys.setCwd(SUtil.getStorageDirectory());			
+        #end
 		#if ACHIEVEMENTS_ALLOWED Achievements.load(); #end
 
 		addChild(new FlxGame(#if (openfl >= "9.2.0") 1280, 720 #else game.width, game.height #end, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
