@@ -111,7 +111,9 @@ class LoadingState extends MusicBeatState
 		precentText.antialiasing = ClientPrefs.data.antialiasing;
 		add(precentText);		
 		precentText.x = FlxG.width - precentText.width - 2;
-        precentText.y = FlxG.height - precentText.height - barHeight - 2;                               
+        precentText.y = FlxG.height - precentText.height - barHeight - 2;   
+        
+        addNote();                            
         		
 		super.create();				
 	}
@@ -129,7 +131,7 @@ class LoadingState extends MusicBeatState
 			if (Math.abs(curPercent - intendedPercent) < 0.001) curPercent = intendedPercent;
 			else curPercent = FlxMath.lerp(intendedPercent, curPercent, Math.exp(-elapsed * 15));
 
-			bar.scale.x = FlxG.width * curPercent;
+			bar.scale.x = button.width / 2 + (FlxG.width - button.width) * curPercent;
 			button.x = FlxG.width * curPercent - button.width * curPercent;
 			bar.updateHitbox();
 			button.updateHitbox();
@@ -175,29 +177,16 @@ class LoadingState extends MusicBeatState
 		finishedLoading = true;
 	}
 	
-	static var normalNote:FlxTypedGroup<Note>;
 	static function addNote()
 	{		
-		normalNote = new FlxTypedGroup<Note>();
+	    Note.checkSkin();
+	    
 		for (i in 0...Note.colArray.length)
 		{
-			//var note:Note = new Note(0, i);
-			/*
-			note.reloadNote();
-			note.x = 300 + (300 / Note.colArray.length) * i;
-			note.y = 75;
-			note.scale.x = 75 / note.frameWidth;
-			note.scale.y = 75 / note.frameHeight;
-			note.centerOffsets();
-			note.centerOrigin();
-			note.inEditor = true;
-			note.updateHitbox();
-			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
-			note.animation.play(Note.colArray[i] + 'Scroll');
-			normalNote.add(note);
-			note.alpha = 0.0001;
-			*/
+			var note:Note = new Note(0, i);			
 		}
+		
+		Note.defaultNoteSkin = 'noteSkins/NOTE_assets';
 		//用于正确读取note的切割	        		        	
 	}
 
@@ -663,8 +652,7 @@ class LoadingState extends MusicBeatState
 	
 	static function preloadChart()
 	{
-		Note.checkSkin();
-	    //addNote();
+		Note.checkSkin();	   
 	    
 	    Note.globalRgbShaders = [];
 		backend.NoteTypesConfig.clearNoteTypesData();
