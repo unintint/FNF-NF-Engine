@@ -1903,7 +1903,7 @@ class PlayState extends MusicBeatState
 	var canPause:Bool = true;
 	var freezeCamera:Bool = false;
 	var allowDebugKeys:Bool = true;	
-	var pressPaue:Int = 0;
+	var pressPaue:Int = -2;
 
 	override public function update(elapsed:Float)
 	{
@@ -1930,7 +1930,7 @@ class PlayState extends MusicBeatState
     			    if(pressPaue <= ClientPrefs.data.CompulsionPauseNumber) {
     			        pressPaue++;
     			    } else {
-    			        pressPaue = 0;
+    			        pressPaue = -2;
     			        openPauseMenu();
     				super.update(elapsed);
     				return;
