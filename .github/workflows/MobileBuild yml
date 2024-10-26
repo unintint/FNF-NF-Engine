@@ -1,5 +1,10 @@
 name: MobileBuild
-on: workflow_dispatch
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
 jobs:
   Mobile:
     runs-on: ${{matrix.os}}
