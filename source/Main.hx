@@ -123,11 +123,9 @@ class Main extends Sprite
 		ClientPrefs.loadDefaultKeys();
 		
         #if mobile
-            #if EXTERNAL
-    		if (!FileSystem.exists(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file')))
-    		    FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file'));		    		
-    		Sys.setCwd(SUtil.getStorageDirectory());
-		#end			
+    	    if (!FileSystem.exists(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file')))
+    	        FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file'));		    		
+    	    Sys.setCwd(SUtil.getStorageDirectory());			
         #end
 		#if ACHIEVEMENTS_ALLOWED Achievements.load(); #end
 
