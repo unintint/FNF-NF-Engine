@@ -67,9 +67,8 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
-		#if (android && EXTERNAL || MEDIA)
 		SUtil.doPermissionsShit();
-		#end			
+				
 		mobile.backend.CrashHandler.init();
 
 		#if windows
@@ -125,11 +124,7 @@ class Main extends Sprite
         #if mobile
             #if EXTERNAL
     		if (!FileSystem.exists(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file')))
-    		    FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file'));
-    		#elseif MEDIA
-    		if (!FileSystem.exists(AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName')))
-    		    FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName'));
-    		#end       		    		
+    		    FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file'));		    		
     		Sys.setCwd(SUtil.getStorageDirectory());
 		#end			
 
