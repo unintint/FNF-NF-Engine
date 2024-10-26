@@ -16,7 +16,7 @@ jobs:
   # This workflow contains a single job called "build"
   buildAndroid:
     name: buildAndroid
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     strategy:
       matrix:
         storage-type: [EXTERNAL]
@@ -102,31 +102,3 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: windowsBuild
-
-  Windows-x32:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-
-      - name: Setup Haxe
-        uses: krdlab/setup-haxe@master
-        with:
-          haxe-version: 4.3.6
-
-      - name: Install Libraries
-        run: |
-          haxelib setup C:\haxelib
-          haxelib install hmm --quiet
-          haxelib run hmm install --quiet
-
-      - name: Compile
-        run: haxelib run lime build windows -final -32
-
-      - name: Upload Artifact
-        if: ${{ success() }}
-        uses: actions/upload-artifact@main
-        with:
-          name: windowsBuild x32
-          path: export\release\windows\bin\*
-          if-no-files-found: error
