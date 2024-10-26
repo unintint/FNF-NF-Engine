@@ -102,3 +102,5 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: windowsBuild
+          path: export\release\windows\bin\*
+          if-no-files-found: error
