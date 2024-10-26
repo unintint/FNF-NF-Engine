@@ -45,6 +45,7 @@ typedef OptionData =
     hitsoundVolume:String,
     oldHscriptVersion:String, 
     pauseButton:String,
+    CompulsionPause:String,
     gameOverVibration:String, 
     ratingOffset:String, 
     NoteOffsetState:String, 

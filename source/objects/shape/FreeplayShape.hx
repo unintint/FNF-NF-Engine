@@ -23,7 +23,7 @@ class SpecRect extends FlxSprite //freeplay bg rect
     {
         super(X, Y);
         
-        sprite = new FlxSprite(X, Y).loadGraphic(Paths.image(Path));
+        sprite = new FlxSprite(X, Y).loadGraphic(Paths.image(Path, null, false));
 
         updateRect(sprite.pixels);
 	}
@@ -684,7 +684,7 @@ class SongRect extends FlxSpriteGroup //songs member for freeplay
             extraLoad = false;
         }			
 
-        background = new FlxSprite(0, 0).loadGraphic(Paths.image(filesLoad, null, true, extraLoad));
+        background = new FlxSprite(0, 0).loadGraphic(Paths.image(filesLoad, null, false, extraLoad));
         
         var matrix:Matrix = new Matrix();
         var data:Float = mask.width / background.width;

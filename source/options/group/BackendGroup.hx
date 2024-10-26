@@ -79,6 +79,22 @@ class BackendGroup
         );
         follow.addOption(option);
 
+	var option:Option = new Option(
+            Language.get('CompulsionPause'),
+            'CompulsionPause',
+            BOOL
+        );
+        follow.addOption(option);
+
+	var option:Option = new Option(
+            Language.get('CompulsionPauseNumber'),
+            'CompulsionPauseNumber',
+            INT,
+            1,
+            10
+        );
+        follow.addOption(option);
+	    
         #if android
         var option:Option = new Option(
             Language.get('gameOverVibration'),

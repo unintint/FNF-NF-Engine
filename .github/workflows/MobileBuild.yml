@@ -1,6 +1,14 @@
-name: Main
+name: MobileBuild
 
-on: workflow_dispatch
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   Build:
@@ -8,26 +16,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: Windows
-            os: windows-2022
-            buildArgs: windows
-            artifactName: windowsBuild
-            artifactPath: export\release\windows\bin\*
-          - name: Linux
-            os: ubuntu-22.04
-            buildArgs: linux
-            artifactName: linuxBuild
-            artifactPath: export/release/linux/bin/*
-          - name: macOS x86_64
-            os: macos-13
-            buildArgs: mac
-            artifactName: macOSBuild-x86_64
-            artifactPath: export/release/macos/bin/*
-          - name: macOS AArch64
-            os: macos-15
-            buildArgs: mac
-            artifactName: macOSBuild-arm64
-            artifactPath: export/release/macos/bin/*
           - name: Android
             os: macos-14
             buildArgs: "android -ONLY_ARMV7"

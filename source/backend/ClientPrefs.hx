@@ -41,6 +41,8 @@ import states.TitleState;
 	public var hitsoundVolume:Float = 0;
 	public var oldHscriptVersion:Bool = false;
 	public var pauseButton:Bool = #if mobile true #else false #end;
+	public var CompulsionPause:Bool = false;
+	public var CompulsionPauseNumber:Int = 3;
 	public var gameOverVibration:Bool = false;	
 	public var ratingOffset:Int = 0;	
 	public var noteOffset:Int = 0;

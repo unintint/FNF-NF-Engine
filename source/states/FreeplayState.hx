@@ -621,7 +621,7 @@ class FreeplayState extends MusicBeatState
             filesLoad = 'menuDesat';
             extraLoad = false;
         }			
-		magenta.loadGraphic(Paths.image(filesLoad, null, true, extraLoad));
+		magenta.loadGraphic(Paths.image(filesLoad, null, false, extraLoad));
 		var scale = Math.max(FlxG.width * 1.05 / magenta.width, FlxG.height * 1.05 / magenta.height);
 		magenta.scale.x = magenta.scale.y = scale;
 		magenta.updateHitbox();
@@ -890,7 +890,7 @@ class SongMetadata
 		this.songCharacter = songCharacter;
 		this.color = color;
 		this.folder = Mods.currentModDirectory;
-		this.bg = Paths.image('menuDesat');
+		this.bg = Paths.image('menuDesat', null, false);
 		this.searchnum = 0;
 		this.musican = musican;
 		this.charter = charter;
