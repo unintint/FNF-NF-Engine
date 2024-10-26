@@ -360,11 +360,11 @@ class Note extends FlxSprite
 
 		if(PlayState.isPixelStage) {
 			if(isSustainNote) {
-				var graphic = Paths.image('pixelUI/' + skinPixel + 'ENDS' + skinPostfix);
+				var graphic = Paths.image('pixelUI/' + skinPixel + 'ENDS' + skinPostfix, null, false);
 				loadGraphic(graphic, true, Math.floor(graphic.width / 4), Math.floor(graphic.height / 2));
 				originalHeight = graphic.height / 2;
 			} else {
-				var graphic = Paths.image('pixelUI/' + skinPixel + skinPostfix);
+				var graphic = Paths.image('pixelUI/' + skinPixel + skinPostfix, null, false);
 				loadGraphic(graphic, true, Math.floor(graphic.width / 4), Math.floor(graphic.height / 5));
 			}
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom));
@@ -377,7 +377,7 @@ class Note extends FlxSprite
 				offsetX -= _lastNoteOffX;
 			}
 		} else {
-			frames = Paths.getSparrowAtlas(skin);
+			frames = Paths.getSparrowAtlas(skin, null, false);
 			loadNoteAnims();
 			if(!isSustainNote)
 			{
