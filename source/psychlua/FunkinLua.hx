@@ -646,6 +646,21 @@ class FunkinLua {
 			}
 		});
 
+		set("noteTweenScaling", function(tag:String, note:Int, value:Dynamic, duration:Float, ease:String) {
+			LuaUtils.cancelTween(tag);
+			if(note < 0) note = 0;
+			var testicle:StrumNote = game.strumLineNotes.members[note % game.strumLineNotes.length];
+
+			if(testicle != null) {
+				game.modchartTweens.set(tag, FlxTween.tween(testicle, {scale: value}, duration, {ease: LuaUtils.getTweenEaseByString(ease),
+					onComplete: function(twn:FlxTween) {
+						game.callOnLuas('onTweenCompleted', [tag]);
+						game.modchartTweens.remove(tag);
+					}
+				}));
+			}
+		});
+
 		set("mouseClicked", function(button:String) {
 			var click:Bool = FlxG.mouse.justPressed;
 			switch(button){
