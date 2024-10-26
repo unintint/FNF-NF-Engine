@@ -67,8 +67,9 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
+		#if android
 		SUtil.doPermissionsShit();
-				
+	        #end
 		mobile.backend.CrashHandler.init();
 
 		#if windows
