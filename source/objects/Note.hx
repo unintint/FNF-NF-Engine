@@ -574,6 +574,7 @@ class Note extends FlxSprite
 	public static function checkSkin() //加载检测独立出来检测省的和原来一样粑粑
 	{
 		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin) defaultNoteSkin = 'NOTE_assets';
+		reloadPath(); //初始化
 	}
 
 	@:noCompletion
