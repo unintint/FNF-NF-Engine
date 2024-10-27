@@ -395,7 +395,7 @@ class Note extends FlxSprite
 		}
 		
 		skinPixel = skin;
-		lastScaleY:Float = scale.y;
+		lastScaleY = scale.y;
 		skinPostfix = getNoteSkinPostfix();
 		customSkin = skin + skinPostfix;
 		path = PlayState.isPixelStage ? 'pixelUI/' : '';
