@@ -179,7 +179,6 @@ class Note extends FlxSprite
 			switch(value) {
 				case 'Hurt Note':
 					ignoreNote = mustPress;
-					//reloadNote('HURTNOTE_assets');
 					//this used to change the note texture to HURTNOTE_assets.png,
 					//but i've changed it to something more optimized with the implementation of RGBPalette:
 
@@ -326,37 +325,19 @@ class Note extends FlxSprite
 		return globalRgbShaders[noteData];
 	}
 
-	var _lastNoteOffX:Float = 0;
-	static var _lastValidChecked:String; //optimization
+	var _lastNoteOffX:Float = 0;	
 	public var originalHeight:Float = 6;
 	public var correctionOffset:Float = 0; //dont mess with this
 	public function reloadNote(texture:String = '', postfix:String = '') {
 		if(texture == null) texture = '';
 		if(postfix == null) postfix = '';
-
-		var skin:String = texture + postfix;
-		if(texture.length < 1) {
-			skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
-			if(skin == null || skin.length < 1)
-				skin = defaultNoteSkin + postfix;
-		}
-
+		
+		if (saveTexture != texture) reloadPath(texture, postfix);
+		
 		var animName:String = null;
 		if(animation.curAnim != null) {
 			animName = animation.curAnim.name;
 		}
-
-		var skinPixel:String = skin;
-		var lastScaleY:Float = scale.y;
-		var skinPostfix:String = getNoteSkinPostfix();
-		var customSkin:String = skin + skinPostfix;
-		var path:String = PlayState.isPixelStage ? 'pixelUI/' : '';
-		if(customSkin == _lastValidChecked || Paths.fileExists('images/' + path + customSkin + '.png', IMAGE))
-		{
-			skin = customSkin;
-			_lastValidChecked = customSkin;
-		}
-		else skinPostfix = '';
 
 		if(PlayState.isPixelStage) {
 			if(isSustainNote) {
@@ -393,6 +374,37 @@ class Note extends FlxSprite
 
 		if(animName != null)
 			animation.play(animName, true);
+	}
+	
+	static var saveTexture:String;
+	static var _lastValidChecked:String; //optimization
+	static var skinPixel:String;
+	static var lastScaleY:Float;
+	static var skinPostfix:String;
+	static var customSkin:String;
+	static var path:String;
+		
+	public static function reloadPath(texture:String = '', postfix:String = '') {
+	    saveTexture = texture;
+	    
+	    var skin:String = texture + postfix;
+		if(texture.length < 1) {
+			skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
+			if(skin == null || skin.length < 1)
+				skin = defaultNoteSkin + postfix;
+		}
+		
+		skinPixel = skin;
+		lastScaleY:Float = scale.y;
+		skinPostfix = getNoteSkinPostfix();
+		customSkin = skin + skinPostfix;
+		path = PlayState.isPixelStage ? 'pixelUI/' : '';
+		if(customSkin == _lastValidChecked || Paths.fileExists('images/' + path + customSkin + '.png', IMAGE))
+		{
+			skin = customSkin;
+			_lastValidChecked = customSkin;
+		}
+		else skinPostfix = '';
 	}
 
 	public static function getNoteSkinPostfix()
