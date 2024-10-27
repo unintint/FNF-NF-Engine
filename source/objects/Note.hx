@@ -334,6 +334,8 @@ class Note extends FlxSprite
 		
 		if (saveTexture != texture) reloadPath(texture, postfix);
 		
+		var lastScaleY:Float = scale.y;
+		
 		var animName:String = null;
 		if(animation.curAnim != null) {
 			animName = animation.curAnim.name;
@@ -377,9 +379,9 @@ class Note extends FlxSprite
 	}
 	
 	static var saveTexture:String;
+	static var skin:String;
 	static var _lastValidChecked:String; //optimization
 	static var skinPixel:String;
-	static var lastScaleY:Float;
 	static var skinPostfix:String;
 	static var customSkin:String;
 	static var path:String;
@@ -387,15 +389,14 @@ class Note extends FlxSprite
 	public static function reloadPath(texture:String = '', postfix:String = '') {
 	    saveTexture = texture;
 	    
-	    var skin:String = texture + postfix;
+	    skin = texture + postfix;
 		if(texture.length < 1) {
 			skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
 			if(skin == null || skin.length < 1)
 				skin = defaultNoteSkin + postfix;
 		}
 		
-		skinPixel = skin;
-		lastScaleY = scale.y;
+		skinPixel = skin;		
 		skinPostfix = getNoteSkinPostfix();
 		customSkin = skin + skinPostfix;
 		path = PlayState.isPixelStage ? 'pixelUI/' : '';
