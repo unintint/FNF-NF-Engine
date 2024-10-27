@@ -312,7 +312,8 @@ class FreeplayState extends MusicBeatState
 				disLine.color = eventArray[i].background.color;
 				disLine.alpha += elapsed * 8;
 				reduceAlpha = false;
-			}
+			}			
+			eventArray[i].posUpdate(elapsed); //确保选择是正确的
 		}
 		if (reduceAlpha) disLine.alpha -= elapsed * 8;
 
