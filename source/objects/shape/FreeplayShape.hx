@@ -628,9 +628,8 @@ class EventRect extends FlxSpriteGroup //freeplay bottom bg rect
 	public var ignoreCheck:Bool = false;
 	private var _needACheck:Bool = false;
     var specialCheck = false;
-    override function update(elapsed:Float)
+    public function posUpdate(elapsed:Float)
     {
-        super.update(elapsed);
         if (FreeplayState.instance.ignoreCheck) return;
 
         if(!ignoreCheck)
