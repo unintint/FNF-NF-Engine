@@ -384,7 +384,7 @@ class Note extends FlxSprite
 	static var skinPixel:String;
 	static var skinPostfix:String;
 	static var customSkin:String;
-	static var path:String;
+	static var pathPixel:String;
 		
 	public static function reloadPath(texture:String = '', postfix:String = '') {
 	    saveTexture = texture;
@@ -399,8 +399,8 @@ class Note extends FlxSprite
 		skinPixel = skin;		
 		skinPostfix = getNoteSkinPostfix();
 		customSkin = skin + skinPostfix;
-		path = PlayState.isPixelStage ? 'pixelUI/' : '';
-		if(customSkin == _lastValidChecked || Paths.fileExists('images/' + path + customSkin + '.png', IMAGE))
+		pathPixel = PlayState.isPixelStage ? 'pixelUI/' : '';
+		if(customSkin == _lastValidChecked || Paths.fileExists('images/' + pathPixel + customSkin + '.png', IMAGE))
 		{
 			skin = customSkin;
 			_lastValidChecked = customSkin;
