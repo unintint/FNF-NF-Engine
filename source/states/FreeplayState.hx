@@ -216,13 +216,15 @@ class FreeplayState extends MusicBeatState
 
 		voiceDis = new ExtraAudio(10, 10, Std.int(camAudio.width / 2 - 20), 90, FlxG.sound.music);
 		add(voiceDis);
+		voiceDis.audioDis.stopUpdate();
 		voiceDis.camera = camAudio;
 		voiceDis.alpha = 0.7;
 
 		instDis = new ExtraAudio(Std.int(camAudio.width) - 10 - Std.int(camAudio.width / 2 - 20) + 1, 10, Std.int(camAudio.width / 2 - 20), 90, FlxG.sound.music);
 		add(instDis);
+		instDis.audioDis.stopUpdate();
 		instDis.camera = camAudio;
-		instDis.alpha = 0.7;
+		instDis.alpha = 0.7;		
 
 		voiceLine = new MusicLine(Std.int(extraAudio.x) + 10, Std.int(extraAudio.y + extraAudio.height) + 110, 545);
 		add(voiceLine);
