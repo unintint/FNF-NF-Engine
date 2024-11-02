@@ -33,7 +33,6 @@ import states.editors.CharacterEditorState;
 import substates.PauseSubState;
 import substates.GameOverSubstate;
 import substates.ResultsScreen;
-//import options.OptionsSubstate;
 
 #if !flash
 import flixel.addons.display.FlxRuntimeShader;
@@ -216,7 +215,7 @@ class PlayState extends MusicBeatState
 
 	public var healthBar:Bar;
 	public var timeBar:Bar;
-	public var healthBarBG:FlxSprite;
+	public var healthBarBG:AttachedSprite;
 	public var timeBarBG:AttachedSprite;  //修复那傻逼lua
 	var songPercent:Float = 0;
 	public var keyboardDisplay:KeyboardDisplay;
@@ -576,7 +575,7 @@ class PlayState extends MusicBeatState
 		add(timeBarBG);	
 		timeBarBG.camera = camHUD;
 		
-		healthBarBG = new FlxSprite(0, 0).makeGraphic(0, 0, 0x00ffffff);    				
+		healthBarBG = new AttachedSprite('healthBar');				
 		healthBarBG.visible = healthBarBG.active = false;
 		healthBarBG.scrollFactor.set();    		
 		add(healthBarBG);	

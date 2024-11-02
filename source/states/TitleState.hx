@@ -308,8 +308,8 @@ class TitleState extends MusicBeatState
 		add(bg);
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
-		if (isFloat(titleJSON.titlescalex)) logoBl.scale.x = titleJSON.titlescalex;
-		if (isFloat(titleJSON.titlescaley)) logoBl.scale.y = titleJSON.titlescaley;
+		if (IsNum(titleJSON.titlescalex)) logoBl.scale.x = titleJSON.titlescalex;
+		if (IsNum(titleJSON.titlescaley)) logoBl.scale.y = titleJSON.titlescaley;
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		logoBl.antialiasing = ClientPrefs.data.antialiasing;
 
@@ -363,8 +363,8 @@ class TitleState extends MusicBeatState
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
-		if (isFloat(titleJSON.startscalex)) titleText.scale.x = titleJSON.startscalex;
-		if (isFloat(titleJSON.startscaley)) titleText.scale.y = titleJSON.startscaley;
+		if (IsNum(titleJSON.startscalex)) titleText.scale.x = titleJSON.startscalex;
+		if (IsNum(titleJSON.startscaley)) titleText.scale.y = titleJSON.startscaley;
 		var animFrames:Array<FlxFrame> = [];
 		@:privateAccess {
 			titleText.animation.findByPrefix(animFrames, "ENTER IDLE");
@@ -428,7 +428,10 @@ class TitleState extends MusicBeatState
 		// credGroup.add(credTextShit);
 	}
 	
-	function isFloat(value:Dynamic):Bool { return Std.isOfType(value, Float); }
+	function IsNum(value:Dynamic):Bool { 
+	    if (Std.isOfType(value, Int)) return true;
+	    return Std.isOfType(value, Float); 
+	}
 
 	function getIntroTextShit():Array<Array<String>>
 	{
