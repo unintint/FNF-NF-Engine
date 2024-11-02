@@ -104,9 +104,10 @@ class MainMenuState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG', null, false));
 		bg.scrollFactor.set(0, 0);
-		bg.setGraphicSize(Std.int(bg.width));
+		bg.scale.x = FlxG.width / bg.width;
+		bg.scale.y = FlxG.height / bg.height;
 		bg.updateHitbox();
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.data.antialiasing;
@@ -117,18 +118,7 @@ class MainMenuState extends MusicBeatState
 		test.alpha = 0.7;
 
 		bg.scrollFactor.set(0, 0);
-
-		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
-		magenta.scrollFactor.set(0, yScroll);
-		magenta.setGraphicSize(Std.int(magenta.width * 1.175));
-		magenta.updateHitbox();
-		magenta.screenCenter();
-		magenta.visible = false;
-		magenta.antialiasing = ClientPrefs.data.antialiasing;
-		magenta.color = 0xFFfd719b;
-		add(magenta);
-		
-		
+					
 		logoBl = new FlxSprite(0, 0);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		logoBl.antialiasing = ClientPrefs.data.antialiasing;
@@ -144,7 +134,6 @@ class MainMenuState extends MusicBeatState
 		logoBl.x = 1280 + 320 - logoBl.width / 2;
 		logoBl.y = 360 - logoBl.height / 2;
 		logoTween = FlxTween.tween(logoBl, {x: 1280 - 320 - logoBl.width / 2 }, 0.6, {ease: FlxEase.backInOut});
-		// magenta.scrollFactor.set();
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
