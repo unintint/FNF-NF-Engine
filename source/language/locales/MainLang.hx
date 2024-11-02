@@ -16,9 +16,10 @@ class MainLang
     static var defaultData:MainData;
 
     static public function get(value:String):String {
-        var value:String = Reflect.getProperty(data, value);
-        if (value == null) value = Reflect.getProperty(defaultData, value);
-        return value;
+        var getValue:String = Reflect.getProperty(data, value);
+        if (getValue == null) getValue = Reflect.getProperty(defaultData, value);
+        if (getValue == null) getValue = value + ' (missed interpret)';
+        return getValue;
     }
 
     static public function updateLang() {
