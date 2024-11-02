@@ -60,7 +60,8 @@ class InterfaceGroup
             'audioDisplayUpdate',
             INT,
             0,
-            200
+            200,
+            'MS'
         );
         follow.addOption(option);
 
