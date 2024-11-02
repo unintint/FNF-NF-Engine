@@ -172,12 +172,16 @@ typedef OptionData =
 class OptionsLang
 {
     static var data:OptionData;
+    static var defaultData:OptionData;
 
     static public function get(value:String):String {
-        return Reflect.getProperty(data, value);
+        var value = Reflect.getProperty(data, value);
+        if (value = null) value = Reflect.getProperty(defaultData, value)
+        return value;
     }
 
     static public function updateLang() {
+        defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/options.json'));
         try{
             data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/options.json'));
         } catch(e:Any) {

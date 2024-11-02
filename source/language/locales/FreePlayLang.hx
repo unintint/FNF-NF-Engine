@@ -27,12 +27,16 @@ typedef FreePlayData =
 class FreePlayLang
 {
     static var data:FreePlayData;
+    static var defaultData:FreePlayData;
 
     static public function get(value:String):String {
-        return Reflect.getProperty(data, value);
+        var value = Reflect.getProperty(data, value);
+        if (value = null) value = Reflect.getProperty(defaultData, value)
+        return value;
     }
 
     static public function updateLang() {
+        defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/freeplay.json');
 		try{
             data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/freeplay.json'));
         } catch(e:Any) {
