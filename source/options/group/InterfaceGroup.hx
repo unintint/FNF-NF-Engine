@@ -54,6 +54,15 @@ class InterfaceGroup
             4
         );
         follow.addOption(option);
+        
+        var option:Option = new Option(
+            Language.get('audioDisplayUpdate'),
+            'audioDisplayUpdate',
+            INT,
+            0,
+            200
+        );
+        follow.addOption(option);
 
         var option:Option = new Option(
             Language.get('freeplayOld'),
