@@ -12,6 +12,7 @@ import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxStringUtil;
 
 import options.Option;
+import options.Option.OptionType;
 import options.OptionsState;
 
 import language.Language;
@@ -243,6 +244,7 @@ class FloatRect extends FlxSpriteGroup {
 
         follow.setValue(data);
         follow.valueText.text = follow.getValue() + follow.display;
+        if (follow.type == PERCENT) follow.valueText.text = Std.string(follow.getValue() * 100) + '%';
         follow.change();
     }
 
@@ -267,6 +269,7 @@ class FloatRect extends FlxSpriteGroup {
         
         follow.setValue(FlxMath.roundDecimal(min + (max - min) * persent, follow.decimals));
         follow.valueText.text = follow.getValue() + follow.display;
+        if (follow.type == PERCENT) follow.valueText.text = Std.string(follow.getValue() * 100) + '%';
         follow.change();
     }
 
@@ -275,6 +278,7 @@ class FloatRect extends FlxSpriteGroup {
         persent = (follow.defaultValue - min) / (max - min);
         rectUpdate();
         follow.valueText.text = follow.getValue() + follow.display;
+        if (follow.type == PERCENT) follow.valueText.text = Std.string(follow.getValue() * 100) + '%';
         follow.change();
     }
 }
@@ -370,7 +374,7 @@ class StringRect extends FlxSpriteGroup {
         if (FlxG.mouse.overlaps(upRect)) upRect.color = 0x53b7ff;
             else upRect.color = 0xffffff;
             
-            if (FlxG.mouse.overlaps(downRect)) downRect.color = 0x53b7ff;
+        if (FlxG.mouse.overlaps(downRect)) downRect.color = 0x53b7ff;
             else downRect.color = 0xffffff;
 
         if(onFocus && FlxG.mouse.justPressed) onClick();
