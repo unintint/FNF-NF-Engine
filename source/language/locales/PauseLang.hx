@@ -21,7 +21,7 @@ class PauseLang
     
   static public function get(value:String):String {
         var value = Reflect.getProperty(data, value);
-        if (value = null) value = Reflect.getProperty(defaultData, value)
+        if (value = null) value = Reflect.getProperty(defaultData, value);
         return value;
     }
 
