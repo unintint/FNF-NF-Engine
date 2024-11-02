@@ -72,16 +72,18 @@ class AudioDisplay extends FlxSpriteGroup
     }
     
     function updateLine() {
-         for (i in 0...members.length)
-         {
-             var animFrame:Int = Math.round(levels[i].value * _height);
+        if (getValues == null) return;
         
-             animFrame = Math.round(animFrame * FlxG.sound.volume);
+        for (i in 0...members.length)
+        {
+            var animFrame:Int = Math.round(getValues[i].value * _height);
         
-             members[i].scale.y = FlxMath.lerp(animFrame, members[i].scale.y, Math.exp(-elapsed * 16));
-             if (members[i].scale.y < _height / 40) members[i].scale.y = _height / 40;
-             members[i].y = this.y -members[i].scale.y / 2;
-         }
+            animFrame = Math.round(animFrame * FlxG.sound.volume);
+        
+            members[i].scale.y = FlxMath.lerp(animFrame, members[i].scale.y, Math.exp(-elapsed * 16));
+            if (members[i].scale.y < _height / 40) members[i].scale.y = _height / 40;
+            members[i].y = this.y -members[i].scale.y / 2;
+        }
     }
 
     public function changeAnalyzer(snd:FlxSound) 
