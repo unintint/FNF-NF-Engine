@@ -14,8 +14,8 @@ class CreditsState extends MusicBeatState
 	private var nameSave:Array<String> = [
 		"NovaFlare Engine", 
 		"Psych Engine", 
-		#if moblie
-		"moblie Team",
+		#if mobile
+		"mobile Team",
 		#end
 		"Funkin Team"
 	];
@@ -73,8 +73,8 @@ class CreditsState extends MusicBeatState
 	private var UncreditsStuff:Array<String> = [
 		"Nova Flare Engine Team", 
 		"Psych Engine Team", 
-		#if moblie
-		"moblie port team",
+		#if mobile
+		"mobile port team",
 		#end
 		"Funkin Team"
 	];
@@ -124,7 +124,7 @@ class CreditsState extends MusicBeatState
 	
 		for (i in 0...UncreditsStuff.length)
 		{
-			if (i <= #if moblie 3 #else 2 #end) modList = new ModsButtonRect(0, i * 120 + 20, 600, 90, 25, 25, nameSave[i], true, 0, FlxColor.BLACK);
+			if (i <= #if mobile 3 #else 2 #end) modList = new ModsButtonRect(0, i * 120 + 20, 600, 90, 25, 25, nameSave[i], true, 0, FlxColor.BLACK);
 			else modList = new ModsButtonRect(0, i * 120 + 20, 600, 90, 25, 25, UncreditsStuff[i], 0, FlxColor.BLACK);
 			modList.screenCenter(X);
 			add(modList);
@@ -164,7 +164,7 @@ class CreditsState extends MusicBeatState
 					if (Math.abs(avgSpeed * (0.0166 / elapsed)) < 1) {
 						creditsStuff = [];
 
-						if (i <= #if moblie 3 #else 2 #end) {
+						if (i <= #if mobile 3 #else 2 #end) {
 							noscreen = false;
 							for (eg in NucreditsStuff[i]) {
 								if (eg[5] != null) {

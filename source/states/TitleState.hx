@@ -308,8 +308,8 @@ class TitleState extends MusicBeatState
 		add(bg);
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
-		if (titleJSON.titlescalex != null) logoBl.scale.x = titleJSON.titlescalex;
-		if (titleJSON.titlescaley != null) logoBl.scale.y = titleJSON.titlescaley;
+		if (Std.isFloat(titleJSON.titlescalex)) logoBl.scale.x = titleJSON.titlescalex;
+		if (Std.isFloat(titleJSON.titlescaley)) logoBl.scale.y = titleJSON.titlescaley;
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		logoBl.antialiasing = ClientPrefs.data.antialiasing;
 
@@ -363,8 +363,8 @@ class TitleState extends MusicBeatState
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
-		if (titleJSON.startscalex != null) titleText.scale.x = titleJSON.startscalex;
-		if (titleJSON.startscaley != null) titleText.scale.y = titleJSON.startscaley;
+		if (Std.isFloat(titleJSON.startscalex)) titleText.scale.x = titleJSON.startscalex;
+		if (Std.isFloat(titleJSON.startscaley)) titleText.scale.y = titleJSON.startscaley;
 		var animFrames:Array<FlxFrame> = [];
 		@:privateAccess {
 			titleText.animation.findByPrefix(animFrames, "ENTER IDLE");
