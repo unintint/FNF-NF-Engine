@@ -39,9 +39,17 @@ class AudioDisplay extends FlxSpriteGroup
 
     public var stopUpdate:Bool = false;
     var updateMutex:Mutex = new Mutex();
+    var saveTime:Float = 0;
     override function update(elapsed:Float)
     {
       if (stopUpdate) return;
+      
+      if (saveTime < ClientPrefs.data.audioDisplayUpdate) {
+        saveTime += (elapsed * 1000);
+        return;
+      } else {
+        saveTime = 0;
+      }
 
       var levels = analyzer.getLevels();
 
