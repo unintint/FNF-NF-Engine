@@ -118,6 +118,7 @@ import states.TitleState;
 	public var CustomFadeText:Bool = true;
 	public var skipTitleVideo:Bool = false;		
 	public var audioDisplayQuality:Int = 1;
+	public var audioDisplayUpdate:Int = 50;
 	public var freeplayOld:Bool = false;
 	public var resultsScreen:Bool = true;
 	public var loadingScreen:Bool = false;
