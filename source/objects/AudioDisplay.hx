@@ -40,7 +40,7 @@ class AudioDisplay extends FlxSpriteGroup
     public var stopUpdate:Bool = false;
     var updateMutex:Mutex = new Mutex();
     var saveTime:Float = 0;    
-    var getValues:Array<Float>;
+    var getValues:Array<funkin.vis.dsp.Bar>;
     
     override function update(elapsed:Float)
     {
@@ -49,7 +49,7 @@ class AudioDisplay extends FlxSpriteGroup
       if (saveTime < ClientPrefs.data.audioDisplayUpdate) {
         saveTime += (elapsed * 1000);
         
-        updateLine();
+        updateLine(elapsed);
         return;
       } else {
         saveTime = 0;
@@ -57,7 +57,7 @@ class AudioDisplay extends FlxSpriteGroup
 
       getValues = analyzer.getLevels();
 
-      updateLine();
+      updateLine(elapsed);
       
       super.update(elapsed);
     }
@@ -71,7 +71,7 @@ class AudioDisplay extends FlxSpriteGroup
       }
     }
     
-    function updateLine() {
+    function updateLine(elapsed:Float) {
         if (getValues == null) return;
         
         for (i in 0...members.length)
