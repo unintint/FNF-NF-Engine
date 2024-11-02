@@ -14,8 +14,8 @@ class MainMenuLang
     static var defaultData:MainMenuData;
 
     static public function get(value:String):String {
-        var value = Reflect.getProperty(data, value);
-        if (value = null) value = Reflect.getProperty(defaultData, value);
+        var value:String = Reflect.getProperty(data, value);
+        if (value == null) value = Reflect.getProperty(defaultData, value);
         return value;
     }
 
