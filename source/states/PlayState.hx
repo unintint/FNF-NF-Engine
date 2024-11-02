@@ -217,7 +217,7 @@ class PlayState extends MusicBeatState
 	public var healthBar:Bar;
 	public var timeBar:Bar;
 	public var healthBarBG:FlxSprite;
-	public var timeBarBG:FlxSprite;  //修复那傻逼lua
+	public var timeBarBG:AttachedSprite;  //修复那傻逼lua
 	var songPercent:Float = 0;
 	public var keyboardDisplay:KeyboardDisplay;
 
@@ -571,9 +571,8 @@ class PlayState extends MusicBeatState
 		reloadHealthBarColors();
 		uiGroup.add(healthBar);
 		
-		timeBarBG = new FlxSprite(0, 0).makeGraphic(0, 0, 0x00ffffff);    				
+		timeBarBG = new AttachedSprite('timeBar');				
 		timeBarBG.visible = timeBarBG.active = false;
-		timeBarBG.scrollFactor.set();    		
 		add(timeBarBG);	
 		timeBarBG.camera = camHUD;
 		
@@ -1903,7 +1902,6 @@ class PlayState extends MusicBeatState
 	var canPause:Bool = true;
 	var freezeCamera:Bool = false;
 	var allowDebugKeys:Bool = true;	
-	var pressPaue:Int = 2;
 
 	override public function update(elapsed:Float)
 	{
@@ -1926,16 +1924,7 @@ class PlayState extends MusicBeatState
     				openPauseMenu();
     				super.update(elapsed);
     				return;
-    			} else if (ret == LuaUtils.Function_Stop && ClientPrefs.data.CompulsionPause) {
-    			    if(pressPaue <= ClientPrefs.data.CompulsionPauseNumber) {
-    			        pressPaue++;
-    			    } else {
-    			        pressPaue = 2;
-    			        openPauseMenu();
-    				super.update(elapsed);
-    				return;
-    			    }
-			}
+    			}
     		}
 		}
 
@@ -1970,13 +1959,6 @@ class PlayState extends MusicBeatState
 			var ret:Dynamic = callOnScripts('onPause', null, true);
 			if(ret != LuaUtils.Function_Stop) {
 				openPauseMenu();
-			} else if (ret == LuaUtils.Function_Stop && ClientPrefs.data.CompulsionPause) {
-    			    if(pressPaue <= ClientPrefs.data.CompulsionPauseNumber) {
-    			        pressPaue++;
-    			    } else {
-    			        pressPaue = 2;
-    			        openPauseMenu();
-    			    }
 			}
 		}
 
@@ -1999,7 +1981,7 @@ class PlayState extends MusicBeatState
 			Conductor.songPosition += elapsed * 1000 * playbackRate;
 			if(checkIfDesynced)
 			{			    			   			    
-				var diff:Float = 20 * playbackRate;
+				var diff:Float = 50 * playbackRate; //0.05秒的音乐延迟偏差
 				var timeSub:Float = Conductor.songPosition - Conductor.offset;
 				
 				if (Math.abs(FlxG.sound.music.time - timeSub) > diff

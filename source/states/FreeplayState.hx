@@ -332,7 +332,7 @@ class FreeplayState extends MusicBeatState
 			if (FlxG.mouse.justReleased)
 			{
 				position += avgSpeed * 1.5 * (0.0166 / elapsed) * Math.pow(1.1, Math.abs(avgSpeed * 0.8));
-				if (Math.abs(avgSpeed * (0.0166 / elapsed)) < 1) {
+				if (Math.abs(avgSpeed * (0.0166 / elapsed)) < 5) {
 					for (i in 0...grpSongs.length)
 					{
 						if (FlxG.mouse.overlaps(grpSongs[i]) && !grpSongs[i].ignoreCheck)
@@ -364,7 +364,7 @@ class FreeplayState extends MusicBeatState
 		if (position > 360 - 45) position = FlxMath.lerp(360 - 45, position, Math.exp(-elapsed * 15));
 		if (position < 360 - 45 - 100 * (songs.length - 1) - Difficulty.list.length * 70) position = FlxMath.lerp(360 - 45 - 100 * (songs.length - 1) - Difficulty.list.length * 70, position, Math.exp(-elapsed * 15));
 
-		if (Math.abs(lerpPosition - position) < 0.1) lerpPosition = position;
+		if (Math.abs(lerpPosition - position) < 1) lerpPosition = position;
 		else lerpPosition = FlxMath.lerp(position, lerpPosition, Math.exp(-elapsed * 15));
 		
 		songsRectPosUpdate(false);
