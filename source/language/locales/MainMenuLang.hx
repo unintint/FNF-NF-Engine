@@ -20,7 +20,7 @@ class MainMenuLang
     }
 
     static public function updateLang() {
-        defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/mainmenu.json');
+        defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/mainmenu.json'));
         try{
             data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/mainmenu.json'));
         } catch(e:Any) {

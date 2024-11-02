@@ -22,7 +22,7 @@ class MainLang
     }
 
     static public function updateLang() {
-        defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/main.json');
+        defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/main.json'));
         try{
             data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/main.json'));
         } catch(e:Any) {
