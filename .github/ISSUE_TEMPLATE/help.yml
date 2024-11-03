@@ -47,6 +47,14 @@ body:
       required: true
 
   - type: input
+    id:  VersionNumber
+    attributes:
+      label: "The version number of your mobile system"
+      placeholder: "17.5"
+    validations:
+      required: true
+
+  - type: input
     id: buildsummary
     attributes:
       label: "Did you edit anything in this build? If so, mention or summarize your changes."
