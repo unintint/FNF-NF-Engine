@@ -744,6 +744,8 @@ class PlayState extends MusicBeatState
         
 		super.create();
 		
+		callOnScripts('onCreateFinal');
+		
 		Paths.clearUnusedMemory();
 
 		if(eventNotes.length < 1) checkEventNote();			
