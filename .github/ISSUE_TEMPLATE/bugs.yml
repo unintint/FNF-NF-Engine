@@ -55,7 +55,7 @@ body:
       required: true
 
   - type: input
-    id:  Version number
+    id:  VersionNumber
     attributes:
       label: "The version number of your mobile system"
       placeholder: "17.5"
