@@ -140,7 +140,7 @@ jobs:
           haxelib run hmm install --quiet
 
       - name: Compile
-        run: haxelib run lime build ios -D NOVIDEO
+        run: haxelib run lime build ios -D -nosign -final
 
       - name: Make Ipa
         run: |
