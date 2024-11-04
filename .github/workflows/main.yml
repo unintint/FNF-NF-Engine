@@ -29,7 +29,7 @@ jobs:
             artifactName: macOSBuild-arm64
             artifactPath: export/release/macos/bin/*
           - name: Android
-            os: macos-15
+            os: macos-14
             buildArgs: "android -final -D officialBuild"
             artifactName: androidBuild
             artifactPath: "export/release/android/bin/app/build/outputs/apk/release/*.apk"
