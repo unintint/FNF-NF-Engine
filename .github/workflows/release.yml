@@ -132,6 +132,11 @@ jobs:
         uses: krdlab/setup-haxe@master
         with:
           haxe-version: 4.3.6
+
+      - name: Set up Xcode
+        run: |
+          xcode-select --install 
+          xcodebuild -version
           
       - name: Set IPHONEOS_DEPLOYMENT_TARGET 
         run: echo "IPHONEOS_DEPLOYMENT_TARGET=14.0" >> $GITHUB_ENV
