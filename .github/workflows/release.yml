@@ -176,33 +176,6 @@ jobs:
 
       - name: Move EXTERNAL File
         run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/android-EXTERNAL.apk"
-            
-      - name: Download OBB Build
-        uses: actions/download-artifact@main
-        with:
-           name: androidBuild-OBB
-           path: /home/runner
-
-      - name: Move OBB File
-        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/android-OBB.apk"
-
-      - name: Download DATA Build
-        uses: actions/download-artifact@main
-        with:
-           name: androidBuild-DATA
-           path: /home/runner
-
-      - name: Move DATA File
-        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/android-DATA.apk"
-
-      - name: Download MEDIA Build
-        uses: actions/download-artifact@main
-        with:
-           name: androidBuild-MEDIA
-           path: /home/runner
-
-      - name: Move MEDIA File
-        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/android-MEDIA.apk"
 
       - name: Download iOS Build
         uses: actions/download-artifact@main
@@ -213,16 +186,16 @@ jobs:
       - name: Move iOS File
         run: mv "/home/runner/NovaFlare Engine.zip" "/home/runner/ios.zip"
   
-      - name: Download macOS12 Build
+      - name: Download macOS14 Build
         uses: actions/download-artifact@main
         with:
-           name: macOSBuild-12
+           name: macOSBuild-14
            path: /home/runner
 
-      - name: Download macOS13 Build
+      - name: Download macOS15 Build
         uses: actions/download-artifact@main
         with:
-           name: macOSBuild-13
+           name: macOSBuild-15
            path: /home/runner
 
       - name: Download Windows Build
