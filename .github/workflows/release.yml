@@ -38,7 +38,7 @@ jobs:
     runs-on: macos-${{matrix.version}}
     strategy:
       matrix:
-        version: [14, 14]
+        version: [14, 15]
     steps:
       - name: Checkout
         uses: actions/checkout@main
