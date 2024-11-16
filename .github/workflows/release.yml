@@ -208,9 +208,9 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-          automatic_release_tag: "V1.1.5"
-          title: "V1.1.5"
+          prerelease: true
+          automatic_release_tag: "V1.1.6-HOTFIX-1"
+          title: "V1.1.6-HOTFIX-1"
           files: |
             /home/runner/*.apk
             /home/runner/*.zip
