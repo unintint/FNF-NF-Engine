@@ -6,4 +6,9 @@ class SpriteGroup extends FlxSpriteGroup //Hscripts整组图形
 	{
 		super(x, y);				
 	}
+	
+	public function spriteAdd(obj:Dynamic)
+	{
+	    add(obj);
+	}
 }
