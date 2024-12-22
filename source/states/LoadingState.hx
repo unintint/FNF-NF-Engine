@@ -166,8 +166,6 @@ class LoadingState extends MusicBeatState
 			intendedPercent = loaded.load() / loadMax;
 		}
 	}
-
-	}
 	
 	var finishedLoading:Bool = false; //use for stop update
 	function onLoad()
