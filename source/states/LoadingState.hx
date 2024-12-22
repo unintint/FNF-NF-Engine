@@ -149,8 +149,8 @@ class LoadingState extends MusicBeatState
 			if (precent % 1 == 0) precentText.text = precent + '.00%';
 			else if ((precent * 10) % 1 == 0) precentText.text = precent + '0%';									
 			else precentText.text = precent + '%'; //修复显示问题
-		}
-		OMG.alpha = precent / 100
+		};
+		OMG.alpha = precent / 100;
 		if (!transitioning)
 		{
 			if (!finishedLoading && checkLoaded() && curPercent == 1)
