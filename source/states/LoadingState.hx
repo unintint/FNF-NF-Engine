@@ -100,12 +100,22 @@ class LoadingState extends MusicBeatState
 		add(bar);		
 		
 		button = new LoadButton(0, 0, 35, barHeight);
-        button.y = FlxG.height - button.height;
-        button.antialiasing = ClientPrefs.data.antialiasing;
-        button.updateHitbox();
-        add(button);
+                button.y = FlxG.height - button.height;
+                button.antialiasing = ClientPrefs.data.antialiasing;
+                button.updateHitbox();
+                add(button);
+
+		var OMG = new FlxSprite().loadGraphic(Paths.image('egg'));
+		OMG.antialiasing = ClientPrefs.data.antialiasing;
+		OMG.alpha = 0;
+		OMG.scale.x = 0.1;
+		OMG.scale.y = 0.1;
+		OMG.x = 520;
+		OMG.y = 500;
+		OMG.updateHitbox();
+		add(OMG);
         
-        precentText = new FlxText(520, 600, 400, '0%', 30);
+                precentText = new FlxText(520, 600, 400, '0%', 30);
 		precentText.setFormat(Paths.font("loadScreen.ttf"), 25, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.TRANSPARENT);
 		precentText.borderSize = 0;
 		precentText.antialiasing = ClientPrefs.data.antialiasing;
@@ -140,7 +150,7 @@ class LoadingState extends MusicBeatState
 			else if ((precent * 10) % 1 == 0) precentText.text = precent + '0%';									
 			else precentText.text = precent + '%'; //修复显示问题
 		}
-		
+		OMG.alpha = precent / 100
 		if (!transitioning)
 		{
 			if (!finishedLoading && checkLoaded() && curPercent == 1)
@@ -155,6 +165,13 @@ class LoadingState extends MusicBeatState
 			}
 			intendedPercent = loaded.load() / loadMax;
 		}
+		Thread.create(() -> {			
+			rateMutex.acquire();
+			
+			rateMutex.release();
+		});	
+	}
+
 	}
 	
 	var finishedLoading:Bool = false; //use for stop update
