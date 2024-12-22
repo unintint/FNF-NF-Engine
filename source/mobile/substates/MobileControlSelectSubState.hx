@@ -10,7 +10,7 @@ import flixel.ui.FlxButton as UIButton;
 
 class MobileControlSelectSubState extends MusicBeatSubstate
 {
-	public var controlsItems:Array<String> = ['Pad-Right', 'Pad-Left', 'Pad-Custom', 'Pad-Duo', 'Hitbox', 'Keyboard'];
+	public var controlsItems:Array<String> = ['Pad-Right', 'Pad-Left', 'Pad-Custom', 'Pad-Duo', 'Hitbox', 'Hitbox-TG', 'Keyboard'];
 	var virtualPadd:FlxVirtualPad;
 	var hitbox:FlxHitbox;
 	var upPozition:FlxText;
@@ -135,6 +135,11 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		hitbox.visible = false;
 		add(hitbox);
 
+		hitboxTG = new FlxHitbox-TG();
+		hitboxTG.alpha = 0.6;
+		hitboxTG.visible = false;
+		add(hitboxTG)
+			
 		funitext = new FlxText(0, 50, 0, 'No Mobile Controls!', 32);
 		funitext.setFormat('VCR OSD Mono', 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		funitext.borderSize = 2.4;
@@ -405,6 +410,12 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.visible = false;
 				
 				hitbox.alpha = ClientPrefs.data.playControlsAlpha;
+
+			case 'Hitbox-TG':
+				hitboxTG.visible = true;
+				virtualPadd.visible = false;
+				hitbox.visible = false;
+				hitboxTG.alpha = ClientPrefs.data.playControlsAlpha;
 			case 'Keyboard':
 				hitbox.visible = false;
 				virtualPadd.visible = false;
