@@ -138,7 +138,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		hitboxTG = new FlxHitboxTG();
 		hitboxTG.alpha = 0.6;
 		hitboxTG.visible = false;
-		add(hitboxTG)
+		add(hitboxTG);
 			
 		funitext = new FlxText(0, 50, 0, 'No Mobile Controls!', 32);
 		funitext.setFormat('VCR OSD Mono', 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
