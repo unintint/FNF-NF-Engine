@@ -66,6 +66,7 @@ class LoadingState extends MusicBeatState
     var filePath:String = 'menuExtend/LoadingState/';
     
 	var bar:FlxSprite;
+	var OMG:FlxSprite;
     var button:LoadButton;
     var barHeight:Int = 10;
     
