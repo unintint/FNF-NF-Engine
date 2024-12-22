@@ -135,7 +135,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		hitbox.visible = false;
 		add(hitbox);
 
-		hitboxTG = new FlxHitbox-TG();
+		hitboxTG = new FlxHitboxTG();
 		hitboxTG.alpha = 0.6;
 		hitboxTG.visible = false;
 		add(hitboxTG)
