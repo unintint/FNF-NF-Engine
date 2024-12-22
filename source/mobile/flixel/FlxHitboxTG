@@ -12,7 +12,7 @@ import openfl.display.Shape;
  * @author: Mihai Alexandru
  * @modification's author: Karim Akra & Lily (mcagabe19)
  */
-class FlxHitbox-TG extends FlxMobileInputManager
+class FlxHitboxTG extends FlxMobileInputManager
 {	
 	public var buttonLeft:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.hitboxLEFT, FlxMobileInputID.noteLEFT]);
 	public var buttonDown:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.hitboxDOWN, FlxMobileInputID.noteDOWN]);
