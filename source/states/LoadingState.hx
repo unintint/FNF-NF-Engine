@@ -105,7 +105,7 @@ class LoadingState extends MusicBeatState
                 button.antialiasing = ClientPrefs.data.antialiasing;
                 button.updateHitbox();
                 add(button);
-
+                /*
 		var OMG = new FlxSprite().loadGraphic(Paths.image('egg'));
 		OMG.antialiasing = ClientPrefs.data.antialiasing;
 		OMG.alpha = 0;
@@ -115,7 +115,7 @@ class LoadingState extends MusicBeatState
 		OMG.y = 500;
 		OMG.updateHitbox();
 		add(OMG);
-        
+                */
                 precentText = new FlxText(520, 600, 400, '0%', 30);
 		precentText.setFormat(Paths.font("loadScreen.ttf"), 25, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.TRANSPARENT);
 		precentText.borderSize = 0;
@@ -150,7 +150,6 @@ class LoadingState extends MusicBeatState
 			if (precent % 1 == 0) precentText.text = precent + '.00%';
 			else if ((precent * 10) % 1 == 0) precentText.text = precent + '0%';									
 			else precentText.text = precent + '%'; //修复显示问题
-			OMG.alpha = precent / 100;
 		};
 		if (!transitioning)
 		{
