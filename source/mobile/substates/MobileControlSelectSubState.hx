@@ -13,6 +13,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 	public var controlsItems:Array<String> = ['Pad-Right', 'Pad-Left', 'Pad-Custom', 'Pad-Duo', 'Hitbox', 'Hitbox-TG', 'Keyboard'];
 	var virtualPadd:FlxVirtualPad;
 	var hitbox:FlxHitbox;
+	var hitboxTG:FlxHitboxTG;
 	var upPozition:FlxText;
 	var downPozition:FlxText;
 	var leftPozition:FlxText;
