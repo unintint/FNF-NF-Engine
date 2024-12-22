@@ -141,6 +141,7 @@ class LoadingState extends MusicBeatState
 			if (Math.abs(curPercent - intendedPercent) < 0.001) curPercent = intendedPercent;
 			else curPercent = FlxMath.lerp(intendedPercent, curPercent, Math.exp(-elapsed * 15));
 
+			OMG.alpha = precent / 100;
 			bar.scale.x = button.width / 2 + (FlxG.width - button.width) * curPercent;
 			button.x = FlxG.width * curPercent - button.width * curPercent;
 			bar.updateHitbox();
@@ -150,7 +151,6 @@ class LoadingState extends MusicBeatState
 			else if ((precent * 10) % 1 == 0) precentText.text = precent + '0%';									
 			else precentText.text = precent + '%'; //修复显示问题
 		};
-		OMG.alpha = precent / 100;
 		if (!transitioning)
 		{
 			if (!finishedLoading && checkLoaded() && curPercent == 1)
@@ -165,11 +165,6 @@ class LoadingState extends MusicBeatState
 			}
 			intendedPercent = loaded.load() / loadMax;
 		}
-		Thread.create(() -> {			
-			rateMutex.acquire();
-			
-			rateMutex.release();
-		});	
 	}
 
 	}
