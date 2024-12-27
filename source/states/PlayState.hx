@@ -943,7 +943,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public var videoCutscene:VideoSprite = null;
-	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true)
+	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true, cameras:String = "HUD", xc:Int = 0, yc:Int = 0)
 	{
 		#if VIDEOS_ALLOWED
 		inCutscene = true;
@@ -982,7 +982,11 @@ class PlayState extends MusicBeatState
 				videoCutscene.onSkip = onVideoEnd;
 			}
 			add(videoCutscene);
+			videoCutscene.x = xc;
+			videoCutscene.y = yc;
 
+			videoCutscene.camera = cameras;
+			
 			if (playOnLoad)
 				videoCutscene.videoSprite.play();
 			return videoCutscene;
