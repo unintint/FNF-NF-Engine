@@ -38,6 +38,10 @@ class Song
 	public var bpm:Float;
 	public var needsVoices:Bool = true;
 	public var arrowSkin:String;
+
+	public var arrowSkinBF:String = null;	//For https://github.com/beihu235/FNF-NovaFlare-Engine/issues/88
+	public var arrowSkinDad:String = null;  //too
+	
 	public var splashSkin:String;
 	public var gameOverChar:String;
 	public var gameOverSound:String;
