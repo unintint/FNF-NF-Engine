@@ -1761,37 +1761,5 @@ class FunkinLua {
 		#end
 		return false;
 	}
-	function onPause()
-	{
-		if (game.videoCutscene != null)
-		{
-			game.videoCutscene.pause();
-			
-			if (FlxG.autoPause)
-			{
-				if (FlxG.signals.focusGained.has(game.videoCutscene.resume))
-					FlxG.signals.focusGained.remove(game.videoCutscene.resume);
-
-				if (FlxG.signals.focusLost.has(game.videoCutscene.pause))
-					FlxG.signals.focusLost.remove(game.videoCutscene.pause);
-			}
-		}
-	}
-	function onResume()
-	{
-		if (game.videoCutscene != null)
-		{
-			game.videoCutscene.resume();
-			
-			if (FlxG.autoPause)
-			{
-				if (FlxG.signals.focusGained.has(game.videoCutscene.resume))
-					FlxG.signals.focusGained.remove(game.videoCutscene.resume);
-
-				if (FlxG.signals.focusLost.has(game.videoCutscene.pause))
-					FlxG.signals.focusLost.remove(game.videoCutscene.pause);
-			}
-		}
-	}
 }
 #end
