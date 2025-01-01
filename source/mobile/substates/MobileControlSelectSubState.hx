@@ -415,7 +415,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			case 'Hitbox':
 				hitbox.visible = true;
 				virtualPadd.visible = false;
-				hitboxTG.visible = false
+				hitboxTG.visible = false;
 				
 				hitbox.alpha = ClientPrefs.data.playControlsAlpha;
 
