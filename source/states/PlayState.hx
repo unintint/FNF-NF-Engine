@@ -1323,6 +1323,9 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.pause();
 		vocals.pause();
 		opponentVocals.pause();
+		if(videoCutscene != null){
+			videoCutscene.pause();
+		};
 
 		FlxG.sound.music.time = time;
 		#if FLX_PITCH FlxG.sound.music.pitch = playbackRate; #end
@@ -1339,6 +1342,9 @@ class PlayState extends MusicBeatState
 		}
 		vocals.play();
 		opponentVocals.play();
+		if(videoCutscene != null){
+			videoCutscene.play();
+		};
 		Conductor.songPosition = time;
 	}
 
@@ -1362,6 +1368,10 @@ class PlayState extends MusicBeatState
 		vocals.play();
 		opponentVocals.play();
 
+		if(videoCutscene != null){
+			videoCutscene.play();
+		};
+
 		if(startOnTime > 0) setSongTime(startOnTime - 500);
 		startOnTime = 0;
 
@@ -1370,6 +1380,9 @@ class PlayState extends MusicBeatState
 			FlxG.sound.music.pause();
 			vocals.pause();
 			opponentVocals.pause();
+			if(videoCutscene != null){
+				videoCutscene.pause();
+			};
 		}
 
 		// Song duration in a float, useful for the time left feature
@@ -1812,6 +1825,9 @@ class PlayState extends MusicBeatState
 				FlxG.sound.music.pause();
 				vocals.pause();
 				opponentVocals.pause();
+				if(videoCutscene != null){
+					videoCutscene.pause();
+				};
 			}
 			FlxTimer.globalManager.forEach(function(tmr:FlxTimer) if(!tmr.finished) tmr.active = false);
 			FlxTween.globalManager.forEach(function(twn:FlxTween) if(!twn.finished) twn.active = false);
@@ -1903,6 +1919,9 @@ class PlayState extends MusicBeatState
 		}
 		vocals.play();
 		opponentVocals.play();
+		if(videoCutscene != null){
+			videoCutscene.play();
+		};
 	}
 	
 	public var fixDesyncedStep:Int = 0;
@@ -2310,6 +2329,9 @@ class PlayState extends MusicBeatState
 			vocals.pause();
 			opponentVocals.pause();
 		}
+		if(videoCutscene != null){
+			videoCutscene.pause();
+		};
 		if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled)
 		{
 		    var Strums = ClientPrefs.data.playOpponent ? opponentStrums : playerStrums;
@@ -2336,6 +2358,10 @@ class PlayState extends MusicBeatState
 			FlxG.sound.music.stop();
 		chartingMode = true;
 
+		if(videoCutscene != null){
+			videoCutscene.stop();
+		};
+		
 		#if DISCORD_ALLOWED
 		DiscordClient.changePresence("Chart Editor", null, null, true);
 		DiscordClient.resetClientID();
@@ -2351,6 +2377,10 @@ class PlayState extends MusicBeatState
 		paused = true;
 		if(FlxG.sound.music != null)
 			FlxG.sound.music.stop();
+
+		if(videoCutscene != null){
+			videoCutscene.stop();
+		};
 		#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 		MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
 	}
@@ -2370,6 +2400,9 @@ class PlayState extends MusicBeatState
 				vocals.stop();
 				opponentVocals.stop();
 				FlxG.sound.music.stop();
+				if(videoCutscene != null){
+					videoCutscene.stop();
+				};
 
 				persistentUpdate = false;
 				persistentDraw = false;
