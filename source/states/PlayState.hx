@@ -988,13 +988,13 @@ class PlayState extends MusicBeatState
 			var upperCamString = cameras.toUpperCase();
 
                         if(upperCamString == 'HUD'){
-				videoCutscene.camera = [camHUD];
+				videoCutscene.camera = camHUD;
 			}else if(upperCamString == 'OTGER'){
-				videoCutscene.camera = [camOther];
+				videoCutscene.camera = camOther;
 			}else if(upperCamString == 'GAME'){
-				videoCutscene.camera = [camGam];
+				videoCutscene.camera = camGame;
 			}else{
-				videoCutscene.camera = [camHUD];
+				videoCutscene.camera = camHUD;
 			}
 			
 			
