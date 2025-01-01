@@ -36,7 +36,9 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 				initControler(3);
 			case 4: // HITBOX
 				initControler(4);
-			case 5: // KEYBOARD
+			case 5: // HITBOX TG
+				initControler(5);
+			case 6: // KEYBOARD
 		}
 		current = new CurrentManager(this);
 		// Options related stuff
@@ -67,7 +69,10 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 				virtualPad = getExtraCustomMode(virtualPad);
 			case 4:
 			  hitbox = new FlxHitbox();
-			  add(hitbox);			
+			  add(hitbox);
+			case 5:
+			  hitbox = new FlxHitboxTG();
+			  add(hitbox);
 		}
 	}
 
