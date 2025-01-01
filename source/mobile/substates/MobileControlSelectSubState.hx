@@ -1,6 +1,6 @@
 package mobile.substates;
 
- import mobile.flixel.FlxHitboxTG;
+import mobile.flixel.FlxHitboxTG;
 import openfl.sensors.Accelerometer;
 import mobile.flixel.FlxButton;
 import flixel.addons.transition.FlxTransitionableState;
@@ -138,6 +138,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		add(hitbox);
 
 		hitboxTG = new FlxHitboxTG();
+		
 		hitboxTG.alpha = 0.6;
 		hitboxTG.visible = false;
 		add(hitboxTG);
@@ -356,6 +357,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		{
 			case 'Pad-Right':
 				hitbox.visible = false;
+				hitboxTG.visible = false;
 				
 				virtualPadd.destroy();
 				virtualPadd = new FlxVirtualPad(RIGHT_FULL, controlExtend);
@@ -368,6 +370,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.buttonRight.color =  buttonRightColor[0];
 			case 'Pad-Left':
 				hitbox.visible = false;
+				hitboxTG.visible = false;
 				
 				virtualPadd.destroy();
 				virtualPadd = new FlxVirtualPad(LEFT_FULL, controlExtend);
@@ -380,7 +383,8 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.buttonRight.color =  buttonRightColor[0];
 			case 'Pad-Custom':
 				hitbox.visible = false;
-				
+				hitboxTG.visible = false;
+
 				virtualPadd.destroy();
 				virtualPadd = MobileControls.getCustomMode(new FlxVirtualPad(RIGHT_FULL, controlExtend));
 				virtualPadd = MobileControls.getExtraCustomMode(virtualPadd);
@@ -392,6 +396,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.buttonRight.color =  buttonRightColor[0];
 			case 'Pad-Duo':
 				hitbox.visible = false;
+				hitboxTG.visible = false;
 				
 				virtualPadd.destroy();
 				virtualPadd = new FlxVirtualPad(BOTH, controlExtend);
@@ -410,6 +415,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			case 'Hitbox':
 				hitbox.visible = true;
 				virtualPadd.visible = false;
+				hitboxTG.visible = false
 				
 				hitbox.alpha = ClientPrefs.data.playControlsAlpha;
 
@@ -417,14 +423,16 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				hitboxTG.visible = true;
 				virtualPadd.visible = false;
 				hitbox.visible = false;
+				
 				hitboxTG.alpha = ClientPrefs.data.playControlsAlpha;
 			case 'Keyboard':
 				hitbox.visible = false;
 				virtualPadd.visible = false;
+				hitboxTG.visible = false;
 		}
 
 		funitext.visible = daChoice == 'Keyboard';
-		if (daChoice != 'Keyboard' || daChoice != 'Hitbox')
+		if (daChoice != 'Keyboard' || daChoice != 'Hitbox' || daChoice != 'Hitbox-TG')
 		resetButton.visible = true;
 		else resetButton.visible = false;
 
