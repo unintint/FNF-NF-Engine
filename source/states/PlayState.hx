@@ -1343,7 +1343,7 @@ class PlayState extends MusicBeatState
 		vocals.play();
 		opponentVocals.play();
 		if(videoCutscene != null){
-			videoCutscene.play();
+			videoCutscene.resume();
 		};
 		Conductor.songPosition = time;
 	}
@@ -1369,7 +1369,7 @@ class PlayState extends MusicBeatState
 		opponentVocals.play();
 
 		if(videoCutscene != null){
-			videoCutscene.play();
+			videoCutscene.resume();
 		};
 
 		if(startOnTime > 0) setSongTime(startOnTime - 500);
@@ -1920,7 +1920,7 @@ class PlayState extends MusicBeatState
 		vocals.play();
 		opponentVocals.play();
 		if(videoCutscene != null){
-			videoCutscene.play();
+			videoCutscene.resume();
 		};
 	}
 	
@@ -2359,7 +2359,7 @@ class PlayState extends MusicBeatState
 		chartingMode = true;
 
 		if(videoCutscene != null){
-			videoCutscene.stop();
+			videoCutscene.pause();
 		};
 		
 		#if DISCORD_ALLOWED
@@ -2379,7 +2379,7 @@ class PlayState extends MusicBeatState
 			FlxG.sound.music.stop();
 
 		if(videoCutscene != null){
-			videoCutscene.stop();
+			videoCutscene.pause();
 		};
 		#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 		MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
@@ -2401,7 +2401,7 @@ class PlayState extends MusicBeatState
 				opponentVocals.stop();
 				FlxG.sound.music.stop();
 				if(videoCutscene != null){
-					videoCutscene.stop();
+					videoCutscene.pause();
 				};
 
 				persistentUpdate = false;
