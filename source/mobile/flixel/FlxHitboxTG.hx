@@ -40,10 +40,10 @@ class FlxHitboxTG extends FlxMobileInputManager
 		add(buttonLeft = createHint(0, 0, buttonWidth, FlxG.height, 0xFFC24B99));
 		add(buttonDown = createHint(buttonWidth, 0, buttonWidth, FlxG.height, 0xFF00FFFF));
 		
-	        add(buttonExtra1 = createHint(buttonWidth * 2, 0, buttonWidth * 2, FlxG.height, 0xFFFF00));
+	        add(buttonExtra1 = createHint(buttonWidth * 2, 0, buttonWidth, FlxG.height, 0xFFFF00));
 		
-		add(buttonUp = createHint(buttonWidth * 3, 0, buttonWidth * 3, FlxG.height, 0xFF12FA05));
-	        add(buttonRight = createHint(buttonWidth * 4, 0, buttonWidth * 4, FlxG.height, 0xFFF9393F));
+		add(buttonUp = createHint(buttonWidth * 3, 0, buttonWidth, FlxG.height, 0xFF12FA05));
+	        add(buttonRight = createHint(buttonWidth * 4, 0, buttonWidth, FlxG.height, 0xFFF9393F));
                 
 		for (button in Reflect.fields(this))
 		{
