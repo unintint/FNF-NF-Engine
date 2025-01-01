@@ -943,7 +943,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public var videoCutscene:VideoSprite = null;
-	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true)
+	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true, cameras:String = null ,xc:Int = 0, yc:Int = 0)
 	{
 		#if VIDEOS_ALLOWED
 		inCutscene = true;
@@ -982,6 +982,22 @@ class PlayState extends MusicBeatState
 				videoCutscene.onSkip = onVideoEnd;
 			}
 			add(videoCutscene);
+
+			if(cameras != null){
+				videoCutscene.x = xc;
+        			videoCutscene.y = yc;
+				var upperCamString = cameras.toUpperCase();
+
+                        	if(upperCamString == 'HUD'){
+					videoCutscene.camera = camHUD;
+				}else if(upperCamString == 'OTGER'){
+					videoCutscene.camera = camOther;
+				}else if(upperCamString == 'GAME'){
+					videoCutscene.camera = camGame;
+				}else{
+					videoCutscene.camera = camOther;
+				}
+			};
 			
 			if (playOnLoad)
 				videoCutscene.videoSprite.play();
@@ -998,51 +1014,7 @@ class PlayState extends MusicBeatState
 		#end
 		return null;
 	}
-	//使用函数重载
-        public function startVideo(name:String, cameras:String = 'other', xc:Int = 0, yc:Int = 0){
-		#if VIDEOS_ALLOWED
-    		inCutscene = true;
-    		canPause = false;
-
-    		var foundFile:Bool = false;
-    		var fileName:String = Paths.video(name);
-
-    		#if sys
-    		if (FileSystem.exists(fileName))
-    		#else
-    		if (OpenFlAssets.exists(fileName))
-    		#end
-        	foundFile = true;
-
-    		if (foundFile)
-    		{
-        		var videoCutscene = new VideoSprite(fileName);
-			
-        		videoCutscene.x = xc;
-        		videoCutscene.y = yc;
-
-        		add(videoCutscene);
-        		videoCutscene.videoSprite.play();
-
-			var upperCamString = cameras.toUpperCase();
-
-                        if(upperCamString == 'HUD'){
-				videoCutscene.camera = camHUD;
-			}else if(upperCamString == 'OTGER'){
-				videoCutscene.camera = camOther;
-			}else if(upperCamString == 'GAME'){
-				videoCutscene.camera = camGame;
-			}else{
-				videoCutscene.camera = camHUD;
-			}
-
-        		return videoCutscene;
-    		}
-    		#else
-    		FlxG.log.warn('Platform not supported!');
-    		#end
-	}
-
+	
 	function startAndEnd()
 	{
 		if(endingSong)
