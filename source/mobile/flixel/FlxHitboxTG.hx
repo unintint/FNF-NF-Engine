@@ -35,12 +35,16 @@ class FlxHitboxTG extends FlxMobileInputManager
 				storedButtonsIDs.set(button, Reflect.getProperty(Reflect.field(this, button), 'IDs'));
 		}
 
-		add(buttonLeft = createHint(0, 0, Std.int(FlxG.width / 4), Std.int(FlxG.height * 0.8), 0xFFC24B99));
-		add(buttonDown = createHint(FlxG.width / 4, 0, Std.int(FlxG.width / 4), Std.int(FlxG.height * 0.8), 0xFF00FFFF));
-		add(buttonUp = createHint(FlxG.width / 2, 0, Std.int(FlxG.width / 4), Std.int(FlxG.height * 0.8), 0xFF12FA05));
-		add(buttonRight = createHint((FlxG.width / 2) + (FlxG.width / 4), 0, Std.int(FlxG.width / 4), Std.int(FlxG.height * 0.8), 0xFFF9393F));
-    add(buttonExtra1 = createHint(0, (FlxG.height / 5) * 4, Std.int(FlxG.width), Std.int(FlxG.height / 5), 0xFFFF00));
-
+		var buttonWidth = Std.int(FlxG.width / 5);
+		
+		add(buttonLeft = createHint(0, 0, buttonWidth, FlxG.height, 0xFFC24B99));
+		add(buttonDown = createHint(buttonWidth, 0, buttonWidth * 2, FlxG.height, 0xFF00FFFF));
+		
+	        add(buttonExtra1 = createHint(buttonWidth * 2, 0, buttonWidth * 3, FlxG.height, 0xFFFF00));
+		
+		add(buttonUp = createHint(buttonWidth * 3, 0, buttonWidth * 4, FlxG.height, 0xFF12FA05));
+	        add(buttonRight = createHint(buttonWidth * 4, 0, buttonWidth * 5, FlxG.height, 0xFFF9393F));
+                
 		for (button in Reflect.fields(this))
 		{
 			if (Std.isOfType(Reflect.field(this, button), FlxButton))
