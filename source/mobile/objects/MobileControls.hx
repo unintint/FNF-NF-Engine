@@ -11,6 +11,7 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 {
 	public var virtualPad:FlxVirtualPad = new FlxVirtualPad(NONE, NONE);
 	public var hitbox:FlxHitbox = new FlxHitbox();
+	public var hitboxTG:FlxHitboxTG = new FlxHitboxTG();
 	// YOU CAN'T CHANGE PROPERTIES USING THIS EXCEPT WHEN IN RUNTIME!!
 	public var current:CurrentManager;
 
@@ -72,8 +73,8 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 			  hitbox = new FlxHitbox();
 			  add(hitbox);
 			case 5:
-			  hitbox = new FlxHitboxTG();
-			  add(hitbox);
+			  hitboxTG = new FlxHitboxTG();
+			  add(hitboxTG);
 		}
 	}
 
