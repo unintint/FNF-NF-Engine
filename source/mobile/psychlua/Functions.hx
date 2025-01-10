@@ -184,6 +184,8 @@ class MobileFunctions
 			case 4:
 				return 'hitbox';
 			case 5:
+				return 'hitboxTG';
+			case 6:
 				return 'none';
 		}
 		return 'uknown';
