@@ -748,7 +748,9 @@ class PlayState extends MusicBeatState
 		
 		Paths.clearUnusedMemory();
 
-		if(eventNotes.length < 1) checkEventNote();			
+		if(eventNotes.length < 1) checkEventNote();	
+
+		mobileControls.active = mobileControls.visible = true;
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -943,7 +945,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public var videoCutscene:VideoSprite = null;
-	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true, cameras:String = null ,xc:Int = 0, yc:Int = 0)
+	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true)
 	{
 		#if VIDEOS_ALLOWED
 		inCutscene = true;
@@ -983,22 +985,6 @@ class PlayState extends MusicBeatState
 			}
 			add(videoCutscene);
 
-			if(cameras != null){
-				videoCutscene.x = xc;
-        			videoCutscene.y = yc;
-				var upperCamString = cameras.toUpperCase();
-
-                        	if(upperCamString == 'HUD'){
-					videoCutscene.camera = camHUD;
-				}else if(upperCamString == 'OTGER'){
-					videoCutscene.camera = camOther;
-				}else if(upperCamString == 'GAME'){
-					videoCutscene.camera = camGame;
-				}else{
-					videoCutscene.camera = camOther;
-				}
-			};
-			
 			if (playOnLoad)
 				videoCutscene.videoSprite.play();
 			return videoCutscene;
