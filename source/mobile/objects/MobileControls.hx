@@ -259,6 +259,13 @@ class CurrentManager {
 			buttonExtra2 = control.hitbox.buttonExtra2;
 			buttonExtra3 = control.hitbox.buttonExtra3;
 			buttonExtra4 = control.hitbox.buttonExtra4;
+		}else if(MobileControls.mode == 5) {
+			target = control.hitbox;
+			buttonLeft = control.hitboxTG.buttonLeft;
+			buttonDown = control.hitboxTG.buttonDown;
+			buttonUp = control.hitboxTG.buttonUp;
+			buttonRight = control.hitboxTG.buttonRight;
+			buttonExtra1 = control.hitboxTG.buttonExtra1;
 		} else {
 			target = control.virtualPad;
 			buttonLeft = control.virtualPad.buttonLeft;
