@@ -5,7 +5,6 @@ import flixel.math.FlxPoint;
 import mobile.flixel.input.FlxMobileInputManager;
 import haxe.extern.EitherType;
 import mobile.flixel.FlxButton;
-import mobile.flixel.FlxHitboxTG;
 
 class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 {
