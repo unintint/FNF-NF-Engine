@@ -50,7 +50,7 @@ class FlxHitbox extends FlxMobileInputManager
 		        add(buttonUp = createHint(FlxG.width / 2, 0, Std.int(FlxG.width / 4), Std.int(FlxG.height * 0.8), 0xFF12FA05));
 		        add(buttonRight = createHint((FlxG.width / 2) + (FlxG.width / 4), 0, Std.int(FlxG.width / 4), Std.int(FlxG.height * 0.8), 0xFFF9393F));
                 
-                switch (ClientPrefs.data.extraK){
+                switch (ClientPrefs.data.extraKey){
 		    case 1:		        
                         add(buttonExtra1 = createHint(0, (FlxG.height / 5) * 4, FlxG.width, Std.int(FlxG.height / 5), 0xFFFF00));
 		    case 2:                
@@ -69,9 +69,9 @@ class FlxHitbox extends FlxMobileInputManager
 	    }else if(ClientPrefs.data.hitboxLocation == 'Middle'){
 		var buttonWidth = Std.int(FlxG.width / 5);
 		
-		add(buttonLeft = createHint(0, 0, buttonWidth, FlxG.height, 0xFFC24B99));
-		add(buttonDown = createHint(buttonWidth, 0, buttonWidth, FlxG.height, 0xFF00FFFF));
-		switch (ClientPrefs.data.extraK){
+		add(buttonLeft = createHint(0, 0, buttonsWidth, FlxG.height, 0xFFC24B99));
+		add(buttonDown = createHint(buttonsWidth, 0, buttonsWidth, FlxG.height, 0xFF00FFFF));
+		switch (ClientPrefs.data.extraKey){
 		    case 1:		        
                         add(buttonExtra1 = createHint(buttonWidth * 2, 0, buttonWidth, FlxG.height, 0xFFFF00));
 		    case 2:                
