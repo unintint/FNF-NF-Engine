@@ -260,7 +260,7 @@ class CurrentManager {
 			buttonExtra3 = control.hitbox.buttonExtra3;
 			buttonExtra4 = control.hitbox.buttonExtra4;
 		}else if(MobileControls.mode == 5) {
-			target = control.hitbox;
+			target = control.hitboxTG;
 			buttonLeft = control.hitboxTG.buttonLeft;
 			buttonDown = control.hitboxTG.buttonDown;
 			buttonUp = control.hitboxTG.buttonUp;
