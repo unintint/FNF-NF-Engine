@@ -1,6 +1,5 @@
 package mobile.substates;
 
-import mobile.flixel.FlxHitboxTG;
 import openfl.sensors.Accelerometer;
 import mobile.flixel.FlxButton;
 import flixel.addons.transition.FlxTransitionableState;
