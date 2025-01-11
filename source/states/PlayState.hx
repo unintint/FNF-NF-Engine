@@ -80,6 +80,7 @@ import cpp.NativeGc;
 **/
 class PlayState extends MusicBeatState
 {
+	@:allow(NoteRecording)
 	public static var STRUM_X = 48.5;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
@@ -3210,7 +3211,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 	
-	protected function keyPressed(key:Int)
+	private function keyPressed(key:Int)
 	{
 		if(ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled || paused || key < 0) return;
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
