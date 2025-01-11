@@ -17,6 +17,8 @@ class ErrorSubState extends MusicBeatSubstate
 	var moveData:Int = 0;
 	var avgSpeed:Float = 0;
 
+	var result:String;
+
 	public function new(e:Dynamic)
 	{
 		super();
@@ -26,7 +28,7 @@ class ErrorSubState extends MusicBeatSubstate
 		
 		error = Std.string(e);
 		var stackTrace = haxe.CallStack.toString(haxe.CallStack.exceptionStack()); // 获取堆栈的信息
-		var result = error + "\n" + result;
+		result = error + "\n" + result;
 	}
 
 	override function create()
@@ -49,7 +51,7 @@ class ErrorSubState extends MusicBeatSubstate
 		if(bg.alpha > 0.6) bg.alpha = 0.6;
 
 		if(controls.BACK) {
-			saveErrorToFile(error);
+			saveErrorToFile(result);
 			close();
 		}else if(controls.ACCEPT) {
 			close();
