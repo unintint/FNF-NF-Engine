@@ -19,7 +19,7 @@ class ErrorSubState extends MusicBeatSubstate
 		#if !mobile
 		FlxG.mouse.visible = true;
 		#end
-	};
+	}
 	
 	public function new(e:Dynamic)
 	{
@@ -37,8 +37,8 @@ class ErrorSubState extends MusicBeatSubstate
 		bg.scrollFactor.set();
 		
 		add(bg);
-		add(errorText)
-	};
+		add(errorText);
+	}
 	
 	override function update(elapsed:Float)
 	{
@@ -56,11 +56,11 @@ class ErrorSubState extends MusicBeatSubstate
 		mouseMove();
 		
 		super.update(elapsed);
-	};
+	}
 	override function destroy(){
 		bg = FlxDestroyUtil.destroy(bg);
 		super.destroy();
-	};
+	}
 	
 	var saveMouseY:Int = 0;
 	var moveData:Int = 0;
@@ -74,5 +74,5 @@ class ErrorSubState extends MusicBeatSubstate
 		
 		text.y += avgSpeed;
                 text.y = Math.max(50, Math.min(FlxG.height - text.height - 50, text.y));
-	};
+	}
 }
