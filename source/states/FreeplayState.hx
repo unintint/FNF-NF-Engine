@@ -351,9 +351,10 @@ class FreeplayState extends MusicBeatState
 				try{
 					updateInfo(); //难度数据更新
 				} catch (e:Dynamic) {
-						infoNote.data = 0;
-						infoRating.data = 0;
-						infoSpeed.data = 0; //搜索后无歌曲的数据更新
+					openSubState(new ErrorSubState(e));
+					infoNote.data = 0;
+					infoRating.data = 0;
+					infoSpeed.data = 0; //搜索后无歌曲的数据更新
 				}
 			}
 		} else {
