@@ -25,6 +25,7 @@ import android.os.BatteryManager as AndroidBatteryManager;
 
 //Mobile Controls
 import mobile.objects.MobileControls;
+import mobile.flixel.FlxHitboxTG;
 import mobile.flixel.FlxHitbox;
 import mobile.flixel.FlxVirtualPad;
 import mobile.flixel.input.FlxMobileInputID;
