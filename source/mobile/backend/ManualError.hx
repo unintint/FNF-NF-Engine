@@ -7,7 +7,7 @@ import sys.io.File;
 
 using backend.CoolUtil;
 
-public static function saveErrorToFile(errorInfo:String):Void
+static function saveErrorToFile(errorInfo:String):Void
 {
     #if sys
     try
