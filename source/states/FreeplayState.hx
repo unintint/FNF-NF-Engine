@@ -352,6 +352,7 @@ class FreeplayState extends MusicBeatState
 					updateInfo(); //难度数据更新
 				} catch (e:Dynamic) {
 					openSubState(new ErrorSubState(e));
+					
 					infoNote.data = 0;
 					infoRating.data = 0;
 					infoSpeed.data = 0; //搜索后无歌曲的数据更新
@@ -380,12 +381,6 @@ class FreeplayState extends MusicBeatState
 		
 		new FlxTimer().start(0.1, function(tmr:FlxTimer){
 			ignoreCheck = false;
-		});
-	}
-
-	function openSubState(){
-		new FlxTimer().start(0.1, function(tmr:FlxTimer){
-			ignoreCheck = true;
 		});
 	}
 
