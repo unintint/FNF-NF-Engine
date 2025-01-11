@@ -66,7 +66,7 @@ class InputGroup
         );
         follow.addOption(option);
 
-        var hitboxLocationArray:Array<String> = ['Bottom', 'Top'];
+        var hitboxLocationArray:Array<String> = ['Bottom', 'Top', 'Middle'];
 
         var option:Option = new Option(
             Language.get('hitboxLocation'),
