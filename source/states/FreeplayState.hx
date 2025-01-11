@@ -350,7 +350,7 @@ class FreeplayState extends MusicBeatState
 				}
 				try{
 					updateInfo(); //难度数据更新
-				} catch (e:Dynamic) {
+				} catch (e:haxe.Exception) {
 					openSubState(new ErrorSubState(e));
 					ignoreCheck = true;
 					infoNote.data = 0;
@@ -495,14 +495,14 @@ class FreeplayState extends MusicBeatState
 			case 5:
 				randomSel();
 			case 6:
-				if (songs.length > 21 && curSelected < 22) {
-					curSelected = 22;
+				if (songs.length > 22 && curSelected <= 22) {
+					curSelected = 23;
 					changeSelection(0);
-				} else if (curSelected > 22){
-					curSelected = 22;
+				} else if (curSelected > 23){
+					curSelected = songs.length;
 					changeSelection(0);
-				} else if (curSelected == 22){
-					curSelected = 1;
+				} else if (curSelected == songs.length){
+					curSelected = 23;
 					changeSelection(0);
 				}
 		}
@@ -589,7 +589,7 @@ class FreeplayState extends MusicBeatState
 		updateRect();
 		try{
 			updateInfo(); //难度数据更新
-		} catch (e:Dynamic) {
+		} catch (e:haxe.Exception) {
 			openSubState(new ErrorSubState(e));
 			ignoreCheck = true;
 			infoNote.data = 0;
