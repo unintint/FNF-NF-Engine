@@ -62,6 +62,7 @@ class ErrorSubState extends MusicBeatSubstate
 	}
 	override function destroy(){
 		bg = FlxDestroyUtil.destroy(bg);
+		errorText = FlxDestroyUtil.destroy(errorText);
 		super.destroy();
 	}
 	
