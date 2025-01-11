@@ -25,8 +25,9 @@ class ErrorSubState extends MusicBeatSubstate
 		#end
 		
 		error = Std.string(e);
-		
-		add(errorText);
+		var stackTrace = haxe.CallStack.toString(haxe.CallStack.exceptionStack()); // 获取堆栈的信息
+		var result = `${error}\n${result}`;
+		add(result);
 	}
 
 	override function create()
@@ -66,14 +67,19 @@ class ErrorSubState extends MusicBeatSubstate
 		super.destroy();
 	}
 	
-	function mouseMove()
-	{
-		if (FlxG.mouse.justPressed) saveMouseY = FlxG.mouse.y;
-		moveData = FlxG.mouse.y - saveMouseY;
-		saveMouseY = FlxG.mouse.y;
-		avgSpeed = avgSpeed * 0.75 + moveData * 0.25;
-		
-		errorText.y += avgSpeed;
-                errorText.y = Math.max(50, Math.min(FlxG.height - errorText.height - 50, errorText.y));
+	function mouseMove(){
+    		if (errorText.height > FlxG.height * 0.8)
+    		{
+        		if (FlxG.mouse.justPressed) saveMouseY = FlxG.mouse.y;
+        		moveData = FlxG.mouse.y - saveMouseY;
+        		saveMouseY = FlxG.mouse.y;
+        		avgSpeed = avgSpeed * 0.75 + moveData * 0.25;
+        
+        		errorText.y += avgSpeed;
+        		errorText.y = Math.max(-10, Math.min(10 - errorText.height, errorText.y));
+    		}
+        	errorText.y = errorText.height - 10;
+		//限制错误信息可以滑动的范围
 	}
+
 }
