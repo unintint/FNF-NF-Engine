@@ -49,7 +49,7 @@ class ErrorSubState extends MusicBeatSubstate
 		if(bg.alpha > 0.6) bg.alpha = 0.6;
 
 		if(controls.BACK) {
-			ManualError.saveErrorToFile(error);
+			saveErrorToFile(error);
 			close();
 		}else if(controls.ACCEPT) {
 			close();
