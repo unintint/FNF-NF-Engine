@@ -68,6 +68,6 @@ class ErrorSubState extends MusicBeatSubstate
 		avgSpeed = avgSpeed * 0.75 + moveData * 0.25;
 		
 		errorText.y += avgSpeed;
-                errorText.y = Math.max(50, Math.min(FlxG.height - text.height - 50, text.y));
+                errorText.y = Math.max(50, Math.min(FlxG.height - errorText.height - 50, errorText.y));
 	}
 }
