@@ -31,7 +31,7 @@ class ErrorSubState extends MusicBeatSubstate
 		
 		add(bg);
 		add(errorText);
-		super()
+		super();
 	}
 	
 	override function update(elapsed:Float)
