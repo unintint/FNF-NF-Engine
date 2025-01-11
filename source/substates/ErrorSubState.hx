@@ -9,30 +9,38 @@ using StringTools;
 
 class ErrorSubState extends MusicBeatSubstate
 {
-	var bg:FlxSprite;
-	var error:String;
 	var errorText:FlxText;
+	var bg:FlxSprite;
+	var error:String = "Nope";
 	
+	var saveMouseY:Int = 0;
+	var moveData:Int = 0;
+	var avgSpeed:Float = 0;
+
 	public function new(e:Dynamic)
 	{
+		super();
 		#if !mobile
 		FlxG.mouse.visible = true;
 		#end
 		
 		error = Std.string(e);
-		saveErrorToFile(error);
 		
-		errorText = new FlxText(100, 100, 200, error);
-		errorText.screenCenter(Y);
-		
-		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		
-		bg.alpha = 0;
-		bg.scrollFactor.set();
-		
-		add(bg);
 		add(errorText);
-		super();
+	}
+
+	override function create()
+	{
+		super.create();
+		
+		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		add(bg);
+
+		errorText = new FlxText(0, 0, FlxG.width, error, 50);
+		errorText.screenCenter(Y);
+		add(errorText);
+
+		addVirtualPad(NONE, A_B);
 	}
 	
 	override function update(elapsed:Float)
@@ -41,12 +49,12 @@ class ErrorSubState extends MusicBeatSubstate
 		if(bg.alpha > 0.6) bg.alpha = 0.6;
 
 		if(controls.BACK) {
+			ManualError.saveErrorToFile(error);
 			close();
 		}else if(controls.ACCEPT) {
 			close();
+			//这个位置要放解决问题的代码
 		};
-		addVirtualPad(NONE, A_B);
-		addVirtualPadCamera(false);
 		
 		mouseMove();
 		
@@ -57,9 +65,6 @@ class ErrorSubState extends MusicBeatSubstate
 		super.destroy();
 	}
 	
-	var saveMouseY:Int = 0;
-	var moveData:Int = 0;
-	var avgSpeed:Float = 0;
 	function mouseMove()
 	{
 		if (FlxG.mouse.justPressed) saveMouseY = FlxG.mouse.y;
