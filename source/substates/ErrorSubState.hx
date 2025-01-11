@@ -33,7 +33,7 @@ class ErrorSubState extends MusicBeatSubstate
 	{
 		super.create();
 		
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 
 		errorText = new FlxText(0, 0, FlxG.width, error, 50);
@@ -53,7 +53,7 @@ class ErrorSubState extends MusicBeatSubstate
 			close();
 		}else if(controls.ACCEPT) {
 			close();
-			//这个位置要放解决问题的代码
+			//这个位置要放解决代码崩溃的代码
 		};
 		
 		mouseMove();
