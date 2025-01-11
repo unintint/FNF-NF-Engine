@@ -26,8 +26,7 @@ class ErrorSubState extends MusicBeatSubstate
 		
 		error = Std.string(e);
 		var stackTrace = haxe.CallStack.toString(haxe.CallStack.exceptionStack()); // 获取堆栈的信息
-		var result = `${error}\n${result}`;
-		add(result);
+		var result = error + "\n" + result;
 	}
 
 	override function create()
@@ -37,7 +36,7 @@ class ErrorSubState extends MusicBeatSubstate
 		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 
-		errorText = new FlxText(0, 0, FlxG.width, error, 50);
+		errorText = new FlxText(0, 0, FlxG.width, result, 50);
 		errorText.screenCenter(Y);
 		add(errorText);
 
