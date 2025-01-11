@@ -12,6 +12,7 @@ class ErrorSubState extends MusicBeatSubstate
 	var bg:FlxSprite;
 	var error:String;
 	var errorText:FlxText;
+	
 	public function new(e:Dynamic)
 	{
 		#if !mobile
@@ -66,7 +67,7 @@ class ErrorSubState extends MusicBeatSubstate
 		saveMouseY = FlxG.mouse.y;
 		avgSpeed = avgSpeed * 0.75 + moveData * 0.25;
 		
-		text.y += avgSpeed;
-                text.y = Math.max(50, Math.min(FlxG.height - text.height - 50, text.y));
+		errorText.y += avgSpeed;
+                errorText.y = Math.max(50, Math.min(FlxG.height - text.height - 50, text.y));
 	}
 }
