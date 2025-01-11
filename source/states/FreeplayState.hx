@@ -383,8 +383,7 @@ class FreeplayState extends MusicBeatState
 		});
 	}
 
-	override function openSubState(){
-		super.openSubState();
+	function openSubState(){
 		new FlxTimer().start(0.1, function(tmr:FlxTimer){
 			ignoreCheck = true;
 		});
