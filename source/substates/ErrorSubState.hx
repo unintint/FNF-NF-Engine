@@ -34,7 +34,7 @@ class ErrorSubState extends MusicBeatSubstate
 		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 
-		errorText = new FlxText(0, 0, FlxG.width, result, 50);
+		errorText = new FlxText(0, 0, FlxG.width, error, 50);
 		errorText.font = Paths.font(Language.get('fontName', 'ma') + '.ttf');
 		errorText.screenCenter(Y);
 		add(errorText);
