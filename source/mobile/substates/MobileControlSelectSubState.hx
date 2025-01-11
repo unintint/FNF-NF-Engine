@@ -11,10 +11,9 @@ import flixel.ui.FlxButton as UIButton;
 
 class MobileControlSelectSubState extends MusicBeatSubstate
 {
-	public var controlsItems:Array<String> = ['Pad-Right', 'Pad-Left', 'Pad-Custom', 'Pad-Duo', 'Hitbox', 'Hitbox-TG', 'Keyboard'];
+	public var controlsItems:Array<String> = ['Pad-Right', 'Pad-Left', 'Pad-Custom', 'Pad-Duo', 'Hitbox', 'Keyboard'];
 	var virtualPadd:FlxVirtualPad;
 	var hitbox:FlxHitbox;
-	var hitboxTG:FlxHitboxTG;
 	var upPozition:FlxText;
 	var downPozition:FlxText;
 	var leftPozition:FlxText;
@@ -136,12 +135,6 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		hitbox.alpha = 0.6;
 		hitbox.visible = false;
 		add(hitbox);
-
-		hitboxTG = new FlxHitboxTG();
-		
-		hitboxTG.alpha = 0.6;
-		hitboxTG.visible = false;
-		add(hitboxTG);
 			
 		funitext = new FlxText(0, 50, 0, 'No Mobile Controls!', 32);
 		funitext.setFormat('VCR OSD Mono', 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -357,7 +350,6 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		{
 			case 'Pad-Right':
 				hitbox.visible = false;
-				hitboxTG.visible = false;
 				
 				virtualPadd.destroy();
 				virtualPadd = new FlxVirtualPad(RIGHT_FULL, controlExtend);
@@ -370,7 +362,6 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.buttonRight.color =  buttonRightColor[0];
 			case 'Pad-Left':
 				hitbox.visible = false;
-				hitboxTG.visible = false;
 				
 				virtualPadd.destroy();
 				virtualPadd = new FlxVirtualPad(LEFT_FULL, controlExtend);
@@ -383,8 +374,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.buttonRight.color =  buttonRightColor[0];
 			case 'Pad-Custom':
 				hitbox.visible = false;
-				hitboxTG.visible = false;
-
+				
 				virtualPadd.destroy();
 				virtualPadd = MobileControls.getCustomMode(new FlxVirtualPad(RIGHT_FULL, controlExtend));
 				virtualPadd = MobileControls.getExtraCustomMode(virtualPadd);
@@ -396,7 +386,6 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.buttonRight.color =  buttonRightColor[0];
 			case 'Pad-Duo':
 				hitbox.visible = false;
-				hitboxTG.visible = false;
 				
 				virtualPadd.destroy();
 				virtualPadd = new FlxVirtualPad(BOTH, controlExtend);
@@ -415,24 +404,15 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			case 'Hitbox':
 				hitbox.visible = true;
 				virtualPadd.visible = false;
-				hitboxTG.visible = false;
-				
 				hitbox.alpha = ClientPrefs.data.playControlsAlpha;
 
-			case 'Hitbox-TG':
-				hitboxTG.visible = true;
-				virtualPadd.visible = false;
-				hitbox.visible = false;
-				
-				hitboxTG.alpha = ClientPrefs.data.playControlsAlpha;
 			case 'Keyboard':
 				hitbox.visible = false;
 				virtualPadd.visible = false;
-				hitboxTG.visible = false;
 		}
 
 		funitext.visible = daChoice == 'Keyboard';
-		if (daChoice != 'Keyboard' || daChoice != 'Hitbox' || daChoice != 'Hitbox-TG')
+		if (daChoice != 'Keyboard' || daChoice != 'Hitbox')
 		resetButton.visible = true;
 		else resetButton.visible = false;
 
