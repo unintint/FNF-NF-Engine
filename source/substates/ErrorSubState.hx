@@ -25,8 +25,8 @@ class ErrorSubState extends MusicBeatSubstate
 	{
 		super();
 		
-		error = Std.string(e)
-		ManualError(error)
+		error = Std.string(e);
+		ManualError(error);
 		
 		errorText = new FlxText(100, 100, 200, error);
 		errorText.screenCenter(Y);
@@ -49,11 +49,11 @@ class ErrorSubState extends MusicBeatSubstate
 			close();
 		}else if(controls.ACCEPT) {
 			close();
-		}
+		};
 		addVirtualPad(NONE, A_B);
 		addVirtualPadCamera(false);
 		
-		mouseMove()
+		mouseMove();
 		
 		super.update(elapsed);
 	}
@@ -73,6 +73,6 @@ class ErrorSubState extends MusicBeatSubstate
 		avgSpeed = avgSpeed * 0.75 + moveData * 0.25;
 		
 		text.y += avgSpeed;
-        text.y = Math.max(50, Math.min(FlxG.height - text.height - 50, text.y));
+                text.y = Math.max(50, Math.min(FlxG.height - text.height - 50, text.y));
 	}
 }
