@@ -11,7 +11,6 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 {
 	public var virtualPad:FlxVirtualPad = new FlxVirtualPad(NONE, NONE);
 	public var hitbox:FlxHitbox = new FlxHitbox();
-	public var hitboxTG:FlxHitboxTG = new FlxHitboxTG();
 	// YOU CAN'T CHANGE PROPERTIES USING THIS EXCEPT WHEN IN RUNTIME!!
 	public var current:CurrentManager;
 
@@ -38,9 +37,7 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 				initControler(3);
 			case 4: // HITBOX
 				initControler(4);
-			case 5: // HITBOX TG
-				initControler(5);
-			case 6: // KEYBOARD
+			case 5: // KEYBOARD
 		}
 		current = new CurrentManager(this);
 		// Options related stuff
@@ -72,9 +69,6 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 			case 4:
 			  hitbox = new FlxHitbox();
 			  add(hitbox);
-			case 5:
-			  hitboxTG = new FlxHitboxTG();
-			  add(hitboxTG);
 		}
 	}
 
@@ -259,13 +253,6 @@ class CurrentManager {
 			buttonExtra2 = control.hitbox.buttonExtra2;
 			buttonExtra3 = control.hitbox.buttonExtra3;
 			buttonExtra4 = control.hitbox.buttonExtra4;
-		}else if(MobileControls.mode == 5) {
-			target = control.hitboxTG;
-			buttonLeft = control.hitboxTG.buttonLeft;
-			buttonDown = control.hitboxTG.buttonDown;
-			buttonUp = control.hitboxTG.buttonUp;
-			buttonRight = control.hitboxTG.buttonRight;
-			buttonExtra1 = control.hitboxTG.buttonExtra1;
 		} else {
 			target = control.virtualPad;
 			buttonLeft = control.virtualPad.buttonLeft;
