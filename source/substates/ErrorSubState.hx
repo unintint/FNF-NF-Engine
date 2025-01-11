@@ -9,15 +9,14 @@ using StringTools;
 
 class ErrorSubState extends MusicBeatSubstate
 {
+	var bg:FlxSprite;
+	var error:String;
+	var errorText:FlxText;
 	public function new(e:Dynamic)
 	{
 		#if !mobile
 		FlxG.mouse.visible = true;
 		#end
-			
-		var bg:FlxSprite;
-		var error:String;
-		var errorText:FlxText;
 		
 		error = Std.string(e);
 		saveErrorToFile(error);
@@ -32,6 +31,7 @@ class ErrorSubState extends MusicBeatSubstate
 		
 		add(bg);
 		add(errorText);
+		super()
 	}
 	
 	override function update(elapsed:Float)
