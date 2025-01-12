@@ -75,7 +75,7 @@ class CrashHandler
 				FileSystem.createDirectory('crash');
 
 			File.saveContent('crash/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.txt', '$m\n$stackLabel');
-			errorText = $m\n$stackLabel';
+			errorText = '$m\n$stackLabel';
                         FlxG.state.openSubState(new ErrorSubState(errorText));
 
 		}
