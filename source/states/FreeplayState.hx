@@ -349,6 +349,7 @@ class FreeplayState extends MusicBeatState
 					}
 				}
 				var mainerror:Dynamic;
+				var excerror:String;
 				try{
 					updateInfo(); //难度数据更新
 				} catch (e:Dynamic) {
@@ -358,7 +359,8 @@ class FreeplayState extends MusicBeatState
 					infoRating.data = 0;
 					infoSpeed.data = 0; //搜索后无歌曲的数据更新
 				} catch (erro:haxe.Exception) {
-					openSubState(new ErrorSubState(mainerror,erro.stack));
+					excerror = erro.stack;
+					openSubState(new ErrorSubState(mainerror, excerror));
 				}
 			}
 		} else {
