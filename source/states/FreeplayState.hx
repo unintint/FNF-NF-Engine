@@ -350,8 +350,8 @@ class FreeplayState extends MusicBeatState
 				}
 				try{
 					updateInfo(); //难度数据更新
-				} catch (e:haxe.Exception) {
-					openSubState(new ErrorSubState(e.stack));
+				} catch (e:Dynamic) {
+					openSubState(new ErrorSubState(e,e.stack));
 					ignoreCheck = true;
 					infoNote.data = 0;
 					infoRating.data = 0;
@@ -589,8 +589,8 @@ class FreeplayState extends MusicBeatState
 		updateRect();
 		try{
 			updateInfo(); //难度数据更新
-		} catch (e:haxe.Exception) {
-			openSubState(new ErrorSubState(e));
+		} catch (e:Dynamic) {
+			openSubState(new ErrorSubState(e,e.stack));
 			ignoreCheck = true;
 			infoNote.data = 0;
 			infoRating.data = 0;
