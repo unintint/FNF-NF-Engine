@@ -34,8 +34,9 @@ class FPS extends Sprite
 	    
         extraShow = new ExtraCounter(10, 70);
         addChild(extraShow);
-	    extraShow.update();
-        
+	extraShow.update();
+	    
+	extraShow.visible = ClientPrefs.data.showExtra;
     }
     
     private override function __enterFrame(deltaTime:Float):Void
