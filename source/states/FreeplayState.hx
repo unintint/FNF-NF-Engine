@@ -32,8 +32,6 @@ import states.LoadingState;
 import states.editors.ChartingState;
 import options.OptionsState;
 
-import mobile.backend.ManualError;
-
 class FreeplayState extends MusicBeatState
 {
 	static public var instance:FreeplayState;
