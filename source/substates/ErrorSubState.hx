@@ -17,10 +17,10 @@ class ErrorSubState extends MusicBeatSubstate
 	var moveData:Int = 0;
 	var avgSpeed:Float = 0;
 
-	public function new(error:String)
+	public function new(stack:String)
 	{
 		super();
-		
+		error = stack;
 		FlxG.mouse.visible = true;
 	}
 
