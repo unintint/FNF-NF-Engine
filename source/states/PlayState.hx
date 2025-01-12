@@ -1925,6 +1925,7 @@ class PlayState extends MusicBeatState
 	var canPause:Bool = true;
 	var freezeCamera:Bool = false;
 	var allowDebugKeys:Bool = true;	
+	var pressPaue:Int = 0;
 
 	override public function update(elapsed:Float)
 	{
@@ -1947,7 +1948,16 @@ class PlayState extends MusicBeatState
     				openPauseMenu();
     				super.update(elapsed);
     				return;
-    			}
+    			} else if (ret == LuaUtils.Function_Stop && ClientPrefs.data.CompulsionPause) {
+    			    if(pressPaue < ClientPrefs.data.CompulsionPauseNumber) {
+    			        pressPaue++;
+    			    } else {
+    			        pressPaue = 0;
+    			        openPauseMenu();
+    				    super.update(elapsed);
+    				    return;
+    			    }
+			}
     		}
 		}
 
