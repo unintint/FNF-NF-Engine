@@ -350,8 +350,8 @@ class FreeplayState extends MusicBeatState
 				}
 				try{
 					updateInfo(); //难度数据更新
-				} catch (e:Dynamic) {
-					openSubState(new ErrorSubState(e,e.stack));
+				} catch (e:Dynamic,erro:Exception) {
+					openSubState(new ErrorSubState(e,erro.stack));
 					ignoreCheck = true;
 					infoNote.data = 0;
 					infoRating.data = 0;
