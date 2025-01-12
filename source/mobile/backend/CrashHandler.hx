@@ -4,6 +4,7 @@ import openfl.events.UncaughtErrorEvent;
 import openfl.events.ErrorEvent;
 import openfl.errors.Error;
 
+import flixel.FlxSubState;
 import substates.ErrorSubState;
 import states.MainMenuState;
 #if sys
