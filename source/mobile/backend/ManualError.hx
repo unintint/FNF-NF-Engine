@@ -26,7 +26,7 @@ function saveErrorToFile(main:String = null ,stack:String):Void
             formattedStack += "$main\n$file/$method [line $lineNum]\n";
         }
     }
-    openSubState(new ErrorSubState(formattedStack))
+    openSubState(new ErrorSubState(formattedStack));
     try
     {
         if (!FileSystem.exists('crash'))
