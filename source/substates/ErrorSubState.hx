@@ -35,7 +35,7 @@ class ErrorSubState extends MusicBeatSubstate
 		add(bg);
 
 		errorText = new FlxText(0, 0, FlxG.width, error, 50);
-		errorText.font = Paths.font('Lang-ZH.ttf');
+		//errorText.font = Paths.font('Lang-ZH.ttf');
 		add(errorText);
 
 		addVirtualPad(NONE, A_B);
