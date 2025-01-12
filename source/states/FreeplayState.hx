@@ -592,6 +592,8 @@ class FreeplayState extends MusicBeatState
 
 		createDiff(start);
 		updateRect();
+		var mainerror:Dynamic;
+		var excerror:String;
 		try{
 			updateInfo(); //难度数据更新
 		} catch (e:Dynamic) {
