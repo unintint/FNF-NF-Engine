@@ -57,7 +57,7 @@ class ErrorSubState extends MusicBeatSubstate
 		};
 		
 		mouseMove();
-		
+		FlxG.state.persistentUpdate = false;
 		super.update(elapsed);
 	}
 	override function destroy(){
