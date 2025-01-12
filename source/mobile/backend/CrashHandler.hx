@@ -49,6 +49,7 @@ class CrashHandler
 		var stack = haxe.CallStack.exceptionStack();
 		var stackLabelArr:Array<String> = [];
 		var stackLabel:String = "";
+		var errorText:String = "Oh Shit!";
 		for(e in stack) {
 			switch(e) {
 				case CFunction: stackLabelArr.push("Non-Haxe (C) Function");
@@ -74,13 +75,15 @@ class CrashHandler
 				FileSystem.createDirectory('crash');
 
 			File.saveContent('crash/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.txt', '$m\n$stackLabel');
+			errorText = Std.string('$m\n$stackLabel');
+
 		}
 		catch (e:haxe.Exception)
 			trace('Couldn\'t save error message. (${e.message})');
 		#end
 
 		//mobile.backend.SUtil.showPopUp('$m\n$stackLabel', "Error!");
-		FlxG.state.openSubState(new ErrorSubState('$m\n$stackLabel'));
+		FlxG.state.openSubState(new ErrorSubState(errorText));
 	}
 
 	#if (cpp || hl)
