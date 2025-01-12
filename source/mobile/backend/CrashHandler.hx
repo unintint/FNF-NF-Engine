@@ -75,7 +75,8 @@ class CrashHandler
 				FileSystem.createDirectory('crash');
 
 			File.saveContent('crash/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.txt', '$m\n$stackLabel');
-			errorText = Std.string('$m\n$stackLabel');
+			errorText = $m\n$stackLabel';
+                        FlxG.state.openSubState(new ErrorSubState(errorText));
 
 		}
 		catch (e:haxe.Exception)
@@ -83,7 +84,6 @@ class CrashHandler
 		#end
 
 		//mobile.backend.SUtil.showPopUp('$m\n$stackLabel', "Error!");
-		FlxG.state.openSubState(new ErrorSubState(errorText));
 	}
 
 	#if (cpp || hl)
