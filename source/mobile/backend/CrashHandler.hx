@@ -3,6 +3,9 @@ package mobile.backend;
 import openfl.events.UncaughtErrorEvent;
 import openfl.events.ErrorEvent;
 import openfl.errors.Error;
+
+import substates.ErrorSubState;
+import states.MainMenuState;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
@@ -75,7 +78,8 @@ class CrashHandler
 			trace('Couldn\'t save error message. (${e.message})');
 		#end
 
-		mobile.backend.SUtil.showPopUp('$m\n$stackLabel', "Error!");
+		//mobile.backend.SUtil.showPopUp('$m\n$stackLabel', "Error!");
+		openSubState(new ErrorSubState('$m\n$stackLabel'));
 
 		#if js
 		if (flixel.FlxG.sound.music != null)
@@ -83,7 +87,8 @@ class CrashHandler
 
 		js.Browser.window.location.reload(true);
 		#else
-		lime.system.System.exit(1);
+		//lime.system.System.exit(1);
+		FlxG.switchState(new MainMenuState());
 		#end
 	}
 
