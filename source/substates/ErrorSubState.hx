@@ -26,22 +26,16 @@ class ErrorSubState extends MusicBeatSubstate
 	override function create()
 	{
 		super.create();
-		/*
+		
 		bg = new FlxSprite().loadGraphic(Paths.image('egg'));
 		bg.width = FlxG.width;
 		bg.height = FlxG.height;
 		bg.alpha = 0;
 		add(bg);
-                */
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		bg.alpha = 0;
-		add(bg);
 
 		errorText = new FlxText(0, 0, FlxG.width, error, 50);
 		errorText.font = Paths.font('Lang-ZH.ttf');
-		
 		add(errorText);
-		errorText.visible = true;
 
 		addVirtualPad(NONE, A_B);
 	}
