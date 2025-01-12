@@ -32,6 +32,8 @@ import states.LoadingState;
 import states.editors.ChartingState;
 import options.OptionsState;
 
+import mobile.backend.ManualError;
+
 class FreeplayState extends MusicBeatState
 {
 	static public var instance:FreeplayState;
@@ -360,7 +362,7 @@ class FreeplayState extends MusicBeatState
 					infoSpeed.data = 0; //搜索后无歌曲的数据更新
 				} catch (erro:haxe.Exception) {
 					excerror = erro.stack;
-					openSubState(new ErrorSubState(mainerror, excerror));
+					saveErrorToFile(mainerror, excerror);
 				}
 			}
 		} else {
@@ -592,6 +594,7 @@ class FreeplayState extends MusicBeatState
 
 		createDiff(start);
 		updateRect();
+		
 		var mainerror:Dynamic;
 		var excerror:String;
 		try{
@@ -604,7 +607,7 @@ class FreeplayState extends MusicBeatState
 			infoSpeed.data = 0; //搜索后无歌曲的数据更新
 		} catch (erro:haxe.Exception) {
 			excerror = erro.stack;
-			openSubState(new ErrorSubState(mainerror, excerror));
+			saveErrorToFile(mainerror, excerror);
 		}
 		updateVoice();
 		_updateSongLastDifficulty();
