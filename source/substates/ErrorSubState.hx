@@ -3,7 +3,6 @@ package substates;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxSubState;
 import flixel.text.FlxText;
-import mobile.backend.ManualError;
 
 using StringTools;
 
