@@ -350,19 +350,14 @@ class FreeplayState extends MusicBeatState
 						}
 					}
 				}
-				var mainerror:Dynamic;
-				var excerror:String;
+				
 				try{
 					updateInfo(); //难度数据更新
 				} catch (e:Dynamic) {
-					mainerror = e;
 					ignoreCheck = true;
 					infoNote.data = 0;
 					infoRating.data = 0;
 					infoSpeed.data = 0; //搜索后无歌曲的数据更新
-				} catch (erro:haxe.Exception) {
-					excerror = erro.stack;
-					saveErrorToFile(mainerror, excerror);
 				}
 			}
 		} else {
@@ -595,19 +590,13 @@ class FreeplayState extends MusicBeatState
 		createDiff(start);
 		updateRect();
 		
-		var mainerror:Dynamic;
-		var excerror:String;
 		try{
 			updateInfo(); //难度数据更新
-		} catch (e:Dynamic) {
-			mainerror = e;
+		} catch (e:Dynamic) {				
 			ignoreCheck = true;
 			infoNote.data = 0;
 			infoRating.data = 0;
 			infoSpeed.data = 0; //搜索后无歌曲的数据更新
-		} catch (erro:haxe.Exception) {
-			excerror = erro.stack;
-			saveErrorToFile(mainerror, excerror);
 		}
 		updateVoice();
 		_updateSongLastDifficulty();
