@@ -81,16 +81,6 @@ class CrashHandler
 
 		//mobile.backend.SUtil.showPopUp('$m\n$stackLabel', "Error!");
 		FlxG.state.openSubState(new ErrorSubState('$m\n$stackLabel'));
-
-		#if js
-		if (flixel.FlxG.sound.music != null)
-			flixel.FlxG.sound.music.stop();
-
-		js.Browser.window.location.reload(true);
-		#else
-		//lime.system.System.exit(1);
-		FlxG.switchState(new MainMenuState());
-		#end
 	}
 
 	#if (cpp || hl)
