@@ -11,7 +11,7 @@ class ErrorSubState extends MusicBeatSubstate
 {
 	var errorText:FlxText;
 	var bg:FlxSprite;
-	var error:String = "Nope";
+	var error:String = "Oh Shit!";
 	
 	var saveMouseY:Int = 0;
 	var moveData:Int = 0;
@@ -20,7 +20,7 @@ class ErrorSubState extends MusicBeatSubstate
 	public function new(stack:String)
 	{
 		super();
-		error = stack;
+		error = "Oh Shit!" + "\n" + stack;
 		FlxG.mouse.visible = true;
 	}
 
@@ -36,8 +36,9 @@ class ErrorSubState extends MusicBeatSubstate
 
 		errorText = new FlxText(0, 0, FlxG.width, error, 50);
 		errorText.font = Paths.font(Language.get('fontName', 'ma') + '.ttf');
-		errorText.screenCenter(Y);
+		
 		add(errorText);
+		errorText.visible = true;
 
 		addVirtualPad(NONE, A_B);
 	}
