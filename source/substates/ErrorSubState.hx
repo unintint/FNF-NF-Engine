@@ -17,14 +17,11 @@ class ErrorSubState extends MusicBeatSubstate
 	var moveData:Int = 0;
 	var avgSpeed:Float = 0;
 
-	public function new(e:haxe.Exception)
+	public function new(error:String)
 	{
 		super();
-		#if !mobile
-		FlxG.mouse.visible = true;
-		#end
 		
-		error = Std.string(e);
+		FlxG.mouse.visible = true;
 	}
 
 	override function create()
@@ -48,7 +45,6 @@ class ErrorSubState extends MusicBeatSubstate
 		if(bg.alpha > 0.6) bg.alpha = 0.6;
 
 		if(controls.BACK) {
-			saveErrorToFile(error);
 			close();
 		}else if(controls.ACCEPT) {
 			close();
@@ -62,6 +58,9 @@ class ErrorSubState extends MusicBeatSubstate
 	override function destroy(){
 		bg = FlxDestroyUtil.destroy(bg);
 		errorText = FlxDestroyUtil.destroy(errorText);
+		#if mobile
+			FlxG.mouse.visible = false;
+		#end
 		super.destroy();
 	}
 	
