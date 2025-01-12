@@ -11,6 +11,7 @@ class ErrorSubState extends MusicBeatSubstate
 {
 	var errorText:FlxText;
 	var error:String = "Oh Shit!";
+	var bg:FlxSprite;
 	
 	var saveMouseY:Int = 0;
 	var moveData:Int = 0;
