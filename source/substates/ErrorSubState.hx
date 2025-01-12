@@ -3,6 +3,7 @@ package substates;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxSubState;
 import flixel.text.FlxText;
+import states.MainMenuState;
 
 using StringTools;
 
@@ -45,8 +46,10 @@ class ErrorSubState extends MusicBeatSubstate
 
 		if(controls.BACK) {
 			close();
+			FlxG.switchState(new MainMenuState());
 		}else if(controls.ACCEPT) {
 			close();
+			FlxG.switchState(new MainMenuState());
 			//这个位置要放解决代码崩溃的代码
 		};
 		
