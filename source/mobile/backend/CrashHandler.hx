@@ -80,7 +80,7 @@ class CrashHandler
 		#end
 
 		//mobile.backend.SUtil.showPopUp('$m\n$stackLabel', "Error!");
-		openSubState(new ErrorSubState('$m\n$stackLabel'));
+		FlxG.state.openSubState(new ErrorSubState('$m\n$stackLabel'));
 
 		#if js
 		if (flixel.FlxG.sound.music != null)
