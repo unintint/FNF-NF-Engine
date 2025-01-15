@@ -8,6 +8,7 @@ class Highscore
     public static var songTimes:Map<String, String> = new Map<String, String>();
     public static var songNoteMs:Map<String, Array<Float>> = new Map<String, Array<Float>>();
     public static var songNoteTime:Map<String, Array<Float>> = new Map<String, Array<Float>>();
+    public static var songNoteKey:Map<String, Array<Array<Dynamic>> = new Map<String, Array<Dynamic>>();
     
 	public static function resetSong(song:String, diff:Int = 0):Void
 	{
@@ -17,6 +18,7 @@ class Highscore
 		setRating(daSong, 0);
 		setMsGroup(daSong, []);
 		setTimeGroup(daSong, []);
+		setKeyGrpup(daSong, []);
 	}
 
 	public static function resetWeek(week:String, diff:Int = 0):Void
@@ -111,6 +113,14 @@ class Highscore
 		FlxG.save.flush();
 	}
 
+	static function setKeyGroup(song:String, group:Array<Float>):Void
+	{
+		// Reminder that I don't need to format this song, it should come formatted!
+		songNoteKey.set(song, group);
+		FlxG.save.data.songNoteKey = songNoteKey;
+		FlxG.save.flush();
+	}
+
 	public static function formatSong(song:String, diff:Int):String
 	{
 		return Paths.formatToSongPath(song) + Difficulty.getFilePath(diff);
@@ -170,6 +180,15 @@ class Highscore
 		return songNoteTime.get(daSong);				
 	}
 
+	public static function getKeyGroup(song:String, diff:Int):Array<Float>
+	{
+		var daSong:String = formatSong(song, diff);
+		if (!songNoteKey.exists(daSong)){
+			setKeyGroup(daSong, []);			
+        }
+		return songNoteKey.get(daSong);				
+	}
+
 	public static function load():Void
 	{
 		if (FlxG.save.data.weekScores != null)
@@ -196,5 +215,10 @@ class Highscore
 		{
 			songNoteTime = FlxG.save.data.songNoteTime;
 		}
+		if (FlxG.save.data.songNoteKey != null)
+		{
+			songNoteKey = FlxG.save.data.songNoteKey;
+		}
+		
 	}
 }
