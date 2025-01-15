@@ -18,12 +18,26 @@ class GeneralGroup
         follow.add(reset);
 
         var option:Option = new Option(
+            'noteRecording',
+            'noteRecording',
+            BOOL
+        );
+        follow.addOption(option);
+
+	var option:Option = new Option(
+            'notePlayback',
+            'notePlayback',
+            BOOL
+        );
+        follow.addOption(option);
+	    
+        var option:Option = new Option(
             Language.get('framerate'),
             'framerate',
             INT,
             24,
             500,
-            'FPS'
+	    'FPS'
         );
         follow.addOption(option);
         option.onChange = onChangeFramerate;
