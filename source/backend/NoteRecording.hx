@@ -1,6 +1,7 @@
 package backend;
 
 import backend.ClientPrefs;
+import backend.Song;
 import flixel.util.FlxSave;
 import states.PlayState;
 
@@ -15,7 +16,7 @@ class NoteRecording extends PlayState
             
             var load:FlxSave = new FlxSave();
             load.bind(Paths.formatToSongPath(SONG.song), CoolUtil.getSavePath());
-            noteSave = load.get("KeyData", []);
+            noteSave = load.data.KeyData;
         }
     }
 
@@ -38,7 +39,7 @@ class NoteRecording extends PlayState
     }
     public function save(){
         var save:FlxSave = new FlxSave();
-        save.data["KeyData"] = noteSave;
+        save.data.KeyData = noteSave;
         save.bind(Paths.formatToSongPath(SONG.song), CoolUtil.getSavePath());
         save.flush();
     }
