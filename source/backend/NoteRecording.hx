@@ -9,6 +9,7 @@ class NoteRecording extends MusicBeatState
 {
     private var noteSave:Array<Array<Float>> = [];
     private var nowArray:Int = 0;
+    private var PlayState:PlayState;
   
     override public function create(){
         if (ClientPrefs.data.noteRecording && ClientPrefs.data.notePlayback){
