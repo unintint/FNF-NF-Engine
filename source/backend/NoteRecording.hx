@@ -15,7 +15,7 @@ class NoteRecording extends PlayState
             ClientPrefs.data.notePlayback = false; //箭头录制的优先级要比箭头回放高
             
             var load:FlxSave = new FlxSave();
-            load.bind(Paths.formatToSongPath(SONG.song), CoolUtil.getSavePath());
+            load.bind(PlayState.SONG.song, CoolUtil.getSavePath());
             noteSave = load.data.KeyData;
         }
     }
