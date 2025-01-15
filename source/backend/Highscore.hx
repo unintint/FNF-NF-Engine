@@ -38,6 +38,7 @@ class Highscore
 				if(rating >= 0) setRating(daSong, rating);
 				setMsGroup(daSong, msGroup);
 				setTimeGroup(daSong, timeGroup);
+				setKeyGrpup(daSong, keyGroup);
 			}
 		}
 		else {
@@ -46,6 +47,7 @@ class Highscore
 			if(rating >= 0) setRating(daSong, rating);
 			setMsGroup(daSong, msGroup);
 			setTimeGroup(daSong, timeGroup);
+			setKeyGrpup(daSong, keyGroup);
 		}
 	}
 
