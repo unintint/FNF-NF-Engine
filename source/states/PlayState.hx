@@ -241,6 +241,8 @@ class PlayState extends MusicBeatState
 	public var cpuControlled_opponent:Bool = false;
 	public var practiceMode:Bool = false;
 
+	private var noteRecording:NoteRecording;
+
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
 
@@ -2798,7 +2800,7 @@ class PlayState extends MusicBeatState
 
 		keyboardDisplay.save();
 		if(ClientPrefs.data.noteRecording){
-			NoteRecording.save();
+			noteRecording.save();
 		}
 
 		timeBar.visible = false;
@@ -3240,7 +3242,7 @@ class PlayState extends MusicBeatState
 		if(!generatedMusic || endingSong || char.stunned) return;
 
 		keyboardDisplay.pressed(key);
-		NoteRecording.pressed(key);
+		noteRecording.pressed(key);
 
 		// had to name it like this else it'd break older scripts lol
 		var ret:Dynamic = callOnScripts('preKeyPress', [key], true);		
