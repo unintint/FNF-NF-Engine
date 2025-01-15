@@ -1941,7 +1941,7 @@ class PlayState extends MusicBeatState
 	{
             if (ClientPrefs.data.notePlayback){
 		
-		if(NoteKey[nowArray][1] <= backend.Conductor.songPosition <= NoteKey[nowArray][2]){
+		if(NoteKey[nowArray][1] <= backend.Conductor.songPosition && backend.Conductor.songPosition <= NoteKey[nowArray][2]){
                     keyPressed(NoteKey[nowArray][0]);
 		    ispressed = true;
                 }else{
@@ -3246,7 +3246,7 @@ class PlayState extends MusicBeatState
 		}
 	}
         public var record:Array<Dynamic> = [];
-        var startpresstime:Int;
+        var startpresstime:Float;
         
         public function startPressed(key:Int){
 		startpresstime = backend.Conductor.songPosition;
