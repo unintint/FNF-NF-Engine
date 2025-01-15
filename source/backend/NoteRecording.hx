@@ -1,9 +1,5 @@
 package backend;
 
-class NoteRecording extends PlayState
-{
-    package backend;
-
 import backend.ClientPrefs;
 import flixel.util.FlxSave;
 import states.PlayState;
@@ -16,14 +12,18 @@ class NoteRecording extends PlayState
     override public function create(){
         if (ClientPrefs.data.noteRecording && ClientPrefs.data.notePlayback){
             ClientPrefs.data.notePlayback = false; //箭头录制的优先级要比箭头回放高
+            
+            var load:FlxSave = new FlxSave();
+            load.bind(PlayState.songName, CoolUtil.getSavePath());
+            noteSave = load.get("KeyData", []);
         }
     }
 
     override public function update(elapsed:Float){
-        if(ClientPrefs.data.notePlayback){
+        if(ClientPrefs.data.notePlayback && noteSave.length > 0){
             if(noteSave[nowArray][1] == backend.Conductor.songPosition){
                  PlayState.keyPressed(noteSave[nowArray][0]);
-                 if(nowArray < noteSave.length - 1){
+                 if(nowArray == noteSave.length - 1){
                      nowArray++; //天知道这个组有多长，直接遍历整个组可能卡到爆炸
                  }
             }
@@ -39,8 +39,7 @@ class NoteRecording extends PlayState
     public function save(){
         var save:FlxSave = new FlxSave();
         save.set("KeyData", noteSave);
-        save.bind(Playstate.songName, CoolUtil.getSavePath());
+        save.bind(PlayState.songName, CoolUtil.getSavePath());
         save.flush();
     }
-}
 }
