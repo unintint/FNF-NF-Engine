@@ -5,7 +5,7 @@ import backend.Song;
 import flixel.util.FlxSave;
 import states.PlayState;
 
-class NoteRecording extends PlayState
+class NoteRecording extends MusicBeatState
 {
     private var noteSave:Array<Array<Float>> = [];
     private var nowArray:Int = 0;
@@ -20,7 +20,7 @@ class NoteRecording extends PlayState
         }
     }
 
-    override public function update(elapsed:Float){
+    override public static function update(elapsed:Float){
         if(ClientPrefs.data.notePlayback && noteSave.length > 0){
             if(noteSave[nowArray][1] == backend.Conductor.songPosition){
                  PlayState.keyPressed(noteSave[nowArray][0]);
@@ -31,13 +31,13 @@ class NoteRecording extends PlayState
         }
     }
   
-    public function pressed(key:Int){
+    public static function pressed(key:Int){
         if (ClientPrefs.data.noteRecording){
             var record:Array<Float> = [key,backend.Conductor.songPosition];
             noteSave.push(record);
         }
     }
-    public function save(){
+    public static function save(){
         var save:FlxSave = new FlxSave();
         save.data.KeyData = noteSave;
         save.bind(PlayState.SONG.song, CoolUtil.getSavePath());
