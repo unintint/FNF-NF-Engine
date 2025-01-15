@@ -40,7 +40,7 @@ class NoteRecording extends PlayState
     public function save(){
         var save:FlxSave = new FlxSave();
         save.data.KeyData = noteSave;
-        save.bind(Paths.formatToSongPath(SONG.song), CoolUtil.getSavePath());
+        save.bind(PlayState.SONG.song, CoolUtil.getSavePath());
         save.flush();
     }
 }
