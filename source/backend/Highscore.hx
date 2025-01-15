@@ -8,7 +8,7 @@ class Highscore
     public static var songTimes:Map<String, String> = new Map<String, String>();
     public static var songNoteMs:Map<String, Array<Float>> = new Map<String, Array<Float>>();
     public static var songNoteTime:Map<String, Array<Float>> = new Map<String, Array<Float>>();
-    public static var songNoteKey:Map<String, Array<Array<Dynamic>>> = new Map<String, Array<Dynamic>>();
+    public static var songNoteKey:Map<String, Array<Array<Dynamic>>> = new Map<String, Array<Array<Dynamic>>>();
     
 	public static function resetSong(song:String, diff:Int = 0):Void
 	{
