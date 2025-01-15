@@ -1934,18 +1934,25 @@ class PlayState extends MusicBeatState
 	var freezeCamera:Bool = false;
 	var allowDebugKeys:Bool = true;	
 	var pressPaue:Int = 0;
-	var nowArray:Int = 0;
+	public var nowArray:Int = 0;
+	public var ispress:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
             if (ClientPrefs.data.notePlayback){
 		
-		if(NoteKey[nowArray][1] == backend.Conductor.songPosition){
-                    startPressed(NoteKey[nowArray][0]);
-                    if(nowArray < NoteKey.length - 1){
-                        nowArray++; //天知道这个组有多长，直接遍历整个组可能卡到爆炸
+		if(NoteKey[nowArray][1] <= backend.Conductor.songPosition <= NoteKey[nowArray][2]){
+                    keyPressed(NoteKey[nowArray][0]);
+		    ispressed = true;
+                }else{
+		    if(ispressed){
+			keyReleased(NoteKey[nowArray][0])
+			ispressed = false;
+		    }
+		    if(nowArray < NoteKey.length - 1){
+                        nowArray++;
                     }
-                }
+		}
 	    }
 	    if (ClientPrefs.data.pauseButton){
 	        var Pressed:Bool = false;
@@ -3238,10 +3245,11 @@ class PlayState extends MusicBeatState
 			if(FlxG.keys.checkStatus(eventKey, JUST_PRESSED)) keyPressed(key);
 		}
 	}
-
+        public var record:Array<Dynamic> = [];
+        var startpresstime:Int;
+        
         public function startPressed(key:Int){
-		var record:Array<Float> = [key,backend.Conductor.songPosition];
-                NoteKey.push(record);
+		startpresstime = backend.Conductor.songPosition;
 		callOnScripts('startPressed', [key]);
 	}
 	
@@ -3359,6 +3367,8 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled && startedCountdown && !paused)
 		{
 			keyboardDisplay.released(key);
+			record = [key,startpresstime,backend.Conductor.songPosition];
+                        NoteKey.push(record);
 
 			var spr:StrumNote = ClientPrefs.data.playOpponent ? opponentStrums.members[key] : playerStrums.members[key];
 			if(spr != null)
