@@ -23,7 +23,7 @@ class NoteRecording extends PlayState
         if(ClientPrefs.data.notePlayback && noteSave.length > 0){
             if(noteSave[nowArray][1] == backend.Conductor.songPosition){
                  PlayState.keyPressed(noteSave[nowArray][0]);
-                 if(nowArray == noteSave.length - 1){
+                 if(nowArray != noteSave.length - 1){
                      nowArray++; //天知道这个组有多长，直接遍历整个组可能卡到爆炸
                  }
             }
