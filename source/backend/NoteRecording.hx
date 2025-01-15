@@ -7,7 +7,7 @@ import states.PlayState;
 
 class NoteRecording extends MusicBeatState
 {
-    private var noteSave:Array<Array<Float>> = [];
+    private var noteSave:Array = [];
     private var nowArray:Int = 0;
     private var PlayState:PlayState;
   
@@ -16,7 +16,7 @@ class NoteRecording extends MusicBeatState
             ClientPrefs.data.notePlayback = false; //箭头录制的优先级要比箭头回放高
             
             var load:FlxSave = new FlxSave();
-            load.bind(PlayState.SONG.song, CoolUtil.getSavePath());
+            load.bind(PlayState.songName, CoolUtil.getSavePath());
             noteSave = load.data.KeyData;
         }
     }
@@ -41,7 +41,7 @@ class NoteRecording extends MusicBeatState
     public function save(){
         var save:FlxSave = new FlxSave();
         save.data.KeyData = noteSave;
-        save.bind(PlayState.SONG.song, CoolUtil.getSavePath());
+        save.bind(PlayState.songName, CoolUtil.getSavePath());
         save.flush();
     }
 }
