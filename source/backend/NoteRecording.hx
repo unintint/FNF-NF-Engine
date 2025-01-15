@@ -7,7 +7,8 @@ import states.PlayState;
 
 class NoteRecording extends MusicBeatState
 {
-    private var noteSave:Array<Array> = [];
+    private var noteSave:Array<Array<Dynamic>> = [];
+
     private var nowArray:Int = 0;
     private var PlayState:PlayState;
   
