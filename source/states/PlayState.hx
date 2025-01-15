@@ -2797,7 +2797,7 @@ class PlayState extends MusicBeatState
 		}
 
 		keyboardDisplay.save();
-		if(ClientPrefs.data.NoteRecording){
+		if(ClientPrefs.data.noteRecording){
 			NoteRecording.save();
 		}
 
