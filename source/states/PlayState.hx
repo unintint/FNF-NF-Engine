@@ -6,6 +6,7 @@ import backend.WeekData;
 import backend.Song;
 import backend.Section;
 import backend.Rating;
+import backend.noteRecording;
 
 import flixel.FlxBasic;
 import flixel.FlxObject;
@@ -2792,6 +2793,7 @@ class PlayState extends MusicBeatState
 		}
 
 		keyboardDisplay.save();
+		noteRecording.save();
 
 		timeBar.visible = false;
 		timeTxt.visible = false;
@@ -3228,6 +3230,7 @@ class PlayState extends MusicBeatState
 		if(!generatedMusic || endingSong || char.stunned) return;
 
 		keyboardDisplay.pressed(key);
+		noteRecording.pressed(key);
 
 		// had to name it like this else it'd break older scripts lol
 		var ret:Dynamic = callOnScripts('preKeyPress', [key], true);		
