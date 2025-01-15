@@ -3229,7 +3229,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 	
-	private function keyPressed(key:Int)
+	private static function keyPressed(key:Int)
 	{
 		if(ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled || paused || key < 0) return;
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
