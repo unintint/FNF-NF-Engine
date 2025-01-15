@@ -53,6 +53,9 @@ import states.TitleState;
 	public var safeFrames:Float = 10;			
 	public var marvelousRating:Bool = true;	
 	public var marvelousSprite:Bool = true;	
+	public var noteRecording:Bool = false; //箭头的录制
+	public var notePlayback:Bool = false; //箭头的回放
+	
 	//App backend s
 	public var discordRPC:Bool = true;
 	public var checkForUpdates:Bool = true;
