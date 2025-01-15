@@ -113,7 +113,7 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	static function setKeyGroup(song:String, group:Array<Float>):Void
+	static function setKeyGroup(song:String, group:Array<Array<Dynamic>>):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songNoteKey.set(song, group);
