@@ -354,6 +354,10 @@ class PlayState extends MusicBeatState
 		guitarHeroSustains = ClientPrefs.data.guitarHeroSustains;
         if (ClientPrefs.data.playOpponent) cpuControlled = ClientPrefs.data.botOpponentFix;
 
+		if(ClientPrefs.data.noteRecording || ClientPrefs.data.notePlayback){
+                    ClientPrefs.getGameplaySetting('botplay') = false; //不允许投机取巧😈
+                }
+
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = initPsychCamera();
 		camHUD = new FlxCamera();
