@@ -355,7 +355,7 @@ class PlayState extends MusicBeatState
         if (ClientPrefs.data.playOpponent) cpuControlled = ClientPrefs.data.botOpponentFix;
 
 		if(ClientPrefs.data.noteRecording || ClientPrefs.data.notePlayback){
-                    ClientPrefs.getGameplaySetting('botplay') = false; //不允许投机取巧😈
+                    ClientPrefs.data.gameplaySettings.set('botplay', false);//不允许投机取巧😈
                 }
 
 		// var gameCam:FlxCamera = FlxG.camera;
