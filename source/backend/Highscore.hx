@@ -18,7 +18,7 @@ class Highscore
 		setRating(daSong, 0);
 		setMsGroup(daSong, []);
 		setTimeGroup(daSong, []);
-		setKeyGrpup(daSong, []);
+		setKeyGroup(daSong, []);
 	}
 
 	public static function resetWeek(week:String, diff:Int = 0):Void
@@ -38,7 +38,7 @@ class Highscore
 				if(rating >= 0) setRating(daSong, rating);
 				setMsGroup(daSong, msGroup);
 				setTimeGroup(daSong, timeGroup);
-				setKeyGrpup(daSong, keyGroup);
+				setKeyGroup(daSong, keyGroup);
 			}
 		}
 		else {
@@ -47,7 +47,7 @@ class Highscore
 			if(rating >= 0) setRating(daSong, rating);
 			setMsGroup(daSong, msGroup);
 			setTimeGroup(daSong, timeGroup);
-			setKeyGrpup(daSong, keyGroup);
+			setKeyGroup(daSong, keyGroup);
 		}
 	}
 
@@ -182,7 +182,7 @@ class Highscore
 		return songNoteTime.get(daSong);				
 	}
 
-	public static function getKeyGroup(song:String, diff:Int):Array<Float>
+	public static function getKeyGroup(song:String, diff:Int):Array<Array<Dynamic>>
 	{
 		var daSong:String = formatSong(song, diff);
 		if (!songNoteKey.exists(daSong)){
