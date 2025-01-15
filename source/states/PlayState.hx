@@ -2793,7 +2793,9 @@ class PlayState extends MusicBeatState
 		}
 
 		keyboardDisplay.save();
-		noteRecording.save();
+		if(ClientPrefs.noteRecording){
+			noteRecording.save();
+		}
 
 		timeBar.visible = false;
 		timeTxt.visible = false;
