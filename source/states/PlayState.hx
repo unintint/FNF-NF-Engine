@@ -6,7 +6,6 @@ import backend.WeekData;
 import backend.Song;
 import backend.Section;
 import backend.Rating;
-import backend.NoteRecording;
 
 import flixel.FlxBasic;
 import flixel.FlxObject;
@@ -241,8 +240,6 @@ class PlayState extends MusicBeatState
 	public var cpuControlled_opponent:Bool = false;
 	public var practiceMode:Bool = false;
 
-	private var noteRecording:NoteRecording;
-
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
 
@@ -314,6 +311,8 @@ class PlayState extends MusicBeatState
 	public var endCallback:Void->Void = null;
 
 	public var luaVirtualPad:FlxVirtualPad;
+
+	public var NoteKey:Array<Array<Dynamic>> = [];
 	
 	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, ?preloadEvents:Array<Array<Dynamic>>) {
 	    super();
@@ -760,7 +759,7 @@ class PlayState extends MusicBeatState
 
 		mobileControls.active = mobileControls.visible = true;
 
-		noteRecording = new NoteRecording();
+		NoteKey = Highscore.getKeyGroup(songName, storyDifficulty);
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -1935,9 +1934,19 @@ class PlayState extends MusicBeatState
 	var freezeCamera:Bool = false;
 	var allowDebugKeys:Bool = true;	
 	var pressPaue:Int = 0;
+	var nowArray:Int = 0;
 
 	override public function update(elapsed:Float)
 	{
+            if (ClientPrefs.data.notePlayback){
+		
+		if(NoteKey[nowArray][1] == backend.Conductor.songPosition){
+                    startPressed(NoteKey[nowArray][0]);
+                    if(nowArray < NoteKey.length - 1){
+                        nowArray++; //天知道这个组有多长，直接遍历整个组可能卡到爆炸
+                    }
+                }
+	    }
 	    if (ClientPrefs.data.pauseButton){
 	        var Pressed:Bool = false;
 	        for (touch in FlxG.touches.list){
@@ -2801,9 +2810,6 @@ class PlayState extends MusicBeatState
 		}
 
 		keyboardDisplay.save();
-		if(ClientPrefs.data.noteRecording){
-			noteRecording.save();
-		}
 
 		timeBar.visible = false;
 		timeTxt.visible = false;
@@ -2829,7 +2835,7 @@ class PlayState extends MusicBeatState
 			#if !switch
 			var percent:Float = ratingPercent;
 			if(Math.isNaN(percent)) percent = 0;
-			if (!ClientPrefs.data.playOpponent)Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, NoteMs, NoteTime);
+			if (!ClientPrefs.data.playOpponent)Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, NoteMs, NoteTime, NoteKey);
 			#end
 			playbackRate = 1;
 
@@ -3234,7 +3240,9 @@ class PlayState extends MusicBeatState
 	}
 
         public function startPressed(key:Int){
-		keyPressed(key);
+		var record:Array<Float> = [key,backend.Conductor.songPosition];
+                NoteKey.push(record);
+		callOnScripts('startPressed', [key]);
 	}
 	
 	private function keyPressed(key:Int)
@@ -3244,7 +3252,9 @@ class PlayState extends MusicBeatState
 		if(!generatedMusic || endingSong || char.stunned) return;
 
 		keyboardDisplay.pressed(key);
-		noteRecording.pressed(key);
+		if(ClientPrefs.data.noteRecording){
+		    startPressed(key);
+		}
 
 		// had to name it like this else it'd break older scripts lol
 		var ret:Dynamic = callOnScripts('preKeyPress', [key], true);		
