@@ -759,6 +759,8 @@ class PlayState extends MusicBeatState
 		if(eventNotes.length < 1) checkEventNote();	
 
 		mobileControls.active = mobileControls.visible = true;
+
+		noteRecording = new NoteRecording();
 	}
 
 	function set_songSpeed(value:Float):Float
