@@ -1946,7 +1946,7 @@ class PlayState extends MusicBeatState
 		    ispressed = true;
                 }else{
 		    if(ispressed){
-			keyReleased(NoteKey[nowArray][0])
+			keyReleased(NoteKey[nowArray][0]);
 			ispressed = false;
 		    }
 		    if(nowArray < NoteKey.length - 1){
