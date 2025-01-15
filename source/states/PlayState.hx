@@ -3228,8 +3228,12 @@ class PlayState extends MusicBeatState
 			if(FlxG.keys.checkStatus(eventKey, JUST_PRESSED)) keyPressed(key);
 		}
 	}
+
+        public function startPressed(key:Int){
+		keyPressed(key);
+	}
 	
-	private static function keyPressed(key:Int)
+	private function keyPressed(key:Int)
 	{
 		if(ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled || paused || key < 0) return;
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
