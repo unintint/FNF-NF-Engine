@@ -21,7 +21,7 @@ class ErrorSubState extends MusicBeatSubstate
 	public function new(stack:String)
 	{
 		super();
-		error = "Oh Shit!" + "\n" + stack;
+		error = "Oh Shit!" + "\n" + stack + "\nError message saved";
 		FlxG.mouse.visible = true;
 	}
 
