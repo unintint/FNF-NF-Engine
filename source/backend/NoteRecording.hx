@@ -14,7 +14,7 @@ class NoteRecording extends PlayState
             ClientPrefs.data.notePlayback = false; //箭头录制的优先级要比箭头回放高
             
             var load:FlxSave = new FlxSave();
-            load.bind(PlayState.songName, CoolUtil.getSavePath());
+            load.bind(Paths.formatToSongPath(SONG.song);, CoolUtil.getSavePath());
             noteSave = load.get("KeyData", []);
         }
     }
@@ -39,7 +39,7 @@ class NoteRecording extends PlayState
     public function save(){
         var save:FlxSave = new FlxSave();
         save.set("KeyData", noteSave);
-        save.bind(PlayState.songName, CoolUtil.getSavePath());
+        save.bind(Paths.formatToSongPath(SONG.song);, CoolUtil.getSavePath());
         save.flush();
     }
 }
