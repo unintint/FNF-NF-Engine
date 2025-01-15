@@ -20,7 +20,7 @@ class NoteRecording extends MusicBeatState
         }
     }
 
-    override public static function update(elapsed:Float){
+    override public function update(elapsed:Float){
         if(ClientPrefs.data.notePlayback && noteSave.length > 0){
             if(noteSave[nowArray][1] == backend.Conductor.songPosition){
                  PlayState.startPressed(noteSave[nowArray][0]);
