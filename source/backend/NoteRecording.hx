@@ -23,7 +23,7 @@ class NoteRecording extends MusicBeatState
     override public static function update(elapsed:Float){
         if(ClientPrefs.data.notePlayback && noteSave.length > 0){
             if(noteSave[nowArray][1] == backend.Conductor.songPosition){
-                 PlayState.keyPressed(noteSave[nowArray][0]);
+                 PlayState.startPressed(noteSave[nowArray][0]);
                  if(nowArray < noteSave.length - 1){
                      nowArray++; //天知道这个组有多长，直接遍历整个组可能卡到爆炸
                  }
@@ -31,13 +31,13 @@ class NoteRecording extends MusicBeatState
         }
     }
   
-    public static function pressed(key:Int){
+    public function pressed(key:Int){
         if (ClientPrefs.data.noteRecording){
             var record:Array<Float> = [key,backend.Conductor.songPosition];
             noteSave.push(record);
         }
     }
-    public static function save(){
+    public function save(){
         var save:FlxSave = new FlxSave();
         save.data.KeyData = noteSave;
         save.bind(PlayState.SONG.song, CoolUtil.getSavePath());
