@@ -1935,7 +1935,7 @@ class PlayState extends MusicBeatState
 	var allowDebugKeys:Bool = true;	
 	var pressPaue:Int = 0;
 	public var nowArray:Int = 0;
-	public var ispress:Bool = false;
+	public var ispressed:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
