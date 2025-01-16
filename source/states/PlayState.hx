@@ -3227,7 +3227,7 @@ class PlayState extends MusicBeatState
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
 		if(ClientPrefs.data.noteRecording){
-		    NoteKey.set(backend.Conductor.songPosition,event)
+		    NoteKey.set(backend.Conductor.songPosition,event);
 		}
 
 		if (!controls.controllerMode)
