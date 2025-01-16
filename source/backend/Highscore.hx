@@ -27,7 +27,7 @@ class Highscore
 		setWeekScore(daWeek, 0);
 	}
 
-	public static function saveScore(song:String, score:Int = 0, diff:Int = 0, rating:Float = -1, msGroup:Array<Float>, timeGroup:Array<Float>, keyGroup:Array<Array<Dynamic>>):Void
+	public static function saveScore(song:String, score:Int = 0, diff:Int = 0, rating:Float = -1, msGroup:Array<Float>, timeGroup:Array<Float>, keyGroup:Dynamic):Void
 	{
 		var daSong:String = formatSong(song, diff);
 
