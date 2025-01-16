@@ -312,7 +312,7 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 
-	public var NoteKey:Map<String, KeyboardEvent> = new Map<String, KeyboardEvent>();
+	public var NoteKey:Map<String, KeyboardEvent>;
 	
 	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, ?preloadEvents:Array<Array<Dynamic>>) {
 	    super();
@@ -746,6 +746,8 @@ class PlayState extends MusicBeatState
 		callOnScripts('onCreatePost');
 
 		cacheCountdown();
+
+		NoteKey = Highscore.getKeyGroup(SONG.song,storyDifficulty);
         
 		super.create();
 		
@@ -2231,10 +2233,11 @@ override public function update(elapsed:Float)
 
 		if (ClientPrefs.data.notePlayback){
 		    var nowTime = Std.string(backend.Conductor.songPosition);
-		    
-		    if(NoteKey.exists(nowTime)){
-		        var needPress = NoteKey.get(nowTime);
-		        onKeyPress(needPress);
+		    if(NoteKey != null){
+			if(NoteKey.exists(nowTime)){
+		            var needPress = NoteKey.get(nowTime);
+		            onKeyPress(needPress);
+		        }
 		    }
 	        }
 		callOnScripts('onUpdatePost', [elapsed]);
