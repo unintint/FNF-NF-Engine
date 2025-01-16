@@ -182,7 +182,7 @@ class Highscore
 		return songNoteTime.get(daSong);				
 	}
 
-	public static function getKeyGroup(song:String, diff:Int):Map
+	public static function getKeyGroup(song:String, diff:Int):Dynamic
 	{
 		var daSong:String = formatSong(song, diff);
 		if (!songNoteKey.exists(daSong)){
