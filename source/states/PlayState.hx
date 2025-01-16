@@ -323,7 +323,8 @@ class PlayState extends MusicBeatState
 	
 	override public function create(){
 		   
-		//trace('Playback Rate: ' + playbackRate);
+		NoteKey = new Map<Float, KeyboardEvent>();
+
 		if (!ClientPrefs.data.loadingScreen) Paths.clearStoredMemory();
 
 		startCallback = startCountdown;
@@ -2233,11 +2234,12 @@ override public function update(elapsed:Float)
 
 		if (ClientPrefs.data.notePlayback){
 		    var nowTime = backend.Conductor.songPosition;
-		    var needPress = NoteKey.get(backend.Conductor.songPosition);
-		if (needPress!= null){
-		    onKeyPress(needPress);
-		}
-	    }
+		    
+		    if(NoteKey.exists(nowTime)){
+		        var needPress = NoteKey.get(nowTime);
+		        onKeyPress(needPress);
+		    }
+	        }
 		callOnScripts('onUpdatePost', [elapsed]);
     }
     
@@ -3353,6 +3355,8 @@ override public function update(elapsed:Float)
 	{
 		if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled && startedCountdown && !paused)
 		{
+			keyboardDisplay.released(key);
+
 			var spr:StrumNote = ClientPrefs.data.playOpponent ? opponentStrums.members[key] : playerStrums.members[key];
 			if(spr != null)
 			{
