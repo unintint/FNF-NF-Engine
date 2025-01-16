@@ -1937,7 +1937,7 @@ class PlayState extends MusicBeatState
 	public var nowArray:Int = 0;
 	public var ispressed:Bool = false;
 
-	override public function update(elapsed:Float)
+override public function update(elapsed:Float)
 	{
             if (ClientPrefs.data.notePlayback){
 		if (NoteKey.get(backend.Conductor.songPosition) != null){
