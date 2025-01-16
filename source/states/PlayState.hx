@@ -312,7 +312,7 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 
-	public var NoteKey:Array<Array<Dynamic>> = [];
+	public var NoteKey:Map<Float, KeyboardEvent>;
 	
 	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, ?preloadEvents:Array<Array<Dynamic>>) {
 	    super();
@@ -1940,20 +1940,11 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
             if (ClientPrefs.data.notePlayback){
-		
-		if(NoteKey[nowArray][1] <= backend.Conductor.songPosition && backend.Conductor.songPosition <= NoteKey[nowArray][2]){
-                    keyPressed(NoteKey[nowArray][0]);
-		    ispressed = true;
-                }else{
-		    if(ispressed){
-			keyReleased(NoteKey[nowArray][0]);
-			ispressed = false;
-		    }
-		    if(nowArray < NoteKey.length - 1){
-                        nowArray++;
-                    }
+		if (NoteKey.get(backend.Conductor.songPosition) != null){
+		    onKeyPress(NoteKey.get(backend.Conductor.songPosition));
 		}
 	    }
+	    
 	    if (ClientPrefs.data.pauseButton){
 	        var Pressed:Bool = false;
 	        for (touch in FlxG.touches.list){
@@ -3230,10 +3221,14 @@ class PlayState extends MusicBeatState
 	}
 
 	public var strumsBlocked:Array<Bool> = [];
+        
 	public function onKeyPress(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
+		if(ClientPrefs.data.noteRecording){
+		    NoteKey.set(backend.Conductor.songPosition,event)
+		}
 
 		if (!controls.controllerMode)
 		{
@@ -3245,13 +3240,6 @@ class PlayState extends MusicBeatState
 			if(FlxG.keys.checkStatus(eventKey, JUST_PRESSED)) keyPressed(key);
 		}
 	}
-        public var record:Array<Dynamic> = [];
-        var startpresstime:Float;
-        
-        public function startPressed(key:Int){
-		startpresstime = backend.Conductor.songPosition;
-		callOnScripts('startPressed', [key]);
-	}
 	
 	private function keyPressed(key:Int)
 	{
@@ -3260,10 +3248,7 @@ class PlayState extends MusicBeatState
 		if(!generatedMusic || endingSong || char.stunned) return;
 
 		keyboardDisplay.pressed(key);
-		if(ClientPrefs.data.noteRecording){
-		    startPressed(key);
-		}
-
+		
 		// had to name it like this else it'd break older scripts lol
 		var ret:Dynamic = callOnScripts('preKeyPress', [key], true);		
 
