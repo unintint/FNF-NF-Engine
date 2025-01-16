@@ -3351,10 +3351,6 @@ class PlayState extends MusicBeatState
 	{
 		if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled && startedCountdown && !paused)
 		{
-			keyboardDisplay.released(key);
-			record = [key,startpresstime,backend.Conductor.songPosition];
-                        NoteKey.push(record);
-
 			var spr:StrumNote = ClientPrefs.data.playOpponent ? opponentStrums.members[key] : playerStrums.members[key];
 			if(spr != null)
 			{
