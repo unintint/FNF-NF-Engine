@@ -73,9 +73,10 @@ class CrashHandler
 		{
 			if (!FileSystem.exists('crash'))
 				FileSystem.createDirectory('crash');
+			var saveError = '$m\n$stackLabel';
 
-			File.saveContent('crash/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.txt', '$m\n$stackLabel');
-			errorText = File.getContent('crash/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.txt');
+			File.saveContent('crash/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.txt', saveError);
+			errorText = Std.string(saveError);
                         FlxG.state.openSubState(new ErrorSubState(errorText));
 
 		}
