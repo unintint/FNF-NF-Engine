@@ -312,7 +312,7 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 
-	public var NoteKey:Map<Float, KeyboardEvent> = new Map<Float, KeyboardEvent>();
+	public var NoteKey:Map<String, KeyboardEvent> = new Map<String, KeyboardEvent>();
 	
 	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, ?preloadEvents:Array<Array<Dynamic>>) {
 	    super();
@@ -2230,7 +2230,7 @@ override public function update(elapsed:Float)
         #end
 
 		if (ClientPrefs.data.notePlayback){
-		    var nowTime = backend.Conductor.songPosition;
+		    var nowTime = Std.string(backend.Conductor.songPosition);
 		    
 		    if(NoteKey.exists(nowTime)){
 		        var needPress = NoteKey.get(nowTime);
@@ -3228,7 +3228,7 @@ override public function update(elapsed:Float)
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
 		if(ClientPrefs.data.noteRecording){
-		    NoteKey.set(backend.Conductor.songPosition,event);
+		    NoteKey.set(Std.string(backend.Conductor.songPosition),event);
 		}
 
 		if (!controls.controllerMode)
