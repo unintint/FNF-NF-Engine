@@ -1939,12 +1939,6 @@ class PlayState extends MusicBeatState
 
 override public function update(elapsed:Float)
 	{
-            if (ClientPrefs.data.notePlayback){
-		if (NoteKey.get(backend.Conductor.songPosition) != null){
-		    onKeyPress(NoteKey.get(backend.Conductor.songPosition));
-		}
-	    }
-	    
 	    if (ClientPrefs.data.pauseButton){
 	        var Pressed:Bool = false;
 	        for (touch in FlxG.touches.list){
@@ -2236,6 +2230,14 @@ override public function update(elapsed:Float)
         for (shaderUpdate in shaderUpdates)
 			shaderUpdate(elapsed);
         #end
+
+		if (ClientPrefs.data.notePlayback){
+		    var nowTime = backend.Conductor.songPosition;
+		    var needPress = NoteKey.get(backend.Conductor.songPosition);
+		if (needPress!= null){
+		    onKeyPress(needPress);
+		}
+	    }
 		callOnScripts('onUpdatePost', [elapsed]);
     }
     
