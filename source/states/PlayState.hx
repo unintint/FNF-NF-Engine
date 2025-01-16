@@ -20,6 +20,7 @@ import flixel.input.touch.FlxTouch;
 import openfl.utils.Assets;
 import openfl.events.KeyboardEvent;
 import haxe.Json;
+import haxe.ds.Map;
 
 import cutscenes.CutsceneHandler;
 import cutscenes.DialogueBoxPsych;
