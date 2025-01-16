@@ -8,7 +8,7 @@ class Highscore
     public static var songTimes:Map<String, String> = new Map<String, String>();
     public static var songNoteMs:Map<String, Array<Float>> = new Map<String, Array<Float>>();
     public static var songNoteTime:Map<String, Array<Float>> = new Map<String, Array<Float>>();
-    public static var songNoteKey:Map<String, Array<Array<Dynamic>>> = new Map<String, Array<Array<Dynamic>>>();
+    public static var songNoteKey:Map<String, Map> = new Map<String, Map>();
     
 	public static function resetSong(song:String, diff:Int = 0):Void
 	{
@@ -115,7 +115,7 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	static function setKeyGroup(song:String, group:Array<Array<Dynamic>>):Void
+	static function setKeyGroup(song:String, group:Map):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songNoteKey.set(song, group);
@@ -182,7 +182,7 @@ class Highscore
 		return songNoteTime.get(daSong);				
 	}
 
-	public static function getKeyGroup(song:String, diff:Int):Array<Array<Dynamic>>
+	public static function getKeyGroup(song:String, diff:Int):Map
 	{
 		var daSong:String = formatSong(song, diff);
 		if (!songNoteKey.exists(daSong)){
