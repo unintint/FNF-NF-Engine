@@ -20,7 +20,6 @@ import flixel.input.touch.FlxTouch;
 import openfl.utils.Assets;
 import openfl.events.KeyboardEvent;
 import haxe.Json;
-import haxe.ds.Map;
 
 import cutscenes.CutsceneHandler;
 import cutscenes.DialogueBoxPsych;
@@ -313,7 +312,7 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 
-	public var NoteKey:Map<Float, KeyboardEvent>;
+	public var NoteKey:Map<Float, KeyboardEvent> = new Map<Float, KeyboardEvent>();
 	
 	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, ?preloadEvents:Array<Array<Dynamic>>) {
 	    super();
@@ -323,9 +322,6 @@ class PlayState extends MusicBeatState
 	}
 	
 	override public function create(){
-		   
-		NoteKey = new Map<Float, KeyboardEvent>();
-
 		if (!ClientPrefs.data.loadingScreen) Paths.clearStoredMemory();
 
 		startCallback = startCountdown;
