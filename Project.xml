@@ -64,6 +64,7 @@
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
 
 	<!-- Assets -->
+	<!--
 	<assets path="assets/fonts" />
 	<assets path="assets/shared"        exclude="*.ogg" if="web"/>
 	<assets path="assets/shared"        exclude="*.mp3" unless="web"/>
@@ -95,6 +96,8 @@
 		<assets path='example_mods' rename='mods' embed='false'/>
 	</section>
 	<assets path='art/readme.txt' rename='do NOT readme.txt' unless="mobile"/>
+
+	-->
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
