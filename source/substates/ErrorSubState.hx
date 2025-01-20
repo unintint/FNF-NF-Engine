@@ -59,7 +59,7 @@ class ErrorSubState extends MusicBeatSubstate
 
 		title.x = FlxG.width - errorText.height;
 
-		title.text = "Click " + Std.string(mousePress) +" times to exit"
+		title.text = "Click " + Std.string(mousePress) +" times to exit";
 		if(FlxG.mouse.justPressed){
 			mousePress = mousePress - 1;
 		}
