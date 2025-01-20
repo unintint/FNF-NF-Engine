@@ -18,6 +18,9 @@ class ErrorSubState extends MusicBeatSubstate
 	var moveData:Int = 0;
 	var avgSpeed:Float = 0;
 
+	var mousePress:Int = 3;
+	var camError:FlxCamera;
+
 	public function new(stack:String)
 	{
 		super();
@@ -28,20 +31,25 @@ class ErrorSubState extends MusicBeatSubstate
 	override function create()
 	{
 		super.create();
+		camError = new FlxCamera();
+		FlxG.cameras.add(camError, false);
 		
 		bg = new FlxSprite().loadGraphic(Paths.image('egg'));
 		bg.width = FlxG.width;
 		bg.height = FlxG.height;
 		bg.alpha = 0;
+		bg.camera = camError;
 		add(bg);
 
 		errorText = new FlxText(0, 0, FlxG.width, error, 50);
-		//errorText.font = Paths.font('Lang-ZH.ttf');
+		errorText.font = Paths.font('Lang-ZH.ttf');
+		errorText.camera = camError;
 		add(errorText);
 
-		title = new FlxText(0, 0, FlxG.width, "Oh Shit!", 50);
+		title = new FlxText(0, 0, FlxG.width, "", 50);
+		title.camera = camError;
+		title.font = Paths.font('Lang-ZH.ttf');
 		add(title);
-		addVirtualPad(NONE, A_B);
 	}
 	
 	override function update(elapsed:Float)
@@ -49,30 +57,17 @@ class ErrorSubState extends MusicBeatSubstate
 		bg.alpha += elapsed * 1.5;
 		if(bg.alpha > 0.6) bg.alpha = 0.6;
 
-		if(controls.BACK) {
-			close();
+		title.x = FlxG.width - errorText.height;
+
+		title.text = "Click " + Std.string(mousePress) +" times to exit"
+		if(FlxG.mouse.justPressed){
+			mousePress = mousePress - 1;
+		}
+		if(mousePress == 0) {
 			FlxG.switchState(new MainMenuState());
-		}else if(controls.ACCEPT) {
 			close();
-			FlxG.switchState(new MainMenuState());
-			//这个位置要放解决代码崩溃的代码
-		};
-		
-		mouseMove();
-		FlxG.state.persistentUpdate = false;
-		super.update(elapsed);
-	}
-	override function destroy(){
-		bg = FlxDestroyUtil.destroy(bg);
-		errorText = FlxDestroyUtil.destroy(errorText);
-		#if mobile
-			FlxG.mouse.visible = false;
-		#end
-		super.destroy();
-	}
-	
-	function mouseMove(){
-    		if (errorText.height > FlxG.height * 0.8)
+		}
+		 if(errorText.height > FlxG.height * 0.8)
     		{
         		if (FlxG.mouse.justPressed) saveMouseY = FlxG.mouse.y;
         		moveData = FlxG.mouse.y - saveMouseY;
@@ -82,8 +77,14 @@ class ErrorSubState extends MusicBeatSubstate
         		errorText.y += avgSpeed;
         		errorText.y = Math.max(-10, Math.min(10 - errorText.height, errorText.y));
     		}
-        	errorText.y = errorText.height - 10;
-		//限制错误信息可以滑动的范围
+		
+		FlxG.state.persistentUpdate = false;
+		super.update(elapsed);
 	}
-
+	override function destroy(){
+		bg = FlxDestroyUtil.destroy(bg);
+		errorText = FlxDestroyUtil.destroy(errorText);
+		FlxG.mouse.visible = false;
+		super.destroy();
+	}
 }
