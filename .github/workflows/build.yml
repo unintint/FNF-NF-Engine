@@ -36,6 +36,12 @@ jobs:
         with:
           haxe-version: ${{ env.HAXE_VERSION }}
 
+      - name: Cache Haxe Export
+        uses: actions/cache@v4.2.0
+        with:
+            path: export
+            key: ${{ runner.os }}-${{ hashFiles('export') }}
+          
       - name: Install libVLC
         if: inputs.name == 'Linux'
         run: sudo apt install libvlc-dev libvlccore-dev
