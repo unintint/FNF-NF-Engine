@@ -1,8 +1,0 @@
-12月22日：
-加入铁锅引擎的空格键在屏幕中间的hitbox
-freeplay的跳过按钮运用了更加没有用的逻辑
----MaoPou
-12月27日：
-使用startVideo播放的视频可以更改所在的摄像机和他的坐标
-startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true, cameras:String = "HUD", xc:Int = 0, yc:Int = 0)
-他还可以在暂停游戏的时候同时暂停视频
