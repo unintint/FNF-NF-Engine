@@ -41,10 +41,7 @@ jobs:
         if: inputs.name == 'Android'
         with:
             path: ~/haxelib
-                ~/.gradle
-                export/release/android/haxe
-                export/release/android/obj
-            key: ${{ inputs.buildArgs }}-export-cache
+            key: haxelib-export-cache
           
       - name: Install libVLC
         if: inputs.name == 'Linux'
