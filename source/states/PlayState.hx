@@ -7,6 +7,10 @@ import backend.Song;
 import backend.Section;
 import backend.Rating;
 
+import sys.thread.Thread;
+import sys.thread.Mutex;
+import haxe.Timer;
+
 import flixel.FlxBasic;
 import flixel.FlxObject;
 import flixel.FlxSubState;
@@ -312,8 +316,11 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 
-	public var NoteKey:Map<String, KeyboardEvent>;
-	
+	var LeftNoteKey:Map<String, Int> = ["Start" => -1];
+	var UpNoteKey:Map<String, Int> = ["Start" => -1];
+	var DownNoteKey:Map<String, Int> = ["Start" => -1];
+	var RightNoteKey:Map<String, Int> = ["Start" => -1];
+
 	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, ?preloadEvents:Array<Array<Dynamic>>) {
 	    super();
 	    if (preloadChart != null) unspawnNotes = preloadChart;
@@ -323,7 +330,6 @@ class PlayState extends MusicBeatState
 	
 	override public function create(){
 		if (!ClientPrefs.data.loadingScreen) Paths.clearStoredMemory();
-
 		startCallback = startCountdown;
 		endCallback = endSong;
 
@@ -747,8 +753,18 @@ class PlayState extends MusicBeatState
 
 		cacheCountdown();
 
-		NoteKey = Highscore.getKeyGroup(SONG.song,storyDifficulty);
-        
+		if(Highscore.getKeyGroupLeft(songName, storyDifficulty) != null){
+			LeftNoteKey = Highscore.getKeyGroupLeft(songName, storyDifficulty);
+		}
+		if(Highscore.getKeyGroupUp(songName, storyDifficulty) != null){
+			UpNoteKey = Highscore.getKeyGroupUp(songName, storyDifficulty);
+		}
+		if(Highscore.getKeyGroupDown(songName, storyDifficulty) != null){
+			DownNoteKey = Highscore.getKeyGroupDown(songName, storyDifficulty);
+		}
+		if(Highscore.getKeyGroupRight(songName, storyDifficulty) != null){
+			RightNoteKey = Highscore.getKeyGroupRight(songName, storyDifficulty);
+		}
 		super.create();
 		
 		callOnScripts('onCreateFinal');
@@ -758,8 +774,6 @@ class PlayState extends MusicBeatState
 		if(eventNotes.length < 1) checkEventNote();	
 
 		mobileControls.active = mobileControls.visible = true;
-
-		NoteKey = Highscore.getKeyGroup(songName, storyDifficulty);
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -2231,15 +2245,53 @@ override public function update(elapsed:Float)
 			shaderUpdate(elapsed);
         #end
 
-		if (ClientPrefs.data.notePlayback){
-		    var nowTime = Std.string(backend.Conductor.songPosition);
-		    if(NoteKey != null){
-			if(NoteKey.exists(nowTime)){
-		            var needPress = NoteKey.get(nowTime);
-		            onKeyPress(needPress);
-		        }
-		    }
-	        }
+		Thread.create(() -> {
+			if (ClientPrefs.data.notePlayback){
+				var nowTime = Std.string(backend.Conductor.songPosition);
+				if(LeftNoteKey != null){
+					if(LeftNoteKey.exists(nowTime + "s")){
+						keyPressed(0);
+					}else{
+						var timer0 = new FlxTimer().start(0.5, function(tmr:FlxTimer)
+						{
+							keyReleased(0);
+						});
+					}
+				}
+
+				if(UpNoteKey != null){
+					if(UpNoteKey.exists(nowTime + "s")){
+						keyPressed(1);
+						var timer1 = new FlxTimer().start(0.5, function(tmr:FlxTimer)
+						{
+							keyReleased(1);
+						});
+					}
+				}
+
+				if(DownNoteKey != null){
+					if(DownNoteKey.exists(nowTime + "s")){
+						keyPressed(2);
+						var timer2 = new FlxTimer().start(0.5, function(tmr:FlxTimer)
+						{
+							keyReleased(2);
+						});
+					}
+				}
+
+				if(RightNoteKey != null){
+					if(RightNoteKey.exists(nowTime + "s")){
+						keyPressed(3);
+						var timer2 = new FlxTimer().start(0.5, function(tmr:FlxTimer)
+						{
+							keyReleased(3);
+						});
+					}
+				}
+			}
+
+		});
+
 		callOnScripts('onUpdatePost', [elapsed]);
     }
     
@@ -2837,7 +2889,7 @@ override public function update(elapsed:Float)
 			#if !switch
 			var percent:Float = ratingPercent;
 			if(Math.isNaN(percent)) percent = 0;
-			if (!ClientPrefs.data.playOpponent)Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, NoteMs, NoteTime, NoteKey);
+			if (!ClientPrefs.data.playOpponent)Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, NoteMs, NoteTime,LeftNoteKey,UpNoteKey,DownNoteKey,RightNoteKey);
 			#end
 			playbackRate = 1;
 
@@ -3228,10 +3280,17 @@ override public function update(elapsed:Float)
         
 	public function onKeyPress(event:KeyboardEvent):Void
 	{
-		var eventKey:FlxKey = event.keyCode;
+		var eventKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
+        var nowTime = Std.string(backend.Conductor.songPosition);
+		trace(nowTime + " and " + key);
 		if(ClientPrefs.data.noteRecording){
-		    NoteKey.set(Std.string(backend.Conductor.songPosition),event);
+			Thread.create(() -> {
+				if(key == 0) LeftNoteKey.set(nowTime + "s",0);
+				if(key == 1) UpNoteKey.set(nowTime + "s",1);
+				if(key == 2) DownNoteKey.set(nowTime + "s",2);
+				if(key == 3) RightNoteKey.set(nowTime + "s",3);
+			});
 		}
 
 		if (!controls.controllerMode)

@@ -8,7 +8,10 @@ class Highscore
     public static var songTimes:Map<String, String> = new Map<String, String>();
     public static var songNoteMs:Map<String, Array<Float>> = new Map<String, Array<Float>>();
     public static var songNoteTime:Map<String, Array<Float>> = new Map<String, Array<Float>>();
-    public static var songNoteKey:Map<String, Dynamic> = new Map<String, Dynamic>();
+    public static var songNoteKeyLeft:Map<String, Dynamic> = new Map<String, Dynamic>();
+	public static var songNoteKeyUp:Map<String, Dynamic> = new Map<String, Dynamic>();
+	public static var songNoteKeyDown:Map<String, Dynamic> = new Map<String, Dynamic>();
+	public static var songNoteKeyRight:Map<String, Dynamic> = new Map<String, Dynamic>();
     
 	public static function resetSong(song:String, diff:Int = 0):Void
 	{
@@ -18,7 +21,10 @@ class Highscore
 		setRating(daSong, 0);
 		setMsGroup(daSong, []);
 		setTimeGroup(daSong, []);
-		setKeyGroup(daSong, []);
+		setKeyGroupLeft(daSong, ["Start" => -1]);
+		setKeyGroupUp(daSong, ["Start" => -1]);
+		setKeyGroupDown(daSong, ["Start" => -1]);
+		setKeyGroupRight(daSong, ["Start" => -1]);
 	}
 
 	public static function resetWeek(week:String, diff:Int = 0):Void
@@ -27,7 +33,7 @@ class Highscore
 		setWeekScore(daWeek, 0);
 	}
 
-	public static function saveScore(song:String, score:Int = 0, diff:Int = 0, rating:Float = -1, msGroup:Array<Float>, timeGroup:Array<Float>, keyGroup:Dynamic):Void
+	public static function saveScore(song:String, score:Int = 0, diff:Int = 0, rating:Float = -1, msGroup:Array<Float>, timeGroup:Array<Float>, LeftkeyGroup:Dynamic ,UpkeyGroup:Dynamic ,DownkeyGroup:Dynamic ,RightkeyGroup:Dynamic):Void
 	{
 		var daSong:String = formatSong(song, diff);
 
@@ -38,7 +44,10 @@ class Highscore
 				if(rating >= 0) setRating(daSong, rating);
 				setMsGroup(daSong, msGroup);
 				setTimeGroup(daSong, timeGroup);
-				setKeyGroup(daSong, keyGroup);
+				setKeyGroupLeft(daSong, LeftkeyGroup);
+				setKeyGroupUp(daSong, UpkeyGroup);
+				setKeyGroupDown(daSong, DownkeyGroup);
+				setKeyGroupRight(daSong, RightkeyGroup);
 			}
 		}
 		else {
@@ -47,7 +56,10 @@ class Highscore
 			if(rating >= 0) setRating(daSong, rating);
 			setMsGroup(daSong, msGroup);
 			setTimeGroup(daSong, timeGroup);
-			setKeyGroup(daSong, keyGroup);
+			setKeyGroupLeft(daSong, LeftkeyGroup);
+			setKeyGroupUp(daSong, UpkeyGroup);
+			setKeyGroupDown(daSong, DownkeyGroup);
+			setKeyGroupRight(daSong, RightkeyGroup);
 		}
 	}
 
@@ -115,11 +127,35 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	static function setKeyGroup(song:String, group:Dynamic):Void
+	static function setKeyGroupLeft(song:String, group:Dynamic):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
-		songNoteKey.set(song, group);
-		FlxG.save.data.songNoteKey = songNoteKey;
+		songNoteKeyLeft.set(song, group);
+		FlxG.save.data.songNoteKeyLeft = songNoteKeyLeft;
+		FlxG.save.flush();
+	}
+
+	static function setKeyGroupDown(song:String, group:Dynamic):Void
+	{
+		// Reminder that I don't need to format this song, it should come formatted!
+		songNoteKeyDown.set(song, group);
+		FlxG.save.data.songNoteKeyLeft = songNoteKeyDown;
+		FlxG.save.flush();
+	}
+
+	static function setKeyGroupUp(song:String, group:Dynamic):Void
+	{
+		// Reminder that I don't need to format this song, it should come formatted!
+		songNoteKeyUp.set(song, group);
+		FlxG.save.data.songNoteKeyLeft = songNoteKeyUp;
+		FlxG.save.flush();
+	}
+
+	static function setKeyGroupRight(song:String, group:Dynamic):Void
+	{
+		// Reminder that I don't need to format this song, it should come formatted!
+		songNoteKeyRight.set(song, group);
+		FlxG.save.data.songNoteKeyLeft = songNoteKeyRight;
 		FlxG.save.flush();
 	}
 
@@ -182,13 +218,40 @@ class Highscore
 		return songNoteTime.get(daSong);				
 	}
 
-	public static function getKeyGroup(song:String, diff:Int):Dynamic
+	public static function getKeyGroupLeft(song:String, diff:Int):Dynamic
 	{
 		var daSong:String = formatSong(song, diff);
-		if (!songNoteKey.exists(daSong)){
-			setKeyGroup(daSong, []);			
+		if (!songNoteKeyLeft.exists(daSong)){
+			setKeyGroupLeft(daSong, ["Start" => -1]);
         }
-		return songNoteKey.get(daSong);				
+		return songNoteKeyLeft.get(daSong);
+	}
+
+	public static function getKeyGroupUp(song:String, diff:Int):Dynamic
+	{
+		var daSong:String = formatSong(song, diff);
+		if (!songNoteKeyUp.exists(daSong)){
+			setKeyGroupUp(daSong, ["Start" => -1]);
+		}
+		return songNoteKeyUp.get(daSong);
+	}
+
+	public static function getKeyGroupDown(song:String, diff:Int):Dynamic
+	{
+		var daSong:String = formatSong(song, diff);
+		if (!songNoteKeyDown.exists(daSong)){
+			setKeyGroupDown(daSong, ["Start" => -1]);
+		}
+		return songNoteKeyDown.get(daSong);
+	}
+
+	public static function getKeyGroupRight(song:String, diff:Int):Dynamic
+	{
+		var daSong:String = formatSong(song, diff);
+		if (!songNoteKeyRight.exists(daSong)){
+			setKeyGroupRight(daSong, ["Start" => -1]);
+		}
+		return songNoteKeyRight.get(daSong);
 	}
 
 	public static function load():Void
@@ -217,10 +280,21 @@ class Highscore
 		{
 			songNoteTime = FlxG.save.data.songNoteTime;
 		}
-		if (FlxG.save.data.songNoteKey != null)
+		if (FlxG.save.data.songNoteKeyLeft != null)
 		{
-			songNoteKey = FlxG.save.data.songNoteKey;
+			songNoteKeyLeft = FlxG.save.data.songNoteKeyLeft;
 		}
-		
+		if (FlxG.save.data.songNoteKeyUp != null)
+		{
+			songNoteKeyUp = FlxG.save.data.songNoteKeyUp;
+		}
+		if (FlxG.save.data.songNoteKeyDown != null)
+		{
+			songNoteKeyDown = FlxG.save.data.songNoteKeyDown;
+		}
+		if (FlxG.save.data.songNoteKeyRight != null)
+		{
+			songNoteKeyRight = FlxG.save.data.songNoteKeyRight;
+		}
 	}
 }

@@ -3,7 +3,7 @@ package substates;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxSubState;
 import flixel.text.FlxText;
-import states.MainMenuState;
+import states.FreeplayState;
 
 using StringTools;
 
@@ -31,6 +31,8 @@ class ErrorSubState extends MusicBeatSubstate
 	override function create()
 	{
 		super.create();
+		FlxG.state.persistentUpdate = false; //停止更新state
+
 		subcameras = new FlxCamera();
 		
 		bg = new FlxSprite().loadGraphic(Paths.image('egg'));
@@ -66,11 +68,12 @@ class ErrorSubState extends MusicBeatSubstate
 		}
 
 		if(pressas >= 4) {
-			FlxG.switchState(new MainMenuState());
+			FlxG.state.persistentUpdate = true; //恢复更新
+			MusicBeatState.switchState(new FreeplayState());
+
 			close();
 			//FlxG.switchState(new MainMenuState());
-		}else if(controls.ACCEPT) {
-		};
+		}
 
 		if(FlxG.mouse.pressed){
 			if (errorText.height > FlxG.height * 0.8)
@@ -86,7 +89,6 @@ class ErrorSubState extends MusicBeatSubstate
 			errorText.y = errorText.height - 10;
 			//限制错误信息可以滑动的范围
 		}
-		FlxG.state.persistentUpdate = false;
 		super.update(elapsed);
 	}
 	override function destroy(){
