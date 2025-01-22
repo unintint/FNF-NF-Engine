@@ -1406,7 +1406,7 @@ class ChartingState extends MusicBeatState
 		noteSkinInputTextDad = new FlxUIInputText(10, 280, 80, _song.arrowSkinDad != null ? _song.arrowSkinDad : '', 8);
 		blockPressWhileTypingOn.push(noteSkinInputTextDad);
 
-		noteSkinInputTextBF = new FlxUIInputTextBF(10, 280, 115, _song.arrowSkinBF != null ? _song.arrowSkinBF : '', 8);
+		noteSkinInputTextBF = new FlxUIInputText(10, 280, 115, _song.arrowSkinBF != null ? _song.arrowSkinBF : '', 8);
 		blockPressWhileTypingOn.push(noteSkinInputTextBF);
 		
 		noteSkinInputText = new FlxUIInputText(10, 280, 150, _song.arrowSkin != null ? _song.arrowSkin : '', 8);
