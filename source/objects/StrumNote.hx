@@ -57,12 +57,12 @@ class StrumNote extends FlxSprite
 			if(player == 0 && PlayState.SONG.arrowSkinDad != null && PlayState.SONG.arrowSkinDad.length > 1){
 			        skin = path + PlayState.SONG.arrowSkinDad;
 		        }else if(player == 0 && PlayState.SONG.arrowSkinDad == null){
-			        skin = path + Note.arrowSkin;
+			        skin = path + PlayState.SONG.arrowSkin;
 		        }
 			if(player == 1 && PlayState.SONG.arrowSkinBF != null && PlayState.SONG.arrowSkinBF.length > 1){
 			        skin = path + PlayState.SONG.arrowSkinBF;
 		        }else if(player == 1 && PlayState.SONG.arrowSkinBF == null){
-			        skin = path + Note.arrowSkin;
+			        skin = path + PlayState.SONG.arrowSkin;
 			}
 			//skin = path + PlayState.SONG.arrowSkin;
 		}else{
