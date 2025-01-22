@@ -36,13 +36,6 @@ jobs:
         with:
           haxe-version: ${{ env.HAXE_VERSION }}
 
-      - name: Cache Haxe Export (Android)
-        uses: actions/cache@v4.2.0
-        if: inputs.name == 'Android'
-        with:
-            path: ~/haxelib
-            key: haxelib-export-cache
-          
       - name: Install libVLC
         if: inputs.name == 'Linux'
         run: sudo apt install libvlc-dev libvlccore-dev
