@@ -286,7 +286,13 @@ class ChartingState extends MusicBeatState
 
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		for (i in 0...8){
-			var note:StrumNote = new StrumNote(GRID_SIZE * (i+1), strumLine.y, i % 4, 0);
+			var note:StrumNote;
+			if(i >= 3){
+				note = new StrumNote(GRID_SIZE * (i+1), strumLine.y, i % 4, 0);
+			}else{
+				note = new StrumNote(GRID_SIZE * (i+1), strumLine.y, i % 4, 1);
+			}
+			
 			note.setGraphicSize(GRID_SIZE, GRID_SIZE);
 			note.updateHitbox();
 			note.playAnim('static', true);
@@ -1362,6 +1368,10 @@ class ChartingState extends MusicBeatState
 	var gameOverSoundInputText:FlxUIInputText;
 	var gameOverLoopInputText:FlxUIInputText;
 	var gameOverEndInputText:FlxUIInputText;
+
+	var noteSkinInputTextBF:FlxUIInputText;
+	var noteSkinInputTextDad:FlxUIInputText;
+	
 	var noteSkinInputText:FlxUIInputText;
 	var noteSplashesInputText:FlxUIInputText;
 	function addDataUI()
@@ -1393,6 +1403,12 @@ class ChartingState extends MusicBeatState
 		};
 
 		//
+		noteSkinInputTextDad = new FlxUIInputText(10, 280, 80, _song.arrowSkinDad != null ? _song.arrowSkinDad : '', 8);
+		blockPressWhileTypingOn.push(noteSkinInputTextDad);
+
+		noteSkinInputTextBF = new FlxUIInputTextBF(10, 280, 115, _song.arrowSkinBF != null ? _song.arrowSkinBF : '', 8);
+		blockPressWhileTypingOn.push(noteSkinInputTextBF);
+		
 		noteSkinInputText = new FlxUIInputText(10, 280, 150, _song.arrowSkin != null ? _song.arrowSkin : '', 8);
 		blockPressWhileTypingOn.push(noteSkinInputText);
 
@@ -1413,6 +1429,10 @@ class ChartingState extends MusicBeatState
 		tab_group_data.add(check_disableNoteRGB);
 		
 		tab_group_data.add(reloadNotesButton);
+
+		tab_group_data.add(noteSkinInputTextDad);
+		tab_group_data.add(noteSkinInputTextBF);
+		
 		tab_group_data.add(noteSkinInputText);
 		tab_group_data.add(noteSplashesInputText);
 
@@ -1629,7 +1649,13 @@ class ChartingState extends MusicBeatState
 			}
 		}
 		else if(id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText)) {
-			if(sender == noteSplashesInputText) {
+			if(sender == noteSkinInputTextDad) {
+				_song.arrowSkinDad = noteSkinInputTextDad.text;
+			}
+			else if(sender == noteSkinInputTextBF) {
+				_song.arrowSkinBF = noteSkinInputTextBF.text;
+			}
+			else if(sender == noteSplashesInputText) {
 				_song.splashSkin = noteSplashesInputText.text;
 			}
 			else if(sender == noteSkinInputText) {
