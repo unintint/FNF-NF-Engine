@@ -316,10 +316,10 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 
-	var LeftNoteKey:Map<String, Int> = ["Start" => -1];
-	var UpNoteKey:Map<String, Int> = ["Start" => -1];
-	var DownNoteKey:Map<String, Int> = ["Start" => -1];
-	var RightNoteKey:Map<String, Int> = ["Start" => -1];
+	var LeftNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1, null];
+	var UpNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1,null]];
+	var DownNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1,null]];
+	var RightNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1,null]];
 
 	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, ?preloadEvents:Array<Array<Dynamic>>) {
 	    super();
@@ -2249,43 +2249,42 @@ override public function update(elapsed:Float)
 			if (ClientPrefs.data.notePlayback){
 				var nowTime = Std.string(backend.Conductor.songPosition);
 				if(LeftNoteKey != null){
-					if(LeftNoteKey.exists(nowTime + "s")){
-						keyPressed(0);
-					}else{
-						var timer0 = new FlxTimer().start(0.5, function(tmr:FlxTimer)
-						{
+					if(LeftNoteKey.exists(nowTime + "s"){
+			                        if(LeftNoteKey.get(nowTime + "s")[1]){
+							keyPressed(0);
+                                                }else{
 							keyReleased(0);
-						});
+						}
 					}
 				}
 
 				if(UpNoteKey != null){
 					if(UpNoteKey.exists(nowTime + "s")){
-						keyPressed(1);
-						var timer1 = new FlxTimer().start(0.5, function(tmr:FlxTimer)
-						{
+						if(LeftNoteKey.get(nowTime + "s")[1]){
+							keyPressed(1);
+                                                }else{
 							keyReleased(1);
-						});
+						}
 					}
 				}
 
 				if(DownNoteKey != null){
 					if(DownNoteKey.exists(nowTime + "s")){
-						keyPressed(2);
-						var timer2 = new FlxTimer().start(0.5, function(tmr:FlxTimer)
-						{
+						if(LeftNoteKey.get(nowTime + "s")[1]){
+							keyPressed(2);
+                                                }else{
 							keyReleased(2);
-						});
+						}
 					}
 				}
 
 				if(RightNoteKey != null){
 					if(RightNoteKey.exists(nowTime + "s")){
-						keyPressed(3);
-						var timer2 = new FlxTimer().start(0.5, function(tmr:FlxTimer)
-						{
+						if(LeftNoteKey.get(nowTime + "s")[1]){
+							keyPressed(3);
+                                                }else{
 							keyReleased(3);
-						});
+						}
 					}
 				}
 			}
@@ -3277,6 +3276,8 @@ override public function update(elapsed:Float)
 	}
 
 	public var strumsBlocked:Array<Bool> = [];
+
+	var ispress:Bool = false;
         
 	public function onKeyPress(event:KeyboardEvent):Void
 	{
@@ -3285,12 +3286,15 @@ override public function update(elapsed:Float)
         var nowTime = Std.string(backend.Conductor.songPosition);
 		trace(nowTime + " and " + key);
 		if(ClientPrefs.data.noteRecording){
-			Thread.create(() -> {
-				if(key == 0) LeftNoteKey.set(nowTime + "s",0);
-				if(key == 1) UpNoteKey.set(nowTime + "s",1);
-				if(key == 2) DownNoteKey.set(nowTime + "s",2);
-				if(key == 3) RightNoteKey.set(nowTime + "s",3);
-			});
+			if(!ispress){
+				ispress = true;
+				Thread.create(() -> {
+					if(key == 0) LeftNoteKey.set(nowTime + "s",[0,true]);
+					if(key == 1) UpNoteKey.set(nowTime + "s",[1,true]);
+					if(key == 2) DownNoteKey.set(nowTime + "s",[2,true]);
+					if(key == 3) RightNoteKey.set(nowTime + "s",[3,true]);
+				});
+			}
 		}
 
 		if (!controls.controllerMode)
@@ -3407,6 +3411,20 @@ override public function update(elapsed:Float)
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
+
+		var nowTime = Std.string(backend.Conductor.songPosition);
+		trace(nowTime + " and " + key);
+		if(ClientPrefs.data.noteRecording){
+			if(ispress){
+				ispress = false;
+				Thread.create(() -> {
+					if(key == 0) LeftNoteKey.set(nowTime + "s",[0,false]);
+					if(key == 1) UpNoteKey.set(nowTime + "s",[1,false]);
+					if(key == 2) DownNoteKey.set(nowTime + "s",[2,false]);
+					if(key == 3) RightNoteKey.set(nowTime + "s",[3,false]);
+				});
+			}
+		}
 		if(!controls.controllerMode && key > -1) keyReleased(key);
 	}
 
