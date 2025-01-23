@@ -317,10 +317,10 @@ class PlayState extends MusicBeatState
 	public var luaVirtualPad:FlxVirtualPad;
 	var diffBotplay:Bool;
 
-	var LeftNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1, null]];
-	var UpNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1,null]];
-	var DownNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1,null]];
-	var RightNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1,null]];
+	var LeftNoteKey:Map<String, Dynamic> = ["Start" => [-1, null]];
+	var UpNoteKey:Map<String, Dynamic> = ["Start" => [-1,null]];
+	var DownNoteKey:Map<String, Dynamic> = ["Start" => [-1,null]];
+	var RightNoteKey:Map<String, Dynamic> = ["Start" => [-1,null]];
 
 	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, ?preloadEvents:Array<Array<Dynamic>>) {
 	    super();
