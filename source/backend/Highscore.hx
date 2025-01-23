@@ -9,10 +9,10 @@ class Highscore
     public static var songNoteMs:Map<String, Array<Float>> = new Map<String, Array<Float>>();
     public static var songNoteTime:Map<String, Array<Float>> = new Map<String, Array<Float>>();
 	
-        public static var songNoteKeyLeft:Map<String, Array<Int,Bool>> = new Map<String, Array<Int,Bool>>();
-	public static var songNoteKeyUp:Map<String, Array<Int,Bool>> = new Map<String, Array<Int,Bool>>();
-	public static var songNoteKeyDown:Map<String, Array<Int,Bool>> = new Map<String, Array<Int,Bool>>();
-	public static var songNoteKeyRight:Map<String, Array<Int,Bool>> = new Map<String, Array<Int,Bool>>();
+        public static var songNoteKeyLeft:Map<String, Dynamic> = new Map<String, Dynamic>();
+	public static var songNoteKeyUp:Map<String, Dynamic> = new Map<String, Dynamic>();
+	public static var songNoteKeyDown:Map<String, Dynamic> = new Map<String, Dynamic>();
+	public static var songNoteKeyRight:Map<String, Dynamic> = new Map<String, Dynamic>();
     
 	public static function resetSong(song:String, diff:Int = 0):Void
 	{
@@ -34,7 +34,7 @@ class Highscore
 		setWeekScore(daWeek, 0);
 	}
 
-	public static function saveScore(song:String, score:Int = 0, diff:Int = 0, rating:Float = -1, msGroup:Array<Float>, timeGroup:Array<Float>, LeftkeyGroup:Map<String, Array<Int,Bool>> ,UpkeyGroup:Map<String, Array<Int,Bool>> ,DownkeyGroup:Map<String, Array<Int,Bool>> ,RightkeyGroup:Map<String, Array<Int,Bool>>):Void
+	public static function saveScore(song:String, score:Int = 0, diff:Int = 0, rating:Float = -1, msGroup:Array<Float>, timeGroup:Array<Float>, LeftkeyGroup:Map<String, Dynamic> ,UpkeyGroup:Map<String, Dynamic> ,DownkeyGroup:Map<String, Dynamic> ,RightkeyGroup:Map<String, Dynamic>):Void
 	{
 		var daSong:String = formatSong(song, diff);
 
@@ -128,7 +128,7 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	static function setKeyGroupLeft(song:String, group:Map<String, Array<Int,Bool>>):Void
+	static function setKeyGroupLeft(song:String, group:Map<String, Dynamic>):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songNoteKeyLeft.set(song, group);
@@ -136,7 +136,7 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	static function setKeyGroupDown(song:String, group:Map<String, Array<Int,Bool>>):Void
+	static function setKeyGroupDown(song:String, group:Map<String, Dynamic>):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songNoteKeyDown.set(song, group);
@@ -144,7 +144,7 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	static function setKeyGroupUp(song:String, group:Map<String, Array<Int,Bool>>):Void
+	static function setKeyGroupUp(song:String, group:Map<String, Dynamic>):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songNoteKeyUp.set(song, group);
@@ -152,7 +152,7 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	static function setKeyGroupRight(song:String, group:Map<String, Array<Int,Bool>>):Void
+	static function setKeyGroupRight(song:String, group:Map<String, Dynamic>):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songNoteKeyRight.set(song, group);
