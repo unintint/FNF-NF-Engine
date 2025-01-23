@@ -315,8 +315,9 @@ class PlayState extends MusicBeatState
 	public var endCallback:Void->Void = null;
 
 	public var luaVirtualPad:FlxVirtualPad;
+	var diffBotplay:Bool;
 
-	var LeftNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1, null];
+	var LeftNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1, null]];
 	var UpNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1,null]];
 	var DownNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1,null]];
 	var RightNoteKey:Map<String, Array<Int,Bool>> = ["Start" => [-1,null]];
