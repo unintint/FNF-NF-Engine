@@ -2250,7 +2250,7 @@ override public function update(elapsed:Float)
 			if (ClientPrefs.data.notePlayback){
 				var nowTime = Std.string(backend.Conductor.songPosition);
 				if(LeftNoteKey != null){
-					if(LeftNoteKey.exists(nowTime + "s"){
+					if(LeftNoteKey.exists(nowTime + "s")){
 			                        if(LeftNoteKey.get(nowTime + "s")[1]){
 							keyPressed(0);
                                                 }else{
