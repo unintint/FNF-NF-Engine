@@ -286,8 +286,14 @@ class TitleState extends MusicBeatState
 	{
 		if (!initialized)
 		{
-			if(FlxG.sound.music == null) {
+			if(FlxG.sound.music == null && ClientPrefs.data.mainMusic == "None") {
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+			}else{
+				if(ClientPrefs.data.mainMusic != 'freakyMenu'){
+				    FlxG.sound.playMusic(Paths.music("Main Screen/" + ClientPrefs.data.mainMusic), 0);
+				}else{
+				    FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+				}
 			}
 		}
 
