@@ -391,7 +391,11 @@ class FreeplayState extends MusicBeatState
 			FlxG.sound.music.stop();
 			destroyFreeplayVocals();
 			FlxG.sound.music.volume = 0;
-			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+			if(ClientPrefs.data.mainMusic != 'None' && ClientPrefs.data.mainMusic != 'freakyMenu'){
+				FlxG.sound.playMusic(Paths.music('Main Screen/' + ClientPrefs.data.mainMusic), 0);
+			}else{
+			        FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+			}
 			FlxTween.tween(FlxG.sound.music, {volume: 1}, 1);
 
 			MusicBeatState.switchState(new MainMenuState());
