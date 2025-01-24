@@ -29,8 +29,8 @@ class BackendGroup
         );
         follow.addOption(option);
 
-	var MainMusicArray:Array<String> = ['None', 'Breakfast', 'Tea Time'];
-	for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/Main Screen/'))
+	var MainMusicArray:Array<String> = ['None', 'freakyMenu'];
+	for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'music/Main Screen/'))
 		for (file in FileSystem.readDirectory(folder))
 		{				
 			if(file.endsWith('.ogg'))
@@ -45,8 +45,8 @@ class BackendGroup
         );
         follow.addOption(option);
 
-	var OptionMusicArray:Array<String> = ['None', 'Breakfast', 'Tea Time'];
-	for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/Options Screen/'))
+	var OptionMusicArray:Array<String> = ['None'];
+	for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'music/Options Screen/'))
 		for (file in FileSystem.readDirectory(folder))
 		{				
 			if(file.endsWith('.ogg'))
@@ -62,7 +62,7 @@ class BackendGroup
         follow.addOption(option);
 
         var PauseMusicArray:Array<String> = ['None', 'Breakfast', 'Tea Time'];
-	for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/Pause Screen/'))
+	for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'music/Pause Screen/'))
 		for (file in FileSystem.readDirectory(folder))
 		{				
 			if(file.endsWith('.ogg'))
