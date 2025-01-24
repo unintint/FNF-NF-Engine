@@ -121,8 +121,9 @@ class OptionsState extends MusicBeatState
 				//cataArray[i].forceUpdate();
 			}
 		}
-
-		
+		if(ClientPrefs.data.optionMusic != 'None'){
+			FlxG.sound.playMusic(Paths.music('Options Screen/' + ClientPrefs.data.optionMusic), 0);
+		}
 		super.create();
 	}
 
