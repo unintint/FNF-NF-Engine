@@ -39,6 +39,8 @@
 
     "Gameplaybackend": "Gameplay Backend",
     "fixLNL": "Reduce Long Note length",
+    "mainMusic": "Main Screen song type",
+    "optionMusic": "Options Screen song type"
     "pauseMusic": "Pause Screen song type",
     "hitsoundType": "Hitsound type",
     "hitsoundVolume": "Hitsound volume",
