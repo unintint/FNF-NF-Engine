@@ -125,15 +125,18 @@ class PauseSubState extends MusicBeatSubstate
 						var path:String = Paths.formatToSongPath(ClientPrefs.data.pauseMusic);
 					}
 					
-					if(path.toLowerCase() != 'none')
+					if(path.toLowerCase() != 'none'){
 						if(ClientPrefs.data.pauseMusic == 'none' || ClientPrefs.data.pauseMusic == 'Breakfast' || ClientPrefs.data.pauseMusic == 'Tea Time')
 					        {
 						        pauseMusic.loadEmbedded(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), true, true);
 					        }else{
 							pauseMusic.loadEmbedded(Paths.music(Paths.formatToSongPath('Pause Screen/' + ClientPrefs.data.pauseMusic)), true, true);
 						}
+					}
 						
-				else pauseMusic.loadEmbedded(Paths.music(songName), true, true);
+				}else{
+					pauseMusic.loadEmbedded(Paths.music(songName), true, true);
+				}
 			}
 		} catch(e:Dynamic) {}		
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
