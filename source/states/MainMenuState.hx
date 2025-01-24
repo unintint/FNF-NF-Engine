@@ -452,6 +452,9 @@ class MainMenuState extends MusicBeatState
 							case 'credits':
 								MusicBeatState.switchState(new CreditsState());
 							case 'options':
+								if(ClientPrefs.data.optionMusic != 'None'){
+									FlxG.sound.playMusic(Paths.music('Options Screen/' + ClientPrefs.data.optionMusic), 0);
+								}
 								MusicBeatState.switchState(new OptionsState());
 								//OptionsState.onPlayState = false;
 								if (PlayState.SONG != null)
