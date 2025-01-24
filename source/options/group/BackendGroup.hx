@@ -75,7 +75,7 @@ class BackendGroup
             STRING,
             PauseMusicArray
         );
-        follow.addOption(option)
+        follow.addOption(option);
 	
         var hitsoundArray:Array<String> = ['Default'];
         for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/hitsounds/'))
