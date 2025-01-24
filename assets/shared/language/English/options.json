@@ -39,8 +39,6 @@
 
     "Gameplaybackend": "Gameplay Backend",
     "fixLNL": "Reduce Long Note length",
-    "mainMusic": "Main Screen song type",
-    "optionMusic": "Options Screen song type"
     "pauseMusic": "Pause Screen song type",
     "hitsoundType": "Hitsound type",
     "hitsoundVolume": "Hitsound volume",
@@ -135,7 +133,7 @@
     "CustomFadeText": "Custom fade text visible",
     "skipTitleVideo": "Skip intro video",
     "audioDisplayQuality": "The higher the analytical quality of music data,the greater the computational requirements",
-    "audioDisplayUpdate": "The reaction interval of the music analyzer",
+    "audioDisplayUpdate": "The reaction interval of the music analyzer"
     "freeplayOld": "Use psych freeplay",
     "resultsScreen": "Open Results Screen at end song",
     "loadingScreen": "Add a LoadingScreen for PlayState",

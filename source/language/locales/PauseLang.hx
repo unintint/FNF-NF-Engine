@@ -28,14 +28,10 @@ class PauseLang
 
     static public function updateLang() {
         try{
-           defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/pause.json'));
+            data = defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/pause.json'));
            }
         try{
             data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/pause.json'));
-        } catch(e:Any) {
-            try{
-                data = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/pause.json'));
-            }
-        }
+        } 
     }
 }

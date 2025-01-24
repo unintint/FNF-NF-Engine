@@ -8,6 +8,7 @@ import backend.Section;
 import backend.Rating;
 
 import sys.thread.Thread;
+import sys.thread.FixedThreadPool;
 import sys.thread.Mutex;
 import haxe.Timer;
 
@@ -84,7 +85,6 @@ import cpp.NativeGc;
 **/
 class PlayState extends MusicBeatState
 {
-	@:allow(NoteRecording)
 	public static var STRUM_X = 48.5;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
@@ -195,7 +195,6 @@ class PlayState extends MusicBeatState
 	
 	public var NoteMs:Array<Float> = [];
     public var NoteTime:Array<Float> = [];    
-    
     var rsCheck:Bool = false;
     
     var numItems:FlxTypedGroup<FlxSprite>;
@@ -243,6 +242,7 @@ class PlayState extends MusicBeatState
 	public var cpuControlled:Bool = false;
 	public var cpuControlled_opponent:Bool = false;
 	public var practiceMode:Bool = false;
+	public var playbackMode:Bool = false;
 
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
@@ -317,10 +317,12 @@ class PlayState extends MusicBeatState
 	public var luaVirtualPad:FlxVirtualPad;
 	var diffBotplay:Bool;
 
-	var LeftNoteKey:Map<String, Dynamic> = ["Start" => [-1, null]];
-	var UpNoteKey:Map<String, Dynamic> = ["Start" => [-1,null]];
-	var DownNoteKey:Map<String, Dynamic> = ["Start" => [-1,null]];
-	var RightNoteKey:Map<String, Dynamic> = ["Start" => [-1,null]];
+	var leftSaveKey:Map<Int, Dynamic> = [];
+	var upSaveKey:Map<Int, Dynamic> = [];
+	var downSaveKey:Map<Int, Dynamic> = [];
+	var rightSaveKey:Map<Int, Dynamic> = [];
+
+	//分开是为了玩多线程
 
 	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, ?preloadEvents:Array<Array<Dynamic>>) {
 	    super();
@@ -360,9 +362,9 @@ class PlayState extends MusicBeatState
 		guitarHeroSustains = ClientPrefs.data.guitarHeroSustains;
         if (ClientPrefs.data.playOpponent) cpuControlled = ClientPrefs.data.botOpponentFix;
 
-		if(ClientPrefs.data.noteRecording || ClientPrefs.data.notePlayback){
-                    ClientPrefs.data.gameplaySettings.set('botplay', false);//不允许投机取巧😈
-                }
+		//if(ClientPrefs.data.noteRecording || ClientPrefs.data.notePlayback){
+          //          ClientPrefs.data.gameplaySettings.set('botplay', false);//不允许投机取巧😈
+              //  }
 
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = initPsychCamera();
@@ -755,16 +757,16 @@ class PlayState extends MusicBeatState
 		cacheCountdown();
 
 		if(Highscore.getKeyGroupLeft(songName, storyDifficulty) != null){
-			LeftNoteKey = Highscore.getKeyGroupLeft(songName, storyDifficulty);
+			leftSaveKey = Highscore.getKeyGroupLeft(songName, storyDifficulty);
 		}
 		if(Highscore.getKeyGroupUp(songName, storyDifficulty) != null){
-			UpNoteKey = Highscore.getKeyGroupUp(songName, storyDifficulty);
+			upSaveKey = Highscore.getKeyGroupUp(songName, storyDifficulty);
 		}
 		if(Highscore.getKeyGroupDown(songName, storyDifficulty) != null){
-			DownNoteKey = Highscore.getKeyGroupDown(songName, storyDifficulty);
+			downSaveKey = Highscore.getKeyGroupDown(songName, storyDifficulty);
 		}
 		if(Highscore.getKeyGroupRight(songName, storyDifficulty) != null){
-			RightNoteKey = Highscore.getKeyGroupRight(songName, storyDifficulty);
+			rightSaveKey = Highscore.getKeyGroupRight(songName, storyDifficulty);
 		}
 		super.create();
 		
@@ -1596,11 +1598,12 @@ class PlayState extends MusicBeatState
 		    for (event in 0...extraEvents.length)
     			for (data in 0...extraEvents[event][1].length)
     				makeEvent(extraEvents[event], data);
-
+		/*
 		if (ClientPrefs.data.loadingScreen)
 			for (num in 0...unspawnNotes.length)
 				unspawnNotes[num].updateHitbox();
-    				
+    	*/
+
 		generatedMusic = true;
 	}
 
@@ -1949,8 +1952,6 @@ class PlayState extends MusicBeatState
 	var freezeCamera:Bool = false;
 	var allowDebugKeys:Bool = true;	
 	var pressPaue:Int = 0;
-	public var nowArray:Int = 0;
-	public var ispressed:Bool = false;
 
 override public function update(elapsed:Float)
 	{
@@ -2115,7 +2116,7 @@ override public function update(elapsed:Float)
 
 				var index:Int = unspawnNotes.indexOf(dunceNote);
 				unspawnNotes.splice(index, 1);
-				dunceNote.updateHitbox();
+			//dunceNote.updateHitbox();
 			}
 		}
 
@@ -2245,13 +2246,13 @@ override public function update(elapsed:Float)
         for (shaderUpdate in shaderUpdates)
 			shaderUpdate(elapsed);
         #end
-
+	/*
 		Thread.create(() -> {
 			if (ClientPrefs.data.notePlayback){
 				var nowTime = Std.string(backend.Conductor.songPosition);
-				if(LeftNoteKey != null){
-					if(LeftNoteKey.exists(nowTime + "s")){
-			                        if(LeftNoteKey.get(nowTime + "s")[1]){
+				if(leftSaveKey != null){
+					if(leftSaveKey.exists(nowTime + "s")){
+			                        if(leftSaveKey.get(nowTime + "s")[1]){
 							keyPressed(0);
                                                 }else{
 							keyReleased(0);
@@ -2259,9 +2260,9 @@ override public function update(elapsed:Float)
 					}
 				}
 
-				if(UpNoteKey != null){
-					if(UpNoteKey.exists(nowTime + "s")){
-						if(LeftNoteKey.get(nowTime + "s")[1]){
+				if(upSaveKey != null){
+					if(upSaveKey.exists(nowTime + "s")){
+						if(leftSaveKey.get(nowTime + "s")[1]){
 							keyPressed(1);
                                                 }else{
 							keyReleased(1);
@@ -2269,9 +2270,9 @@ override public function update(elapsed:Float)
 					}
 				}
 
-				if(DownNoteKey != null){
-					if(DownNoteKey.exists(nowTime + "s")){
-						if(LeftNoteKey.get(nowTime + "s")[1]){
+				if(downSaveKey != null){
+					if(downSaveKey.exists(nowTime + "s")){
+						if(leftSaveKey.get(nowTime + "s")[1]){
 							keyPressed(2);
                                                 }else{
 							keyReleased(2);
@@ -2279,9 +2280,9 @@ override public function update(elapsed:Float)
 					}
 				}
 
-				if(RightNoteKey != null){
-					if(RightNoteKey.exists(nowTime + "s")){
-						if(LeftNoteKey.get(nowTime + "s")[1]){
+				if(rightSaveKey != null){
+					if(rightSaveKey.exists(nowTime + "s")){
+						if(leftSaveKey.get(nowTime + "s")[1]){
 							keyPressed(3);
                                                 }else{
 							keyReleased(3);
@@ -2290,7 +2291,7 @@ override public function update(elapsed:Float)
 				}
 			}
 
-		});
+		});*/
 
 		callOnScripts('onUpdatePost', [elapsed]);
     }
@@ -2889,7 +2890,7 @@ override public function update(elapsed:Float)
 			#if !switch
 			var percent:Float = ratingPercent;
 			if(Math.isNaN(percent)) percent = 0;
-			if (!ClientPrefs.data.playOpponent)Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, NoteMs, NoteTime,LeftNoteKey,UpNoteKey,DownNoteKey,RightNoteKey);
+			if (!ClientPrefs.data.playOpponent)Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, NoteMs, NoteTime,leftSaveKey,upSaveKey,downSaveKey,rightSaveKey);
 			#end
 			playbackRate = 1;
 
@@ -3011,6 +3012,9 @@ override public function update(elapsed:Float)
     var comboNumTweenScaleY:Array<FlxTween> = [];
     
     var seperatedScore:Array<Int> = [];
+
+	var objThread:FixedThreadPool;
+	var splashThread:FixedThreadPool;
 	private function cachePopUpScore()
 	{
 		var uiPrefix:String = '';
@@ -3111,7 +3115,9 @@ override public function update(elapsed:Float)
 		}
 		
 		comboSpr_S.x = xThing + 50 * 2;
-		
+
+		objThread = new FixedThreadPool(1);
+		splashThread = new FixedThreadPool(1);
 	}
 
 	private function popUpScore(note:Note = null):Void
@@ -3157,146 +3163,132 @@ override public function update(elapsed:Float)
 		if (!ClientPrefs.data.showComboNum && !ClientPrefs.data.showRating)
 		return;
         
-        
-		var uiPrefix:String = "";
-		var uiSuffix:String = '';
-		var antialias:Bool = ClientPrefs.data.antialiasing;
+        objThread.run(function(){
+			var uiPrefix:String = "";
+			var uiSuffix:String = '';
+			var antialias:Bool = ClientPrefs.data.antialiasing;
 
-		if (stageUI != "normal")
-		{
-			uiPrefix = '${stageUI}UI/';
-			if (PlayState.isPixelStage) uiSuffix = '-pixel';
-			antialias = !isPixelStage;
-		}
-		
-		rateSpr_S.visible = ClientPrefs.data.showRating && showRating;
-		rateSpr_S.loadGraphic(Paths.image(uiPrefix + daRating.image + uiSuffix));
-		rateSpr_S.antialiasing = antialias;		
-        
-        comboSpr_S.visible = showCombo;
-        comboSpr_S.loadGraphic(Paths.image(uiPrefix + 'combo' + uiSuffix));
-		comboSpr_S.antialiasing = antialias;		
-		
-		var scale:Float = 0;
-		var numScale:Float = 0;
-		if (!PlayState.isPixelStage)
-		{
-			rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * 0.7));
-			comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * 0.6));
-			scale = 0.7;
-			numScale = 0.5;
-		}
-		else
-		{
-			rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * daPixelZoom * 0.85));
-			comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * daPixelZoom * 0.85));
-			scale = 0.85 * daPixelZoom;
-			numScale = daPixelZoom;
-		}
-
-		comboSpr_S.updateHitbox();
-		rateSpr_S.updateHitbox();
-
-		var seperatedScore:Array<Int> = [];
-        var startShow = 1; //use for combo 1000+
-		if(combo >= 1000) {
-			seperatedScore.push(Math.floor(combo / 1000) % 10);
-			startShow = 0;
-		}else{
-		    numItems.members[0].alpha = 0.00001;
-		}
-		
-		seperatedScore.push(Math.floor(combo / 100) % 10);
-		seperatedScore.push(Math.floor(combo / 10) % 10);
-		seperatedScore.push(combo % 10);
-
-		for (comboNum in 0...seperatedScore.length)
-		{
-		    var numScore:FlxSprite = numItems.members[comboNum + startShow];
-		    numScore.visible = ClientPrefs.data.showComboNum && showComboNum;
-			numScore.loadGraphic(Paths.image(uiPrefix + 'num' + seperatedScore[comboNum] + uiSuffix));
-			if (ClientPrefs.data.comboColor) numScore.color = daRating.color;
-			else numScore.color = FlxColor.WHITE;
-			
-			if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
-			else numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
-			numScore.updateHitbox();			
-			numScore.antialiasing = antialias;
-			
-			if (comboNumTween[comboNum + startShow] != null) comboNumTween[comboNum + startShow].cancel();
-            numScore.alpha = 1;                        
-            comboNumTween[comboNum + startShow] = FlxTween.tween(numScore, {alpha: 0}, 0.4 / playbackRate, {
-			startDelay: 0.6 / playbackRate
-		    });
-		    
-		    if (comboNumTweenScaleX[comboNum] != null) comboNumTweenScaleX[comboNum].cancel();
-            numScore.scale.x = numScale + 0.07;                        
-            comboNumTweenScaleX[comboNum] = FlxTween.tween(numScore.scale, {x: numScale}, 0.2 / playbackRate);
-		    
-		    if (comboNumTweenScaleY[comboNum] != null) comboNumTweenScaleY[comboNum].cancel();
-            numScore.scale.y = numScale + 0.07;                        
-            comboNumTweenScaleY[comboNum] = FlxTween.tween(numScore.scale, {y: numScale}, 0.2 / playbackRate);
-            
-            if (ClientPrefs.data.comboOffsetFix)
-            {
-                numScore.offset.x -= comboOffsetFix[seperatedScore[comboNum]][0] * 0.5;
-			    numScore.offset.y += comboOffsetFix[seperatedScore[comboNum]][1] * 0.5;
+			if (stageUI != "normal")
+			{
+				uiPrefix = '${stageUI}UI/';
+				if (PlayState.isPixelStage) uiSuffix = '-pixel';
+				antialias = !isPixelStage;
 			}
-		}
-		
-		if (rateTween != null) rateTween.cancel();
-		rateSpr_S.alpha = 1;
-		rateTween = FlxTween.tween(rateSpr_S, {alpha: 0}, 0.4 / playbackRate, {
-			startDelay: 0.6 / playbackRate
+			
+			rateSpr_S.visible = ClientPrefs.data.showRating && showRating;
+			rateSpr_S.loadGraphic(Paths.image(uiPrefix + daRating.image + uiSuffix));
+			rateSpr_S.antialiasing = antialias;		
+			
+			comboSpr_S.visible = showCombo;
+			comboSpr_S.loadGraphic(Paths.image(uiPrefix + 'combo' + uiSuffix));
+			comboSpr_S.antialiasing = antialias;		
+			
+			var scale:Float = 0;
+			var numScale:Float = 0;
+			if (!PlayState.isPixelStage)
+			{
+				rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * 0.7));
+				comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * 0.6));
+				scale = 0.7;
+				numScale = 0.5;
+			}
+			else
+			{
+				rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * daPixelZoom * 0.85));
+				comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * daPixelZoom * 0.85));
+				scale = 0.85 * daPixelZoom;
+				numScale = daPixelZoom;
+			}
+
+			comboSpr_S.updateHitbox();
+			rateSpr_S.updateHitbox();
+
+			var seperatedScore:Array<Int> = [];
+			var startShow = 1; //use for combo 1000+
+			if(combo >= 1000) {
+				seperatedScore.push(Math.floor(combo / 1000) % 10);
+				startShow = 0;
+			}else{
+				numItems.members[0].alpha = 0.00001;
+			}
+			
+			seperatedScore.push(Math.floor(combo / 100) % 10);
+			seperatedScore.push(Math.floor(combo / 10) % 10);
+			seperatedScore.push(combo % 10);
+
+			for (comboNum in 0...seperatedScore.length)
+			{
+				var numScore:FlxSprite = numItems.members[comboNum + startShow];
+				numScore.visible = ClientPrefs.data.showComboNum && showComboNum;
+				numScore.loadGraphic(Paths.image(uiPrefix + 'num' + seperatedScore[comboNum] + uiSuffix));
+				if (ClientPrefs.data.comboColor) numScore.color = daRating.color;
+				else numScore.color = FlxColor.WHITE;
+				
+				if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
+				else numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
+				numScore.updateHitbox();			
+				numScore.antialiasing = antialias;
+				
+				if (comboNumTween[comboNum + startShow] != null) comboNumTween[comboNum + startShow].cancel();
+				numScore.alpha = 1;                        
+				comboNumTween[comboNum + startShow] = FlxTween.tween(numScore, {alpha: 0}, 0.4 / playbackRate, {
+				startDelay: 0.6 / playbackRate
+				});
+				
+				if (comboNumTweenScaleX[comboNum] != null) comboNumTweenScaleX[comboNum].cancel();
+				numScore.scale.x = numScale + 0.07;                        
+				comboNumTweenScaleX[comboNum] = FlxTween.tween(numScore.scale, {x: numScale}, 0.2 / playbackRate);
+				
+				if (comboNumTweenScaleY[comboNum] != null) comboNumTweenScaleY[comboNum].cancel();
+				numScore.scale.y = numScale + 0.07;                        
+				comboNumTweenScaleY[comboNum] = FlxTween.tween(numScore.scale, {y: numScale}, 0.2 / playbackRate);
+				
+				if (ClientPrefs.data.comboOffsetFix)
+				{
+					numScore.offset.x -= comboOffsetFix[seperatedScore[comboNum]][0] * 0.5;
+					numScore.offset.y += comboOffsetFix[seperatedScore[comboNum]][1] * 0.5;
+				}
+			}
+			
+			if (rateTween != null) rateTween.cancel();
+			rateSpr_S.alpha = 1;
+			rateTween = FlxTween.tween(rateSpr_S, {alpha: 0}, 0.4 / playbackRate, {
+				startDelay: 0.6 / playbackRate
+			});
+			
+			if (comboTween != null) comboTween.cancel();
+			comboSpr_S.alpha = 1;
+			comboTween = FlxTween.tween(comboSpr_S, {alpha: 0}, 0.4 / playbackRate, {
+				startDelay: 0.6 / playbackRate
+			});
+			
+			if (rateTweenScaleX != null) rateTweenScaleX.cancel();
+			rateSpr_S.scale.x = scale + 0.07;
+			rateTweenScaleX = FlxTween.tween(rateSpr_S.scale, {x: scale}, 0.2 / playbackRate);
+			
+			if (comboTweenScaleX != null) comboTweenScaleX.cancel();
+			comboSpr_S.scale.x = scale + 0.07;
+			comboTweenScaleX = FlxTween.tween(comboSpr_S.scale, {x: scale}, 0.2 / playbackRate);
+			
+			if (rateTweenScaleY != null) rateTweenScaleY.cancel();
+			rateSpr_S.scale.y = scale + 0.07;
+			rateTweenScaleY = FlxTween.tween(rateSpr_S.scale, {y: scale}, 0.2 / playbackRate);
+			
+			if (comboTweenScaleY != null) comboTweenScaleY.cancel();
+			comboSpr_S.scale.y = scale + 0.07;
+			comboTweenScaleY = FlxTween.tween(comboSpr_S.scale, {y: scale}, 0.2 / playbackRate);
+			
+			rateSpr_S.offset.x += rateSpr_S.width / 2;
+			rateSpr_S.offset.y += rateSpr_S.height / 2;
 		});
-        
-        if (comboTween != null) comboTween.cancel();
-        comboSpr_S.alpha = 1;
-		comboTween = FlxTween.tween(comboSpr_S, {alpha: 0}, 0.4 / playbackRate, {
-			startDelay: 0.6 / playbackRate
-		});
-		
-		if (rateTweenScaleX != null) rateTweenScaleX.cancel();
-		rateSpr_S.scale.x = scale + 0.07;
-		rateTweenScaleX = FlxTween.tween(rateSpr_S.scale, {x: scale}, 0.2 / playbackRate);
-        
-        if (comboTweenScaleX != null) comboTweenScaleX.cancel();
-        comboSpr_S.scale.x = scale + 0.07;
-		comboTweenScaleX = FlxTween.tween(comboSpr_S.scale, {x: scale}, 0.2 / playbackRate);
-		
-		if (rateTweenScaleY != null) rateTweenScaleY.cancel();
-		rateSpr_S.scale.y = scale + 0.07;
-		rateTweenScaleY = FlxTween.tween(rateSpr_S.scale, {y: scale}, 0.2 / playbackRate);
-        
-        if (comboTweenScaleY != null) comboTweenScaleY.cancel();
-        comboSpr_S.scale.y = scale + 0.07;
-		comboTweenScaleY = FlxTween.tween(comboSpr_S.scale, {y: scale}, 0.2 / playbackRate);
-		
-		rateSpr_S.offset.x += rateSpr_S.width / 2;
-        rateSpr_S.offset.y += rateSpr_S.height / 2;
 	}
 
 	public var strumsBlocked:Array<Bool> = [];
-
-	var ispress:Bool = false;
         
 	public function onKeyPress(event:KeyboardEvent):Void
 	{
 		var eventKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
-        var nowTime = Std.string(backend.Conductor.songPosition);
-		trace(nowTime + " and " + key);
-		if(ClientPrefs.data.noteRecording){
-			if(!ispress){
-				ispress = true;
-				Thread.create(() -> {
-					if(key == 0) LeftNoteKey.set(nowTime + "s",[0,true]);
-					if(key == 1) UpNoteKey.set(nowTime + "s",[1,true]);
-					if(key == 2) DownNoteKey.set(nowTime + "s",[2,true]);
-					if(key == 3) RightNoteKey.set(nowTime + "s",[3,true]);
-				});
-			}
-		}
 
 		if (!controls.controllerMode)
 		{
@@ -3316,6 +3308,15 @@ override public function update(elapsed:Float)
 		if(!generatedMusic || endingSong || char.stunned) return;
 
 		keyboardDisplay.pressed(key);
+
+		switch(key)
+		{
+			case 0 : leftSaveKey.set(Std.int(Conductor.songPosition),[true]);
+			case 1 : upSaveKey.set(Std.int(Conductor.songPosition),[true]);
+			case 2 : downSaveKey.set(Std.int(Conductor.songPosition),[true]);
+			case 3 : rightSaveKey.set(Std.int(Conductor.songPosition),[true]);
+		}
+		//回放数据的保存
 		
 		// had to name it like this else it'd break older scripts lol
 		var ret:Dynamic = callOnScripts('preKeyPress', [key], true);		
@@ -3404,6 +3405,7 @@ override public function update(elapsed:Float)
 		else if (!a.lowPriority && b.lowPriority)
 			return -1;
 		*/
+		//在0.73这个玩意几乎没用而且已经被我的箭头优先级重写顶替了 --狐月影
 
 		return FlxSort.byValues(FlxSort.ASCENDING, a.strumTime, b.strumTime);
 	}
@@ -3412,20 +3414,7 @@ override public function update(elapsed:Float)
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
-
-		var nowTime = Std.string(backend.Conductor.songPosition);
-		trace(nowTime + " and " + key);
-		if(ClientPrefs.data.noteRecording){
-			if(ispress){
-				ispress = false;
-				Thread.create(() -> {
-					if(key == 0) LeftNoteKey.set(nowTime + "s",[0,false]);
-					if(key == 1) UpNoteKey.set(nowTime + "s",[1,false]);
-					if(key == 2) DownNoteKey.set(nowTime + "s",[2,false]);
-					if(key == 3) RightNoteKey.set(nowTime + "s",[3,false]);
-				});
-			}
-		}
+		
 		if(!controls.controllerMode && key > -1) keyReleased(key);
 	}
 
@@ -3434,6 +3423,15 @@ override public function update(elapsed:Float)
 		if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled && startedCountdown && !paused)
 		{
 			keyboardDisplay.released(key);
+
+			switch(key)
+			{
+				case 0 : leftSaveKey.set(Std.int(Conductor.songPosition),[false]);
+				case 1 : upSaveKey.set(Std.int(Conductor.songPosition),[false]);
+				case 2 : downSaveKey.set(Std.int(Conductor.songPosition),[false]);
+				case 3 : rightSaveKey.set(Std.int(Conductor.songPosition),[false]);
+			}
+			//回放数据的保存
 
 			var spr:StrumNote = ClientPrefs.data.playOpponent ? opponentStrums.members[key] : playerStrums.members[key];
 			if(spr != null)
@@ -3922,9 +3920,11 @@ override public function update(elapsed:Float)
 
 	public function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
 	    if (!ClientPrefs.data.showSplash) return;
-		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
-		splash.setupNoteSplash(x, y, data, note);
-		grpNoteSplashes.add(splash);
+		splashThread.run(function() {
+			var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
+			splash.setupNoteSplash(x, y, data, note);
+			grpNoteSplashes.add(splash);
+		});
 	}
 
 	override function destroy() {

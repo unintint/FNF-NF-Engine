@@ -9,7 +9,7 @@ class Highscore
     public static var songNoteMs:Map<String, Array<Float>> = new Map<String, Array<Float>>();
     public static var songNoteTime:Map<String, Array<Float>> = new Map<String, Array<Float>>();
 	
-        public static var songNoteKeyLeft:Map<String, Dynamic> = new Map<String, Dynamic>();
+    public static var songNoteKeyLeft:Map<String, Dynamic> = new Map<String, Dynamic>();
 	public static var songNoteKeyUp:Map<String, Dynamic> = new Map<String, Dynamic>();
 	public static var songNoteKeyDown:Map<String, Dynamic> = new Map<String, Dynamic>();
 	public static var songNoteKeyRight:Map<String, Dynamic> = new Map<String, Dynamic>();
@@ -22,10 +22,10 @@ class Highscore
 		setRating(daSong, 0);
 		setMsGroup(daSong, []);
 		setTimeGroup(daSong, []);
-		setKeyGroupLeft(daSong, ["Start" => [-1,null]]);
-		setKeyGroupUp(daSong, ["Start" => [-1,null]]);
-		setKeyGroupDown(daSong, ["Start" => [-1,null]]);
-		setKeyGroupRight(daSong, ["Start" => [-1,null]]);
+		setKeyGroupLeft(daSong, []);
+		setKeyGroupUp(daSong, []);
+		setKeyGroupDown(daSong, []);
+		setKeyGroupRight(daSong, []);
 	}
 
 	public static function resetWeek(week:String, diff:Int = 0):Void
@@ -34,7 +34,7 @@ class Highscore
 		setWeekScore(daWeek, 0);
 	}
 
-	public static function saveScore(song:String, score:Int = 0, diff:Int = 0, rating:Float = -1, msGroup:Array<Float>, timeGroup:Array<Float>, LeftkeyGroup:Map<String, Dynamic> ,UpkeyGroup:Map<String, Dynamic> ,DownkeyGroup:Map<String, Dynamic> ,RightkeyGroup:Map<String, Dynamic>):Void
+	public static function saveScore(song:String, score:Int = 0, diff:Int = 0, rating:Float = -1, msGroup:Array<Float>, timeGroup:Array<Float>, LeftkeyGroup:Map<Int, Dynamic> ,UpkeyGroup:Map<Int, Dynamic> ,DownkeyGroup:Map<Int, Dynamic> ,RightkeyGroup:Map<Int, Dynamic>):Void
 	{
 		var daSong:String = formatSong(song, diff);
 
@@ -128,7 +128,7 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	static function setKeyGroupLeft(song:String, group:Map<String, Dynamic>):Void
+	static function setKeyGroupLeft(song:String, group:Map<Int, Dynamic>):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songNoteKeyLeft.set(song, group);
@@ -136,7 +136,7 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	static function setKeyGroupDown(song:String, group:Map<String, Dynamic>):Void
+	static function setKeyGroupDown(song:String, group:Map<Int, Dynamic>):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songNoteKeyDown.set(song, group);
@@ -144,7 +144,7 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	static function setKeyGroupUp(song:String, group:Map<String, Dynamic>):Void
+	static function setKeyGroupUp(song:String, group:Map<Int, Dynamic>):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songNoteKeyUp.set(song, group);
@@ -152,7 +152,7 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	static function setKeyGroupRight(song:String, group:Map<String, Dynamic>):Void
+	static function setKeyGroupRight(song:String, group:Map<Int, Dynamic>):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
 		songNoteKeyRight.set(song, group);
@@ -223,7 +223,7 @@ class Highscore
 	{
 		var daSong:String = formatSong(song, diff);
 		if (!songNoteKeyLeft.exists(daSong)){
-			setKeyGroupLeft(daSong, ["Start" => [-1,null]]);
+			setKeyGroupLeft(daSong, []);
         }
 		return songNoteKeyLeft.get(daSong);
 	}
@@ -232,7 +232,7 @@ class Highscore
 	{
 		var daSong:String = formatSong(song, diff);
 		if (!songNoteKeyUp.exists(daSong)){
-			setKeyGroupUp(daSong, ["Start" => [-1,null]]);
+			setKeyGroupUp(daSong, []);
 		}
 		return songNoteKeyUp.get(daSong);
 	}
@@ -241,7 +241,7 @@ class Highscore
 	{
 		var daSong:String = formatSong(song, diff);
 		if (!songNoteKeyDown.exists(daSong)){
-			setKeyGroupDown(daSong, ["Start" => [-1,null]]);
+			setKeyGroupDown(daSong, []);
 		}
 		return songNoteKeyDown.get(daSong);
 	}
@@ -250,7 +250,7 @@ class Highscore
 	{
 		var daSong:String = formatSong(song, diff);
 		if (!songNoteKeyRight.exists(daSong)){
-			setKeyGroupRight(daSong, ["Start" => [-1,null]]);
+			setKeyGroupRight(daSong, []);
 		}
 		return songNoteKeyRight.get(daSong);
 	}
