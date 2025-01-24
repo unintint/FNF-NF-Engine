@@ -29,7 +29,45 @@ class BackendGroup
         );
         follow.addOption(option);
 
+	var MainMusicArray:Array<String> = ['None', 'Breakfast', 'Tea Time'];
+	for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/Main Screen/'))
+		for (file in FileSystem.readDirectory(folder))
+		{				
+			if(file.endsWith('.ogg'))
+			MainMusicArray.push(file.replace('.ogg', ''));				
+		}
+
+        var option:Option = new Option(
+            Language.get('mainMusic'),
+            'mainMusic',
+            STRING,
+            MainMusicArray
+        );
+        follow.addOption(option);
+
+	var OptionMusicArray:Array<String> = ['None', 'Breakfast', 'Tea Time'];
+	for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/Options Screen/'))
+		for (file in FileSystem.readDirectory(folder))
+		{				
+			if(file.endsWith('.ogg'))
+			OptionMusicArray.push(file.replace('.ogg', ''));				
+		}
+
+        var option:Option = new Option(
+            Language.get('optionMusic'),
+            'optionMusic',
+            STRING,
+            OptionMusicArray
+        );
+        follow.addOption(option);
+
         var PauseMusicArray:Array<String> = ['None', 'Breakfast', 'Tea Time'];
+	for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/Pause Screen/'))
+		for (file in FileSystem.readDirectory(folder))
+		{				
+			if(file.endsWith('.ogg'))
+			PauseMusicArray.push(file.replace('.ogg', ''));				
+		}
 
         var option:Option = new Option(
             Language.get('pauseMusic'),
@@ -37,8 +75,8 @@ class BackendGroup
             STRING,
             PauseMusicArray
         );
-        follow.addOption(option);
-
+        follow.addOption(option)
+	
         var hitsoundArray:Array<String> = ['Default'];
         for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/hitsounds/'))
 			for (file in FileSystem.readDirectory(folder))
