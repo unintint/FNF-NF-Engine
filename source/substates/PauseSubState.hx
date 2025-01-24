@@ -120,9 +120,12 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				if(songName == null)
 				{
+					var path:String;
 					if(ClientPrefs.data.pauseMusic == 'none' || ClientPrefs.data.pauseMusic == 'Breakfast' || ClientPrefs.data.pauseMusic == 'Tea Time')
 					{
-						var path:String = Paths.formatToSongPath(ClientPrefs.data.pauseMusic);
+						path = Paths.formatToSongPath(ClientPrefs.data.pauseMusic);
+					}else{
+						path = Paths.formatToSongPath('Pause Screen/' + ClientPrefs.data.pauseMusic);
 					}
 					
 					if(path.toLowerCase() != 'none'){
