@@ -19,6 +19,10 @@ import lime.system.System as LimeSystem;
 import lime.app.Application;
 import states.TitleState;
 import mobile.backend.Data;
+
+#if desktop
+import backend.ALSoftConfig;
+#end
 #if hl
 import hl.Api;
 #end
