@@ -718,7 +718,8 @@ class PlayState extends MusicBeatState
 		#end
 
 		addMobileControls(false);
-		mobileControls.active = mobileControls.visible = true;
+		removeMobileControls();
+		addMobileControls(false);
 
 		startCallback();
 		RecalculateRating();
@@ -3225,7 +3226,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 	
-	private function keyPressed(key:Int)
+	public function keyPressed(key:Int)
 	{
 		if(ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled || paused || key < 0) return;
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
@@ -3371,7 +3372,7 @@ class PlayState extends MusicBeatState
 	}
 
 	// Hold notes
-	private function keysCheck():Void
+	public function keysCheck():Void
 	{
 		// HOLDING
 		var holdArray:Array<Bool> = [];

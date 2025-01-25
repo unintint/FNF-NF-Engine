@@ -35,11 +35,18 @@ class Replay
 
     static public function keysCheck()
     {
-        var time:Float = Conductor.songPosition;
-        for (type in 0...2)
-        {
+        thread.run(function() {
+            var time:Float = Conductor.songPosition;
             
-        }
+            for (type in 0...4)
+            {
+                if (hitData[1][type][0] > time) reCheck(type);
+            }
+        });
+    }
+
+    static function reCheck(type:Int) {
+        if (hitData[0][type][0] < time) PlayState.keysCheck();
     }
 
     static public function reset() 
