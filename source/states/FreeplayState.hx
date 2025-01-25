@@ -324,7 +324,7 @@ class FreeplayState extends MusicBeatState
 
 		if (FlxG.mouse.x >= 660 && FlxG.mouse.x <= FlxG.width && FlxG.mouse.y >= FlxG.height * 0.25 && FlxG.mouse.y <= FlxG.height * 0.9)
 		{
-			position -= FlxG.mouse.wheel * 180;
+			position += FlxG.mouse.wheel * 180;
 			if (FlxG.mouse.pressed) 
 			{
 				isPressed = true;

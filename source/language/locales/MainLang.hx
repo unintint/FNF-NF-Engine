@@ -7,7 +7,8 @@ typedef MainData =
     languageName:String,
     fontName:String,
 	play:String,
-    back:String
+    back:String,
+    playBack:String
 }
 
 class MainLang

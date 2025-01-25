@@ -39,6 +39,9 @@ import openfl.utils.Assets;
 import openfl.filters.BlurFilter;
 import flixel.graphics.frames.FlxFilterFrames;
 
+import objects.shape.ShapeEX;
+import objects.shape.ResultShape;
+
 class ResultsScreen extends MusicBeatSubstate
 {
 	var background:FlxSprite;	
@@ -72,11 +75,11 @@ class ResultsScreen extends MusicBeatSubstate
     var percentTextNumber:FlxTypedGroup<FlxText>;
     //Results for note rate percent
     
-	var backText:FlxText;
-    var backBG:FlxSprite;
-	//back image
-	
-	var camOther:FlxCamera;        
+    var backRect:PressButton;
+	//back 
+	var replayRect:PressButton;
+
+	static public var camOther:FlxCamera;        
     //camera
     
     var game = PlayState.instance;
@@ -270,63 +273,87 @@ class ResultsScreen extends MusicBeatSubstate
 		percentRateAdd();
 		
 		//-------------------------
-		
-		var backTextShow:String = 'Press Enter to continue';
-		#if android backTextShow = 'Press Text to continue'; #end
-		
-		backText = new FlxText(FlxG.width, 0, backTextShow);
-		backText.size = 28;
-		backText.font = Paths.font('vcr.ttf');
-		backText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
-		backText.scrollFactor.set();
-		backText.antialiasing = ClientPrefs.data.antialiasing;
-	    backText.alignment = RIGHT;			    
 
-		backBG = new FlxSprite(FlxG.width, FlxG.height).loadGraphic(Paths.image('menuExtend/ResultsScreen/backBG'));
-		backBG.scrollFactor.set(0, 0);
-		backBG.scale.x = 0.5;
-		backBG.scale.y = 0.5;
-		backBG.updateHitbox();
-		backBG.antialiasing = ClientPrefs.data.antialiasing;
-		backBG.y -= backBG.height + 10;		
-		add(backBG);
-		add(backText);		
+		replayRect = new PressButton(20 + 640, 20 + 300 + 20 + 300 + 20, 290, 60, 'Replay', 0.5, replayFunction);
+		replayRect.cameras = [camOther];
+		replayRect.alpha = 0;
+		add(replayRect);
 		
-		backBG.cameras = [camOther];
-		backText.cameras = [camOther];
-		
-		backText.y = backBG.y + backBG.height / 2 - backText.height / 2;
+		backRect = new PressButton(20 + 640 +310, 20 + 300 + 20 + 300 + 20, 290, 60, 'Back', 0.5, backFunction);
+		backRect.cameras = [camOther];
+		backRect.alpha = 0;
+		add(backRect);
 							
 		//-------------------------				
 		
 	    startTween();
+
+		#if !mobile
+		FlxG.mouse.visible = true;
+	    #else
+	    FlxG.mouse.visible = false;
+	    #end
 	}
 	
-	var getReadyClose:Bool = false;    
+	   
 	var closeCheck:Bool = false;
+	var choose:Int = 1;
 	override function update(elapsed:Float)
 	{ 					
-		if(!closeCheck && (FlxG.keys.justPressed.ENTER || ((FlxG.mouse.getScreenPosition(camOther).x > backBG.x && FlxG.mouse.getScreenPosition(camOther).x < backBG.x + backBG.width && FlxG.mouse.getScreenPosition(camOther).y > backBG.y && FlxG.mouse.getScreenPosition(camOther).y < backBG.y + backBG.height) && FlxG.mouse.justPressed) #if android || FlxG.android.justReleased.BACK #end))
+		super.update(elapsed);
+
+		if(!closeCheck && (FlxG.keys.justPressed.ENTER #if android || FlxG.android.justReleased.BACK #end))
 		{
-		    if (getReadyClose){
-    		    NewCustomFadeTransition();
-                //PlayState.cancelMusicFadeTween();
-                closeCheck = true;
-            }else{
-                getReadyClose = true;
-                FlxG.sound.play(Paths.sound('scrollMenu'));
-                
-                backText.text = 'Press Again to continue';
-                
-                new FlxTimer().start(1, function(tmr:FlxTimer){    		        		                        		
-		            var backTextShow:String = 'Press Enter to continue';
-            		#if android backTextShow = 'Press Text to continue'; #end		
-            		backText.text = backTextShow;
-            		
-		            getReadyClose = false;
-        		});
-            }
+		    if (choose == 1) backFunction();
+			else replayFunction();
 		}		    
+	}
+
+	var getReadyReplay:Bool = false; 
+	function replayFunction() {
+		if (getReadyReplay){
+			NewCustomFadeTransition(true);
+			PlayState.replayMode = true;
+			closeCheck = true;
+		}else{
+			getReadyReplay = true;
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+			
+		    replayRect.text.text = 'Press Again';
+			replayRect.text.x = replayRect.x + replayRect.background.width / 2 - replayRect.text.width / 2;
+        	replayRect.text.y = replayRect.y + replayRect.background.height / 2 - replayRect.text.height / 2;
+			
+			new FlxTimer().start(1, function(tmr:FlxTimer){    		        		                        				
+				replayRect.text.text = 'Replay';
+				replayRect.text.x = replayRect.x + replayRect.background.width / 2 - replayRect.text.width / 2;
+        		replayRect.text.y = replayRect.y + replayRect.background.height / 2 - replayRect.text.height / 2;
+				
+				getReadyReplay = false;
+			});
+		}
+	}
+
+	var getReadyBack:Bool = false; 
+	function backFunction() {
+		if (getReadyBack){
+			NewCustomFadeTransition(false);
+			closeCheck = true;
+		}else{
+			getReadyBack = true;
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+			
+		    backRect.text.text = 'Press Again';
+			backRect.text.x = backRect.x + backRect.background.width / 2 - backRect.text.width / 2;
+        	backRect.text.y = backRect.y + backRect.background.height / 2 - backRect.text.height / 2;
+
+			new FlxTimer().start(1, function(tmr:FlxTimer){    		        		                        				
+				backRect.text.text = 'Back';
+				backRect.text.x = backRect.x + backRect.background.width / 2 - backRect.text.width / 2;
+        		backRect.text.y = backRect.y + backRect.background.height / 2 - backRect.text.height / 2;
+				
+				getReadyBack = false;
+			});
+		}
 	}
 	
 	function mesTextAdd(text:String = '', sameLine:Int = 0){
@@ -566,11 +593,13 @@ class ResultsScreen extends MusicBeatSubstate
 		        FlxTween.tween(percentTextNumber.members[i], {alpha: 1}, 0.5);
 		    }
 		});
-				
+
 		new FlxTimer().start(1, function(tmr:FlxTimer){
-			FlxTween.tween(backBG, {x:  1280 - backBG.width}, 1, {ease: FlxEase.cubeInOut});
-			FlxTween.tween(backText, {x: 1280 - backBG.width / 2 - backText.width / 2}, 1.2, {ease: FlxEase.cubeInOut});
-		});			
+		  
+		    FlxTween.tween(backRect, {alpha: 1}, 0.5);	           
+            FlxTween.tween(replayRect, {alpha: 1}, 0.5);	
+		
+		});	
 	}
 	
 	var swagRect:FlxRect;
@@ -632,8 +661,11 @@ class ResultsScreen extends MusicBeatSubstate
 	var EventTextTween:FlxTween;
 	var loadTextTween:FlxTween;
 
-	function NewCustomFadeTransition(duration:Float = 0.6, TransIn:Bool = false) {
+	function NewCustomFadeTransition(isReplay:Bool = false) {
 		
+		var duration:Float = 0.6;
+		var TransIn:Bool = false;
+
 		isTransIn = TransIn;
 				
 		if(ClientPrefs.data.CustomFade == 'Move'){
@@ -675,9 +707,14 @@ class ResultsScreen extends MusicBeatSubstate
 			loadLeftTween = FlxTween.tween(loadLeft, {x: 0}, duration, {
 				onComplete: function(twn:FlxTween) {
 				    FlxTransitionableState.skipNextTransIn = true;
-				    Mods.loadTopMod();
-					if (!ClientPrefs.data.freeplayOld) MusicBeatState.switchState(new FreeplayState());
-					else MusicBeatState.switchState(new FreeplayStatePsych());
+					if (isReplay)
+					{
+						MusicBeatState.resetState();
+					} else {
+						Mods.loadTopMod();
+						if (!ClientPrefs.data.freeplayOld) MusicBeatState.switchState(new FreeplayState());
+						else MusicBeatState.switchState(new FreeplayStatePsych());
+					}
 				},
 			ease: FlxEase.expoInOut});
 			
@@ -739,7 +776,13 @@ class ResultsScreen extends MusicBeatSubstate
 				onComplete: function(twn:FlxTween) {
 				    FlxTransitionableState.skipNextTransIn = true;
 				    Mods.loadTopMod();
-					MusicBeatState.switchState(new FreeplayState());
+					if (isReplay)
+					{
+						MusicBeatState.resetState();
+					} else {
+						if (!ClientPrefs.data.freeplayOld) MusicBeatState.switchState(new FreeplayState());
+						else MusicBeatState.switchState(new FreeplayStatePsych());
+					}
 				},
 			ease: FlxEase.sineInOut});
 			

@@ -3,9 +3,6 @@ package objects;
 import flixel.sound.FlxSound;
 import funkin.vis.dsp.SpectralAnalyzer;
 
-import sys.thread.Thread;
-import sys.thread.Mutex;
-
 class AudioDisplay extends FlxSpriteGroup
 {
     var analyzer:SpectralAnalyzer;
@@ -38,7 +35,6 @@ class AudioDisplay extends FlxSpriteGroup
     }
 
     public var stopUpdate:Bool = false;
-    var updateMutex:Mutex = new Mutex();
     var saveTime:Float = 0;    
     var getValues:Array<funkin.vis.dsp.Bar>;
     
@@ -55,8 +51,8 @@ class AudioDisplay extends FlxSpriteGroup
         saveTime = 0;
       }
 
+      
       getValues = analyzer.getLevels();
-
       updateLine(elapsed);
       
       super.update(elapsed);

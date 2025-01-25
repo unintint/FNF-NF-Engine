@@ -55,6 +55,14 @@ class GameplayGroup
         );
         follow.addOption(option);
 
+        
+        var option:Option = new Option(
+            Language.get('NoteOffsetState'),
+            'NoteOffsetState',
+            STATE
+        );
+        follow.addOption(option);
+
         ///////////////////////////////
 
         var option:Option = new Option(

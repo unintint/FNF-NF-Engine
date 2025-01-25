@@ -4,6 +4,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxSubState;
 import flixel.text.FlxText;
 import states.FreeplayState;
+import states.MainMenuState;
 
 using StringTools;
 
@@ -11,7 +12,6 @@ class ErrorSubState extends MusicBeatSubstate
 {
 	var errorText:FlxText;
 	var error:String = "Oh Shit!";
-	var title:FlxText;
 	var bg:FlxSprite;
 	var subcameras:FlxCamera;
 	
@@ -46,14 +46,8 @@ class ErrorSubState extends MusicBeatSubstate
 
 		add(errorText);
 
-		title = new FlxText(0, 0, FlxG.width, "", 50);
-
-		add(title);
-		//addVirtualPad(NONE, A_B);
-
 		errorText.cameras = [subcameras];
 		bg.cameras = [subcameras];
-		//title.cameras = [subcameras];
 
 		FlxG.cameras.add(subcameras, false);
 		subcameras.bgColor.alpha = 0;
@@ -63,30 +57,28 @@ class ErrorSubState extends MusicBeatSubstate
 	{
 		bg.alpha += elapsed * 1.5;
 		if(bg.alpha > 0.6) bg.alpha = 0.6;
-        if(FlxG.mouse.justPressed){
+        if(FlxG.keys.justPressed.ENTER #if android || FlxG.android.justReleased.BACK #end){
 			pressas++;
 		}
 
-		if(pressas >= 4) {
+		if(pressas >= 2) {
 			FlxG.state.persistentUpdate = true; //恢复更新
-			MusicBeatState.switchState(new FreeplayState());
+			if (Type.getClass(FlxG.state) == PlayState) MusicBeatState.switchState(new FreeplayState());
+			else MusicBeatState.switchState(new MainMenuState());
 
 			close();
-			//FlxG.switchState(new MainMenuState());
 		}
 
 		if(FlxG.mouse.pressed){
-			if (errorText.height > FlxG.height * 0.8)
+			if (errorText.height > FlxG.height)
 			{
 				if (FlxG.mouse.justPressed) saveMouseY = FlxG.mouse.y;
 				moveData = FlxG.mouse.y - saveMouseY;
 				saveMouseY = FlxG.mouse.y;
-				avgSpeed = avgSpeed * 0.75 + moveData * 0.25;
 
-				errorText.y += avgSpeed;
-				errorText.y = Math.max(-10, Math.min(10 - errorText.height, errorText.y));
+				errorText.y += moveData;
 			}
-			errorText.y = errorText.height - 10;
+			if (errorText.y < (FlxG.height - errorText.height)) errorText.y = FlxG.height - errorText.height;
 			//限制错误信息可以滑动的范围
 		}
 		super.update(elapsed);
