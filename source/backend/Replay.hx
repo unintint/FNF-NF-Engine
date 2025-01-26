@@ -1,8 +1,5 @@
 package backend;
 
-import sys.thread.FixedThreadPool;
-import sys.thread.Mutex;
-
 class Replay
 {
     //整个组>摁压类型>行数>时间
@@ -36,55 +33,73 @@ class Replay
         ]
     ];
 
-    static public var thread:FixedThreadPool;
-
-    static public function init()
-    {
-        thread = new FixedThreadPool(1);
-        hitData = saveData.copy();
-    }
-
     static public function push(time:Float, type:Int, state:Int) 
     {
         if (!PlayState.replayMode) saveData[state][type].push(time);
     }
 
-    static public function keysCheck()
+    static public function keysCheck(elapsed:Float)
     {
-        thread.run(function() {
-            var time:Float = Conductor.songPosition;
-            
-            for (type in 0...4)
-            {
-                if (hitData[1][type][0] > time) reCheck(type, time);
-            }
-        });
+        for (type in 0...4)
+        {
+            if (hitData[1][type].length > 0 && hitData[1][type][0] < Conductor.songPosition) reCheck(type, elapsed);
+        }
     }
 
-
-    var allowHit:Array<Bool> = [true, true, true, true];
-    static function reCheck(type:Int, time:Float) {
-        if (hitData[0][type][0] < time) 
+    static var allowHit:Array<Bool> = [true, true, true, true];
+    static function reCheck(type:Int, elapsed:Float) {
+        if (hitData[0][type][0] >= Conductor.songPosition) 
         {
-            PlayState.keysCheck();
+            PlayState.instance.keysCheck(type, Conductor.songPosition);
             if (allowHit[type])
             {
-                PlayState.keyPressed(type);
+                PlayState.instance.keyPressed(type,hitData[1][type][0]);
                 allowHit[type] = false;
             }
         } else {
             if (allowHit[type]) {
-                PlayState.keyPressed(type); //摁下松开时间如果短没检测到
+                PlayState.instance.keyPressed(type, hitData[1][type][0]); //摁下松开时间如果短没检测到
             }
+            PlayState.instance.keysCheck(type, Conductor.songPosition); //长键多一帧的检测
+            PlayState.instance.keyReleased(type);
             allowHit[type] = true;
             hitData[0][type].splice(0, 1);
             hitData[1][type].splice(0, 1);
         }
     }
 
+    static public function init()
+    {
+        hitData = 
+        [
+            [
+                [],
+                [],
+                [],
+                []
+            ],
+            [   
+                [],
+                [],
+                [],
+                []
+            ]
+        ];
+        for (state in 0...2)
+            for (type in 0...4)
+                for (hit in 0...saveData[state][type].length)
+                {
+                    hitData[state][type].push(saveData[state][type][hit]);
+                }
+        allowHit = [true, true, true, true];
+
+        //只能这么复制 --狐月影
+    }
+
     static public function reset() 
     {
-        saveData = [
+        saveData = hitData = 
+        [
             [
                 [],
                 [],

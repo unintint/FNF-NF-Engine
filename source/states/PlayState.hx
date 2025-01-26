@@ -2102,7 +2102,7 @@ class PlayState extends MusicBeatState
 		{
 			if(!inCutscene)
 			{
-				if (replayMode) Replay.keysCheck();
+				if (replayMode) Replay.keysCheck(elapsed);
 				if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled)
 					keysCheck();
 				else
@@ -2344,6 +2344,12 @@ class PlayState extends MusicBeatState
 					note.playAnim('static');
 					note.resetAnim = 0;
 				}
+		}
+
+		for (key in keysArray)
+		{
+			if(controls.pressed(key)) Replay.push(Conductor.songPosition, key, 1);
+			//暂停时候回放数据的保存，防止出现错误;
 		}
 		openSubState(new PauseSubState());
 
@@ -3047,9 +3053,10 @@ class PlayState extends MusicBeatState
 		comboSpr_S.x = xThing + 50 * 2;
 	}
 
-	private function popUpScore(note:Note = null):Void
+	private function popUpScore(note:Note = null, ?time:Float = -999999):Void
 	{
-		var noteDiff:Float = note.strumTime - Conductor.songPosition + ClientPrefs.data.ratingOffset;
+		var noteDiff:Float = replayMode ? note.strumTime - time + ClientPrefs.data.ratingOffset : note.strumTime - Conductor.songPosition + ClientPrefs.data.ratingOffset;
+		
 		
 		if ((ClientPrefs.data.playOpponent && cpuControlled_opponent) || (!ClientPrefs.data.playOpponent && cpuControlled)) noteDiff = 0;
 		//best botplay for real lmao
@@ -3226,7 +3233,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 	
-	public function keyPressed(key:Int)
+	public function keyPressed(key:Int, ?time:Float = -999999)
 	{
 		if(ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled || paused || key < 0) return;
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
@@ -3275,9 +3282,8 @@ class PlayState extends MusicBeatState
                     childNote.canHold = true;
 				}
 			}    		
-			
-			if (!ClientPrefs.data.playOpponent) goodNoteHit(funnyNote);
-			else opponentNoteHitForOpponent(funnyNote);
+			if (!ClientPrefs.data.playOpponent) goodNoteHit(funnyNote, time);
+			else opponentNoteHitForOpponent(funnyNote, time);
 		} else {
 		    var plrInputNotes:Array<Note> = notes.members.filter(function(n:Note):Bool {
     		var canHit:Bool = !strumsBlocked[n.noteData] && n.canBeHit && ((n.mustPress && !ClientPrefs.data.playOpponent) || (!n.mustPress && ClientPrefs.data.playOpponent)) && !n.tooLate && !n.wasGoodHit && !n.blockHit;
@@ -3337,7 +3343,7 @@ class PlayState extends MusicBeatState
 		if(!controls.controllerMode && key > -1) keyReleased(key);
 	}
 
-	private function keyReleased(key:Int)
+	public function keyReleased(key:Int)
 	{
 		if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled && startedCountdown && !paused)
 		{
@@ -3372,7 +3378,7 @@ class PlayState extends MusicBeatState
 	}
 
 	// Hold notes
-	public function keysCheck():Void
+	public function keysCheck(?keyCount:Int, time:Float = -999999):Void
 	{
 		// HOLDING
 		var holdArray:Array<Bool> = [];
@@ -3383,6 +3389,15 @@ class PlayState extends MusicBeatState
 			holdArray.push(controls.pressed(key));
 			pressArray.push(controls.justPressed(key));
 			releaseArray.push(controls.justReleased(key));
+		}
+		if (replayMode)
+		{
+			holdArray = [];
+			for (i in 0...4)
+			{
+				if (i != keyCount) holdArray.push(false);
+				else holdArray.push(true);
+			}
 		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
@@ -3411,10 +3426,10 @@ class PlayState extends MusicBeatState
 					) 
 					{
 						if (daNote.mustPress && !ClientPrefs.data.playOpponent){
-						goodNoteHit(daNote);
+						goodNoteHit(daNote, time);
 						}
 						if (!daNote.mustPress && ClientPrefs.data.playOpponent){
-						opponentNoteHitForOpponent(daNote);
+						opponentNoteHitForOpponent(daNote, time);
 						}
 					}
 				});
@@ -3596,7 +3611,7 @@ class PlayState extends MusicBeatState
 		if (!note.isSustainNote) invalidateNote(note);
 	}
 	
-	public inline function opponentNoteHitForOpponent(note:Note):Void
+	public inline function opponentNoteHitForOpponent(note:Note, ?time:Float = -999999):Void
 	{
 		if(note.wasGoodHit) return;
 		if(cpuControlled_opponent && note.ignoreNote) return;
@@ -3666,7 +3681,7 @@ class PlayState extends MusicBeatState
 			if(combo > 9999) combo = 9999;
 			if (combo > highestCombo) highestCombo = combo;
 			notesHitArray.unshift(Date.now());
-			popUpScore(note);
+			popUpScore(note,time);
 		}
 		var gainHealth:Bool = true; // prevent health gain, *if* sustains are treated as a singular note
 		if (guitarHeroSustains && note.isSustainNote) gainHealth = false;
@@ -3679,7 +3694,7 @@ class PlayState extends MusicBeatState
 		if(!note.isSustainNote) invalidateNote(note);
 	}
 
-	public inline function goodNoteHit(note:Note):Void
+	public inline function goodNoteHit(note:Note, ?time:Float = -999999):Void
 	{
 		if(note.wasGoodHit) return;
 		if(cpuControlled && note.ignoreNote) return;
@@ -3753,7 +3768,7 @@ class PlayState extends MusicBeatState
 			if(combo > 9999) combo = 9999;
 			if (combo > highestCombo) highestCombo = combo;
 			notesHitArray.unshift(Date.now());
-			popUpScore(note);
+			popUpScore(note,time);
 		}
 		var gainHealth:Bool = true; // prevent health gain, *if* sustains are treated as a singular note
 		if (guitarHeroSustains && note.isSustainNote) gainHealth = false;

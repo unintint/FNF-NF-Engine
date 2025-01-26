@@ -311,6 +311,7 @@ class ResultsScreen extends MusicBeatSubstate
 
 	var getReadyReplay:Bool = false; 
 	function replayFunction() {
+		if (closeCheck) return;
 		if (getReadyReplay){
 			NewCustomFadeTransition(true);
 			PlayState.replayMode = true;
@@ -335,8 +336,10 @@ class ResultsScreen extends MusicBeatSubstate
 
 	var getReadyBack:Bool = false; 
 	function backFunction() {
+		if (closeCheck) return;
 		if (getReadyBack){
 			NewCustomFadeTransition(false);
+			PlayState.replayMode = false;
 			closeCheck = true;
 		}else{
 			getReadyBack = true;
