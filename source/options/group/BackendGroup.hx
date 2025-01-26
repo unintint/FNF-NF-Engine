@@ -21,6 +21,13 @@ class BackendGroup
         follow.addOption(option);
 
         var option:Option = new Option(
+            Language.get('replayBot'),
+            'replayBot',
+            BOOL
+        );
+        follow.addOption(option);
+
+        var option:Option = new Option(
             Language.get('fixLNL'),
             'fixLNL',
             INT,
@@ -141,6 +148,12 @@ class BackendGroup
         );
         follow.addOption(option);
         #end
+
+        var option:Option = new Option(
+            Language.get('judgement'),
+            TEXT
+        );
+        follow.addOption(option);
 
         var option:Option = new Option(
             Language.get('ratingOffset'),

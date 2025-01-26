@@ -38,6 +38,7 @@
     "Backend": "后端设置",
 
     "Gameplaybackend": "游戏后端设置",
+    "replayBot": "在回放时内置机器人处理特殊摁键",
     "fixLNL": "减少长键长度",
     "pauseMusic": "暂停界面播放的歌曲",
     "hitsoundType": "打击音效",
@@ -49,6 +50,7 @@
     "gameOverVibration": "设备将在游戏死亡时振动",
     "ratingOffset": "更改整体判定的偏移",
     "NoteOffsetState": "更改音乐偏移和UI贴图的位置",
+    "judgement": "判定设置",
     "safeFrames": "修改整体判定大小系数",
     "marvelousWindow": "更改Marvelous评分判定的最大区间",
     "sickWindow": "更改Sick评分判定的最大区间",

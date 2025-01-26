@@ -39,6 +39,7 @@ typedef OptionData =
     //==Backend==\\
     Backend:String, 
     Gameplaybackend:String, 
+    replayBot:String,
     fixLNL:String, 
     pauseMusic:String, 
     hitsoundType:String, 
@@ -49,6 +50,7 @@ typedef OptionData =
     gameOverVibration:String, 
     ratingOffset:String, 
     NoteOffsetState:String, 
+    judgement:String,
     safeFrames:String, 
     marvelousWindow:String, 
     sickWindow:String, 

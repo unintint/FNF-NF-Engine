@@ -3,7 +3,7 @@ package backend;
 class Replay
 {
     //整个组>摁压类型>行数>时间
-    static public var saveHit:Array<Array<Array<Float>>> = [
+    static public var saveData:Array<Array<Array<Float>>> = [
         [
             [],
             [],
@@ -33,41 +33,9 @@ class Replay
         ]
     ];
 
-    static public var saveSpec:Array<Array<Array<Array<Dynamic>>>> = [
-        [
-            [],
-            [],
-            []
-        ],
-        [
-            [],
-            [],
-            []
-        ]
-    ];
-    //整个组>软编程类型>摁压类型>时间&键
-
-    static public var hitSpec:Array<Array<Array<Array<Dynamic>>>> = [
-        [
-            [],
-            [],
-            []
-        ],
-        [
-            [],
-            [],
-            []
-        ]
-    ];
-
     static public function push(time:Float, type:Int, state:Int) 
     {
-        if (!PlayState.replayMode) saveHit[state][type].push(time);
-    }
-
-    static public function pushSpec(type:Int, state:Int, keyName:String) 
-    {
-        saveSpec[type][state].push([Conductor.songPosition, keyName]);
+        if (!PlayState.replayMode) saveData[state][type].push(time);
     }
 
     static public function keysCheck(elapsed:Float)
@@ -104,15 +72,7 @@ class Replay
 
     static public function init()
     {
-        Replay.hitData = Highscore.getKeyHit(PlayState.SONG.song, PlayState.storyDifficulty);
-		Replay.hitSpec = Highscore.getSpecHit(PlayState.SONG.song, PlayState.storyDifficulty);
-
-        allowHit = [true, true, true, true];
-    }
-
-    static public function reset() 
-    {
-        saveHit = hitData = 
+        hitData = 
         [
             [
                 [],
@@ -127,15 +87,29 @@ class Replay
                 []
             ]
         ];
+        for (state in 0...2)
+            for (type in 0...4)
+                for (hit in 0...saveData[state][type].length)
+                {
+                    hitData[state][type].push(saveData[state][type][hit]);
+                }
+        allowHit = [true, true, true, true];
 
-        hitSpec = saveSpec =
+        //只能这么复制 --狐月影
+    }
+
+    static public function reset() 
+    {
+        saveData = hitData = 
         [
             [
                 [],
                 [],
+                [],
                 []
             ],
-            [
+            [   
+                [],
                 [],
                 [],
                 []

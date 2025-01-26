@@ -35,7 +35,8 @@ import states.TitleState;
 
 	//Backend
 	//Gameplay backend s
-	public var fixLNL:Int= 0; //fix long note length
+	public var replayBot:Bool = false;
+	public var fixLNL:Int = 0; //fix long note length
 	public var mainMusic:String = 'None';
 	public var optionMusic:String = 'None';
 	public var pauseMusic:String = 'Tea Time';		

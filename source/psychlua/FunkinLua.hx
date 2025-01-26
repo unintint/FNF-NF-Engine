@@ -153,7 +153,7 @@ class FunkinLua {
 
 		set('guitarHeroSustains', game.guitarHeroSustains);
 		set('instakillOnMiss', game.instakillOnMiss);
-		set('botPlay', game.cpuControlled);
+		set('botPlay', PlayState.replayMode ? game.cpuControlled : ClientPrefs.data.replayBot);
 		set('practice', game.practiceMode);
 
 		for (i in 0...4) {

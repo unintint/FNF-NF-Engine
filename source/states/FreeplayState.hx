@@ -447,6 +447,7 @@ class FreeplayState extends MusicBeatState
 			if (getReadyReplay){
 				PlayState.replayMode = true;
 				closeCheck = true;
+				Replay.saveData = Highscore.getKeyHit(songs[curSelected].songName, curDifficulty);
 				startGame();
 			}else{
 				getReadyReplay = true;
