@@ -47,7 +47,7 @@ class ErrorSubState extends MusicBeatSubstate
 		add(errorText);
 
 		tips = new FlxText(0, 0, FlxG.width, 'Wait 10 second or press back / ENTER\nstate will close', 50);
-		tips = Paths.font('Lang-ZH.ttf');
+		tips.font = Paths.font('Lang-ZH.ttf');
 		tips.y = FlxG.width - tips.width;
 		tips.alignment = FlxTextAlign.RIGHT;
 		add(tips);
