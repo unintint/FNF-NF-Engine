@@ -620,7 +620,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.changedDifficulty = true;
 					PlayState.instance.botplayTxt.visible = PlayState.instance.cpuControlled;
 					PlayState.instance.botplayTxt.alpha = 1;
-					PlayState.instance.botplaySine = 0;
+					PlayState.instance.txtSine = 0;
 					boolText.text = (PlayState.instance.cpuControlled ? 'ON' : 'OFF');
 				case 'Practice':
 					PlayState.instance.practiceMode = !PlayState.instance.practiceMode;

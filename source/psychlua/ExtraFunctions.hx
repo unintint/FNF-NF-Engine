@@ -3,6 +3,7 @@ package psychlua;
 import haxe.extern.EitherType;
 import flixel.util.FlxSave;
 import openfl.utils.Assets;
+import backend.Replay;
 
 //
 // Things to trivialize some dumb stuff like splitting strings on older Lua
@@ -19,47 +20,65 @@ class ExtraFunctions
 			    
 				if (MusicBeatState.instance.mobileControls != null){		    
 					var extraControl = MusicBeatState.instance.mobileControls.current;
-					if (name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.justPressed) return true;
-					        
-					if (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.justPressed) return true;
-                            
-					if (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.justPressed) return true;
-                            
-					if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justPressed) return true;                       					
+					if ((name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.justPressed) 
+					|| (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.justPressed) 
+                    || (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.justPressed) 
+                    || (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justPressed)) 
+					{
+						Replay.pushSpec(0, 0, name);
+						return true;
+					}
 			    }
-			    return Reflect.getProperty(FlxG.keys.justPressed, name);				
+				if (Reflect.getProperty(FlxG.keys.justPressed, name))
+				{
+					Replay.pushSpec(0, 0, name);
+					return true;
+				}
+			    return false;				
 			});
 			funk.set("keyboardPressed", function(name:String)
 			{
 				name = name.toUpperCase();
-			    
-				if (MusicBeatState.instance.mobileControls != null){				    
+				
+				if (MusicBeatState.instance.mobileControls != null){		    
 					var extraControl = MusicBeatState.instance.mobileControls.current;
-					if (name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.pressed) return true;
-					        
-					if (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.pressed) return true;
-                            
-					if (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.pressed) return true;
-                            
-					if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.pressed) return true;                       					
+					if ((name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.pressed) 
+					|| (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.pressed) 
+                    || (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.pressed) 
+                    || (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.pressed)) 
+					{
+						Replay.pushSpec(0, 1, name);
+						return true;
+					}
 			    }
-			    return Reflect.getProperty(FlxG.keys.pressed, name);	
+				if (Reflect.getProperty(FlxG.keys.pressed, name))
+				{
+					Replay.pushSpec(0, 1, name);
+					return true;
+				}
+			    return false;				
 			});
 			funk.set("keyboardReleased", function(name:String)
 			{
 				name = name.toUpperCase();
-			    
-				if (MusicBeatState.instance.mobileControls != null){				    
+
+				if (MusicBeatState.instance.mobileControls != null){		    
 					var extraControl = MusicBeatState.instance.mobileControls.current;
-					if (name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.justReleased) return true;
-					        
-					if (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.justReleased) return true;
-                            
-					if (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.justReleased) return true;
-                            
-					if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justReleased) return true;                       					
+					if ((name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.justReleased) 
+					|| (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.justReleased) 
+                    || (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.justReleased) 
+                    || (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justReleased)) 
+					{
+						Replay.pushSpec(0, 2, name);
+						return true;
+					}
 			    }
-			    return Reflect.getProperty(FlxG.keys.justReleased, name);	
+				if (Reflect.getProperty(FlxG.keys.justReleased, name))
+				{
+					Replay.pushSpec(0, 2, name);
+					return true;
+				}
+			    return false;				
 			});
 	
 			funk.set("anyGamepadJustPressed", function(name:String) return FlxG.gamepads.anyJustPressed(name.toUpperCase()));
@@ -112,13 +131,14 @@ class ExtraFunctions
 				default:
 				    if (MusicBeatState.instance.mobileControls != null){    
 					    var extraControl = MusicBeatState.instance.mobileControls.current;
-					    if (name == ClientPrefs.data.extraKeyReturn1.toLowerCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.justPressed) return true;
-					        
-					    if (name == ClientPrefs.data.extraKeyReturn2.toLowerCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.justPressed) return true;
-                            
-					    if (name == ClientPrefs.data.extraKeyReturn3.toLowerCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.justPressed) return true;
-                            
-					    if (name == ClientPrefs.data.extraKeyReturn4.toLowerCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justPressed) return true;                       					
+					    if ((name == ClientPrefs.data.extraKeyReturn1.toLowerCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.justPressed) 
+					    || (name == ClientPrefs.data.extraKeyReturn2.toLowerCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.justPressed) 
+                        || (name == ClientPrefs.data.extraKeyReturn3.toLowerCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.justPressed) 
+                        || (name == ClientPrefs.data.extraKeyReturn4.toLowerCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justPressed)) 
+						{
+							Replay.pushSpec(0, 2, name);
+							return true;
+						}				                      					
 			        }
 				return PlayState.instance.controls.justPressed(name);
 			}

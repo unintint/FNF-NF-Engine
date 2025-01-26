@@ -33,9 +33,37 @@ class Replay
         ]
     ];
 
+    static public var saveSpec:Array<Array<Array<Dynamic>>> = [
+        [
+            [],
+            []
+        ],
+        [
+            [],
+            []
+        ]
+    ];
+    //整个组>软编程类型>摁压类型>时间&键
+
+    static public var hitSpec:Array<Array<Array<Dynamic>>> = [
+        [
+            [],
+            []
+        ],
+        [
+            [],
+            []
+        ]
+    ];
+
     static public function push(time:Float, type:Int, state:Int) 
     {
         if (!PlayState.replayMode) saveData[state][type].push(time);
+    }
+
+    static public function pushSpec(type:Int, state:Int, keyName:String) 
+    {
+        saveSpec[type][state].push([Conductor.songPosition, keyName]);
     }
 
     static public function keysCheck(elapsed:Float)

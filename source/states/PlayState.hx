@@ -621,7 +621,7 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.data.downScroll)
 			botplayTxt.y = timeBar.y - 78;	
 
-		replayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "BOTPLAY", 32);
+		replayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "REPLAY", 32);
 		replayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		replayTxt.scrollFactor.set();
 		replayTxt.borderSize = 1.25;
