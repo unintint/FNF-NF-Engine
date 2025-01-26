@@ -17,6 +17,7 @@ import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
 import backend.DiffCalc;
+import backend.Replay;
 
 import objects.HealthIcon;
 import objects.shape.ShapeEX;
@@ -53,7 +54,7 @@ class FreeplayState extends MusicBeatState
 	var camGame:FlxCamera;
 	var camAudio:FlxCamera;
 	var camUI:FlxCamera;
-	var camHS:FlxCamera;
+	static public var camHS:FlxCamera;
 
 	var magenta:FlxSprite;
 	var intendedColor:Int;
@@ -74,6 +75,7 @@ class FreeplayState extends MusicBeatState
 	var timeSave:FlxText;
 	var accSave:FlxText;
 	var scoreSave:FlxText;
+	var replayRect:ReplayButton;
 	var result:ResultRect;
 
 	var optionEvent:EventRect;
@@ -247,6 +249,10 @@ class FreeplayState extends MusicBeatState
         scoreSave.antialiasing = ClientPrefs.data.antialiasing;	
 		scoreSave.camera = camHS;
 		add(scoreSave);
+
+		replayRect = new ReplayButton(10 + camHS.width * 0.65, 5, camHS.width * 0.35 - 20, 40, 'Replay', 0.3, replayFunction);
+		replayRect.camera = camHS;
+		add(replayRect);
 		
 		result = new ResultRect(10, camHS.y + 10, camHS.width - 20, 110);
 		result.updateRect();
@@ -429,6 +435,37 @@ class FreeplayState extends MusicBeatState
 		}
 		LoadingState.loadAndSwitchState(new PlayState());
 		FlxG.mouse.visible = false;
+	}
+
+	var closeCheck = false;
+	var getReadyReplay:Bool = false; 
+	function replayFunction() {
+		if (closeCheck) return;
+		if (Highscore.getScore(songs[curSelected].songName, curDifficulty) != 0)
+		{
+			trace(Highscore.getScore(songs[curSelected].songName, curDifficulty));
+			if (getReadyReplay){
+				PlayState.replayMode = true;
+				closeCheck = true;
+				Replay.saveData = Highscore.getKeyHit(songs[curSelected].songName, curDifficulty);
+				startGame();
+			}else{
+				getReadyReplay = true;
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				
+				replayRect.text.text = 'Press Again';
+				replayRect.text.x = replayRect.x + replayRect.background.width / 2 - replayRect.text.width / 2;
+				replayRect.text.y = replayRect.y + replayRect.background.height / 2 - replayRect.text.height / 2;
+				
+				new FlxTimer().start(1, function(tmr:FlxTimer){    		        		                        				
+					replayRect.text.text = 'Replay';
+					replayRect.text.x = replayRect.x + replayRect.background.width / 2 - replayRect.text.width / 2;
+					replayRect.text.y = replayRect.y + replayRect.background.height / 2 - replayRect.text.height / 2;
+					
+					getReadyReplay = false;
+				});
+			}
+		}
 	}
 
 	function extraChange() {

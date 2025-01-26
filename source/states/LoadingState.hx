@@ -677,11 +677,10 @@ class LoadingState extends MusicBeatState
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;	
 		
 		Thread.create(() -> {
-			chartMutex.acquire();  
+			//chartMutex.acquire();  
     	    	
 			for (section in noteData)
-			{
-												
+			{								
 				for (songNotes in section.sectionNotes)
 				{
 					var daStrumTime:Float = songNotes[0];
@@ -782,7 +781,7 @@ class LoadingState extends MusicBeatState
 
 			Note.defaultNoteSkin = 'noteSkins/NOTE_assets';
 			addLoad();
-			chartMutex.release();                  
+			//chartMutex.release();                  
         });
 	}
 	

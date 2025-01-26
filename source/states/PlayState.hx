@@ -245,8 +245,9 @@ class PlayState extends MusicBeatState
 	public var practiceMode:Bool = false;
 	public static var replayMode:Bool = false;
 
-	public var botplaySine:Float = 0;
+	public var txtSine:Float = 0;
 	public var botplayTxt:FlxText;
+	public var replayTxt:FlxText;
 
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
@@ -619,6 +620,17 @@ class PlayState extends MusicBeatState
 		uiGroup.add(botplayTxt);
 		if(ClientPrefs.data.downScroll)
 			botplayTxt.y = timeBar.y - 78;	
+
+		replayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "BOTPLAY", 32);
+		replayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		replayTxt.scrollFactor.set();
+		replayTxt.borderSize = 1.25;
+		replayTxt.visible = replayMode;
+		add(replayTxt); //botplay text is special
+		replayTxt.cameras = [camHUD];	
+		uiGroup.add(replayTxt);
+		if(ClientPrefs.data.downScroll)
+			replayTxt.y = timeBar.y - 78;	
 			
 		if(ClientPrefs.data.timeBarType == 'Song Name')
 		{
@@ -1987,8 +1999,13 @@ class PlayState extends MusicBeatState
 		setOnScripts('curDecBeat', curDecBeat);
 
 		if(botplayTxt != null && botplayTxt.visible) {
-			botplaySine += 180 * elapsed;
-			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
+			txtSine += 180 * elapsed;
+			botplayTxt.alpha = 1 - Math.sin((Math.PI * txtSine) / 180);
+		}
+
+		if(replayTxt != null && replayTxt.visible) {
+			txtSine += 180 * elapsed;
+			replayTxt.alpha = 1 - Math.sin((Math.PI * txtSine) / 180);
 		}
 
 		if ((controls.PAUSE #if android || FlxG.android.justReleased.BACK #end) && (startedCountdown && canPause))
@@ -2346,9 +2363,9 @@ class PlayState extends MusicBeatState
 				}
 		}
 
-		for (key in keysArray)
+		for (key in 0...keysArray.length)
 		{
-			if(controls.pressed(key)) Replay.push(Conductor.songPosition, key, 1);
+			if(controls.pressed(keysArray[key])) Replay.push(Conductor.songPosition, key, 1);
 			//暂停时候回放数据的保存，防止出现错误;
 		}
 		openSubState(new PauseSubState());
@@ -2829,7 +2846,7 @@ class PlayState extends MusicBeatState
 			#if !switch
 			var percent:Float = ratingPercent;
 			if(Math.isNaN(percent)) percent = 0;
-			//if (!ClientPrefs.data.playOpponent)Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, NoteMs, NoteTime,leftSaveKey,upSaveKey,downSaveKey,rightSaveKey);
+			if (!ClientPrefs.data.playOpponent && !replayMode) Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, NoteMs, NoteTime,Replay.saveData);
 			#end
 			playbackRate = 1;
 
