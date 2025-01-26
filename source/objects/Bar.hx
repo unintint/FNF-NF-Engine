@@ -16,9 +16,9 @@ class Bar extends FlxSpriteGroup
 	// you might need to change this if you want to use a custom bar
 	public var barWidth(default, set):Int = 1;
 	public var barHeight(default, set):Int = 1;
-	public var barOffset:FlxPoint = FlxPoint.get(3, 3);
+	public var barOffset:FlxPoint = new FlxPoint(3, 3);
 
-	public function new(x:Float, y:Float, image:String = 'healthBar', valueFunction:Void->Float = null, boundX:Float = 0, boundY:Float = 1, ?oldVersion:Bool = false)
+	public function new(x:Float, y:Float, image:String = 'healthBar', valueFunction:Void->Float = null, boundX:Float = 0, boundY:Float = 1)
 	{
 		super(x, y);
 		
@@ -37,21 +37,11 @@ class Bar extends FlxSpriteGroup
 		rightBar = new FlxSprite().makeGraphic(Std.int(bg.width), Std.int(bg.height), FlxColor.WHITE);
 		rightBar.color = FlxColor.BLACK;
 		rightBar.antialiasing = ClientPrefs.data.antialiasing;
-        
-        if (oldVersion){
-            add(bg);
-    		add(leftBar);
-    		add(rightBar);    		
-	    }else{
-	        add(leftBar);
-    		add(rightBar);
-    		add(bg);	    
-	    }
-	    
-		regenerateClips();
 
-		moves = false;
-		immovable = true;
+		add(leftBar);
+		add(rightBar);
+		add(bg);
+		regenerateClips();
 	}
 
 	public var enabled:Bool = true;
@@ -159,14 +149,5 @@ class Bar extends FlxSpriteGroup
 		barHeight = value;
 		regenerateClips();
 		return value;
-	}
-
-	override function destroy(){
-		active = false;
-		barOffset.put();
-		bg = FlxDestroyUtil.destroy(bg);
-		leftBar = FlxDestroyUtil.destroy(leftBar);
-		rightBar = FlxDestroyUtil.destroy(rightBar);
-		super.destroy();
 	}
 }
