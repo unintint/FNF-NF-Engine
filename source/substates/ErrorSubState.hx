@@ -11,6 +11,7 @@ using StringTools;
 class ErrorSubState extends MusicBeatSubstate
 {
 	var errorText:FlxText;
+	var tips:FlxText;
 	var error:String = "Oh Shit!";
 	var bg:FlxSprite;
 	var subcameras:FlxCamera;
@@ -43,25 +44,35 @@ class ErrorSubState extends MusicBeatSubstate
 
 		errorText = new FlxText(0, 0, FlxG.width, error, 50);
 		errorText.font = Paths.font('Lang-ZH.ttf');
-
 		add(errorText);
 
-		errorText.cameras = [subcameras];
+		tips = new FlxText(0, 0, FlxG.width, 'Wait 10 second or press back / ENTER\nstate will close', 50);
+		tips = Paths.font('Lang-ZH.ttf');
+		tips.y = FlxG.width - tips.width;
+		tips.alignment = FlxTextAlign.RIGHT;
+		add(tips);
+		
 		bg.cameras = [subcameras];
+		errorText.cameras = [subcameras];
+		tips.cameras = [subcameras];
 
 		FlxG.cameras.add(subcameras, false);
 		subcameras.bgColor.alpha = 0;
+
+		new FlxTimer().start(10, function(tmr:FlxTimer){
+		   close();
+		});			
 	}
 	
 	override function update(elapsed:Float)
 	{
 		bg.alpha += elapsed * 1.5;
 		if(bg.alpha > 0.6) bg.alpha = 0.6;
-        if(FlxG.keys.justPressed.ENTER #if android || FlxG.android.justReleased.BACK #end){
+                if(FlxG.keys.justPressed.ENTER #if android || FlxG.android.justReleased.BACK #end){
 			pressas++;
 		}
 
-		if(pressas >= 2) {
+		if(pressas >= 1) {
 			FlxG.state.persistentUpdate = true; //恢复更新
 			if (Type.getClass(FlxG.state) == PlayState) MusicBeatState.switchState(new FreeplayState());
 			else MusicBeatState.switchState(new MainMenuState());
@@ -79,6 +90,7 @@ class ErrorSubState extends MusicBeatSubstate
 				errorText.y += moveData;
 			}
 			if (errorText.y < (FlxG.height - errorText.height)) errorText.y = FlxG.height - errorText.height;
+			if (errorText.y > 0) errorText.y = 0;
 			//限制错误信息可以滑动的范围
 		}
 		super.update(elapsed);
