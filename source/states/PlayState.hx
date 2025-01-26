@@ -731,7 +731,7 @@ class PlayState extends MusicBeatState
 
 		addMobileControls(false);
 		removeMobileControls();
-		addMobileControls(false);
+		if (!replayMode) addMobileControls(false);
 
 		startCallback();
 		RecalculateRating();
@@ -765,8 +765,6 @@ class PlayState extends MusicBeatState
 		Paths.clearUnusedMemory();
 
 		if(eventNotes.length < 1) checkEventNote();	
-
-		mobileControls.active = mobileControls.visible = true;
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -1519,7 +1517,7 @@ class PlayState extends MusicBeatState
             				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
             
             				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true);
-            				sustainNote.hitMultUpdate(susNote, floorSus + 1);
+            				sustainNote.hitMultUpdate(susNote, floorSus);
             				sustainNote.mustPress = gottaHitNote;
             				sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
             				sustainNote.noteType = swagNote.noteType;
@@ -1851,7 +1849,7 @@ class PlayState extends MusicBeatState
 			FlxTween.globalManager.forEach(function(twn:FlxTween) if(!twn.finished) twn.active = true);
 
 			paused = false;
-			mobileControls.visible = true;
+			if (mobileControls != null) mobileControls.visible = true;
 			callOnScripts('onResume');
 			resetRPC(startTimer != null && startTimer.finished);
 		}
@@ -2338,7 +2336,7 @@ class PlayState extends MusicBeatState
 		FlxG.camera.followLerp = 0;
 		persistentUpdate = false;
 		persistentDraw = true;
-		mobileControls.visible = false;
+		if (mobileControls != null) mobileControls.visible = false;
 		paused = true;
 
 		keyboardDisplay.save();
@@ -2801,7 +2799,7 @@ class PlayState extends MusicBeatState
 	public var transitioning = false;
 	public function endSong()
 	{
-		mobileControls.visible = false;
+		if (mobileControls != null) mobileControls.visible = false;
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {

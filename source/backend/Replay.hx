@@ -84,9 +84,11 @@ class Replay
                 PlayState.instance.keyPressed(type,hitData[1][type][0]);
                 allowHit[type] = false;
             }
-        } else {
+        }
+        if (hitData[0][type][0] < (Conductor.songPosition - 10)) //多一帧数检测
+        {
             if (allowHit[type]) {
-                PlayState.instance.keyPressed(type, hitData[1][type][0]); //摁下松开时间如果短没检测到
+                PlayState.instance.keyPressed(type, hitData[1][type][0]); //摁下松开时间如果太短导致没检测到
             }
             PlayState.instance.keysCheck(type, Conductor.songPosition); //长键多一帧的检测
             PlayState.instance.keyReleased(type);

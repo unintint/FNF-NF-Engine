@@ -721,7 +721,7 @@ class LoadingState extends MusicBeatState
 							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 			
 							var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, LoadingState);
-							sustainNote.hitMultUpdate(susNote, floorSus + 1);     
+							sustainNote.hitMultUpdate(susNote, floorSus);     
 							sustainNote.mustPress = gottaHitNote;
 							sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
 							sustainNote.noteType = swagNote.noteType;

@@ -250,7 +250,7 @@ class FreeplayState extends MusicBeatState
 		scoreSave.camera = camHS;
 		add(scoreSave);
 
-		replayRect = new ReplayButton(10 + camHS.width * 0.65, 5, camHS.width * 0.35 - 20, 40, 'Replay', 0.3, replayFunction);
+		replayRect = new ReplayButton(10 + camHS.width * 0.65, 5, camHS.width * 0.35 - 20, 40, 'Replay', 0.4, replayFunction);
 		replayRect.camera = camHS;
 		add(replayRect);
 		
