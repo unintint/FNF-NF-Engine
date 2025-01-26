@@ -693,7 +693,7 @@ class TitleState extends MusicBeatState
 					#end
 				case 4:
 					#if PSYCH_WATERMARKS
-					addMoreText('Hoyou', 40);
+					addMoreText('Beihu', 40);
 					#else
 					addMoreText('present');
 					#end
