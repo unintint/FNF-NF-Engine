@@ -37,9 +37,9 @@ class FreePlayLang
     }
 
     static public function updateLang() {
-            if (Paths.fileExists('language/' + 'English' + '/freeplay.json')) 
-                data = defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/freeplay.json'));
-            if (Paths.fileExists('language/' + ClientPrefs.data.language + '/freeplay.json')) 
-                data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/freeplay.json'));
+        if (FileSystem.exists(Paths.getPath('language') + '/' + 'English' + '/freeplay.json')) 
+            data = defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/freeplay.json'));
+        if (FileSystem.exists(Paths.getPath('language') + '/' + ClientPrefs.data.language + '/freeplay.json')) 
+            data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/freeplay.json'));
     }
 }

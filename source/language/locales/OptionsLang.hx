@@ -185,9 +185,9 @@ class OptionsLang
     }
 
     static public function updateLang() {
-            if (Paths.fileExists('language/' + 'English' + '/options.json')) 
-                data = defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/options.json'));
-            if (Paths.fileExists('language/' + ClientPrefs.data.language + '/options.json')) 
-                data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/options.json'));
+        if (FileSystem.exists(Paths.getPath('language') + '/' + 'English' + '/options.json')) 
+            data = defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/options.json'));
+        if (FileSystem.exists(Paths.getPath('language') + '/' + ClientPrefs.data.language + '/options.json')) 
+            data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/options.json'));
     }
 }

@@ -23,9 +23,9 @@ class MainLang
     }
 
     static public function updateLang() {
-            if (Paths.fileExists('language/' + 'English' + '/main.json')) 
-                data = defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/main.json'));
-            if (Paths.fileExists('language/' + ClientPrefs.data.language + '/main.json')) 
-                data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/main.json'));
+        if (FileSystem.exists(Paths.getPath('language') + '/' + 'English' + '/main.json')) 
+            data = defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/main.json'));
+        if (FileSystem.exists(Paths.getPath('language') + '/' + ClientPrefs.data.language + '/main.json')) 
+            data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/main.json'));
     }
 }
