@@ -37,17 +37,37 @@ class Replay
     {
         if (!PlayState.replayMode) saveData[state][type].push(time);
     }
-
-    static public function keysCheck(elapsed:Float)
+    
+    static var isPaused:Bool = false;
+    static var checkArray<Float> = [-9999, -9999, -9999, -9999];
+    static public function pauseCheck(time:Float, type:Int) 
     {
-        for (type in 0...4)
+        if (PlayState.replayMode) return;
+        checkArray[key] = time;
+    }
+
+    static public function keysCheck()
+    {
+        if (!replayMode)
         {
-            if (hitData[1][type].length > 0 && hitData[1][type][0] < Conductor.songPosition) reCheck(type, elapsed);
+            if (isPaused) {                
+                for (key in 0...4)
+                    if (PlayState.instance.controls.pressed(PlayState.instance.keysArray[key]) && checkArray[key] != -9999)
+                        push(checkArray[key], key, 1);
+                
+                checkArray = [-9999, -9999, -9999, -9999];
+                isPaused = false;
+            }
+        } else (
+            for (type in 0...4)
+            {
+                if (hitData[1][type].length > 0 && hitData[1][type][0] < Conductor.songPosition) holdCheck(type);
+            }
         }
     }
 
     static var allowHit:Array<Bool> = [true, true, true, true];
-    static function reCheck(type:Int, elapsed:Float) {
+    static function holdCheck(type:Int) {
         if (hitData[0][type][0] >= Conductor.songPosition) 
         {
             PlayState.instance.keysCheck(type, Conductor.songPosition);
