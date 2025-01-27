@@ -43,12 +43,12 @@ class Replay
     static public function pauseCheck(time:Float, type:Int) 
     {
         if (PlayState.replayMode) return;
-        checkArray[key] = time;
+        checkArray[type] = time;
     }
 
     static public function keysCheck()
     {
-        if (!replayMode)
+        if (!PlayState.replayMode)
         {
             if (isPaused) {                
                 for (key in 0...4)
