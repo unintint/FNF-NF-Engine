@@ -17,10 +17,17 @@ class Language
     }
 
     public static function resetData() {
+        check();
         MainMenuLang.updateLang();
         MainLang.updateLang();
         FreePlayLang.updateLang();
         OptionsLang.updateLang();
         PauseLang.updateLang();
+    }
+    
+    public static function check()
+    {
+        if (!FileSystem.isDirectory(Paths.getPath('language') + '/' + ClientPrefs.data.language))
+            ClientPrefs.data.language = 'Engine';
     }
 }
