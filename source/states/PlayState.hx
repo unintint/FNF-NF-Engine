@@ -1852,6 +1852,12 @@ class PlayState extends MusicBeatState
 			if (mobileControls != null) mobileControls.visible = true;
 			callOnScripts('onResume');
 			resetRPC(startTimer != null && startTimer.finished);
+			
+			for (key in 0...keysArray.length)
+    		{
+    			if(controls.pressed(keysArray[key])) Replay.push(Conductor.songPosition, key, 0);
+    			//暂停时候回放数据的保存，防止出现错误;
+    		}
 		}
 		super.closeSubState();
 	}
