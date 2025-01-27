@@ -37,6 +37,8 @@ class GeneralGroup
                 langArray.push(item);
             }
         }
+        if (!FileSystem.isDirectory(Paths.getPath('language') + '/' + ClientPrefs.data.language))
+            ClientPrefs.data.language = 'Engine';
         var option:Option = new Option(
             Language.get('language'),
             'language',
@@ -45,6 +47,7 @@ class GeneralGroup
         );
         follow.addOption(option);
         option.onChange = onChangeLanguage;
+            
 
         var colorblindFilterArray:Array<String> = ['None', 'Protanopia', 'Protanomaly', 'Deuteranopia','Deuteranomaly','Tritanopia','Tritanomaly','Achromatopsia','Achromatomaly'];
 
