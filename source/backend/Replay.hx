@@ -48,7 +48,7 @@ class Replay
 
     static public function keysCheck()
     {
-        if (!replayMode)
+        if (!PlayState.replayMode)
         {
             if (isPaused) {                
                 for (key in 0...4)
