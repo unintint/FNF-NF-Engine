@@ -2117,7 +2117,7 @@ class PlayState extends MusicBeatState
 		{
 			if(!inCutscene)
 			{
-				Replay.keysCheck(controls);
+				Replay.keysCheck();
 				if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled)
 					keysCheck();
 				else
