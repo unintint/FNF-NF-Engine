@@ -39,7 +39,7 @@ class Replay
     }
     
     static var isPaused:Bool = false;
-    static var checkArray<Float> = [-9999, -9999, -9999, -9999];
+    static var checkArray:Array<Float> = [-9999, -9999, -9999, -9999];
     static public function pauseCheck(time:Float, type:Int) 
     {
         if (PlayState.replayMode) return;
