@@ -39,16 +39,16 @@ class Replay
     }
     
     static var isPaused:Bool = false;
-    static var checkArray:Array<Float> = [-9999, -9999, -9999, -9999];
+    static var checkArray<Float> = [-9999, -9999, -9999, -9999];
     static public function pauseCheck(time:Float, type:Int) 
     {
         if (PlayState.replayMode) return;
-        checkArray[type] = time;
+        checkArray[key] = time;
     }
 
     static public function keysCheck()
     {
-        if (!PlayState.replayMode)
+        if (!replayMode)
         {
             if (isPaused) {                
                 for (key in 0...4)
@@ -58,7 +58,7 @@ class Replay
                 checkArray = [-9999, -9999, -9999, -9999];
                 isPaused = false;
             }
-        } else {
+        } else (
             for (type in 0...4)
             {
                 if (hitData[1][type].length > 0 && hitData[1][type][0] < Conductor.songPosition) holdCheck(type);
@@ -135,5 +135,7 @@ class Replay
                 []
             ]
         ];
+        checkArray = [-9999, -9999, -9999, -9999];
+        isPaused = false;
     }   //愚蠢但是有用 --狐月影
 }
