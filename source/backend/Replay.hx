@@ -58,7 +58,7 @@ class Replay
                 checkArray = [-9999, -9999, -9999, -9999];
                 isPaused = false;
             }
-        } else (
+        } else {
             for (type in 0...4)
             {
                 if (hitData[1][type].length > 0 && hitData[1][type][0] < Conductor.songPosition) holdCheck(type);
