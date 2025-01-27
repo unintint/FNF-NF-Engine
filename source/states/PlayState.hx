@@ -309,7 +309,7 @@ class PlayState extends MusicBeatState
 	public var introSoundsSuffix:String = '';
 
 	// Less laggy controls
-	private var keysArray:Array<String>;
+	public var keysArray:Array<String>;
 	public var songName:String;
 
 	// Callbacks for stages
@@ -1851,13 +1851,7 @@ class PlayState extends MusicBeatState
 			paused = false;
 			if (mobileControls != null) mobileControls.visible = true;
 			callOnScripts('onResume');
-			resetRPC(startTimer != null && startTimer.finished);
-			
-			for (key in 0...keysArray.length)
-    		{
-    			if(controls.pressed(keysArray[key])) Replay.push(Conductor.songPosition, key, 0);
-    			//暂停时候回放数据的保存，防止出现错误;
-    		}
+			resetRPC(startTimer != null && startTimer.finished);						
 		}
 		super.closeSubState();
 	}
@@ -2123,7 +2117,7 @@ class PlayState extends MusicBeatState
 		{
 			if(!inCutscene)
 			{
-				if (replayMode) Replay.keysCheck(elapsed);
+				Replay.keysCheck(controls);
 				if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled)
 					keysCheck();
 				else
@@ -2369,7 +2363,7 @@ class PlayState extends MusicBeatState
 
 		for (key in 0...keysArray.length)
 		{
-			if(controls.pressed(keysArray[key])) Replay.push(Conductor.songPosition, key, 1);
+			if(controls.pressed(keysArray[key])) Replay.pauseCheck(Conductor.songPosition, key);
 			//暂停时候回放数据的保存，防止出现错误;
 		}
 		openSubState(new PauseSubState());
