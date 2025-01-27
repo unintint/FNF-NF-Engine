@@ -27,11 +27,9 @@ class PauseLang
     }
 
     static public function updateLang() {
-        try{
-            data = defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/pause.json'));
-           }
-        try{
-            data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/pause.json'));
-        } 
+            if (Paths.fileExists('language/' + 'English' + '/pause.json')) 
+                data = defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/pause.json'));
+            if (Paths.fileExists('language/' + ClientPrefs.data.language + '/pause.json')) 
+                data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/pause.json'));
     }
 }

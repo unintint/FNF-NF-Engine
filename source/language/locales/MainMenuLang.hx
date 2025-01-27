@@ -21,11 +21,9 @@ class MainMenuLang
     }
 
     static public function updateLang() {
-        try{
-            data = defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/mainmenu.json'));
-           }
-        try{
-            data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/mainmenu.json'));
-        } 
+            if (Paths.fileExists('language/' + 'English' + '/mainmenu.json')) 
+                data = defaultData = Json.parse(Paths.getTextFromFile('language/' + 'English' + '/mainmenu.json'));
+            if (Paths.fileExists('language/' + ClientPrefs.data.language + '/mainmenu.json')) 
+                data = Json.parse(Paths.getTextFromFile('language/' + ClientPrefs.data.language + '/mainmenu.json'));
     }
 }
