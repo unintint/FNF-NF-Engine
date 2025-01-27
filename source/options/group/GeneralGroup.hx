@@ -37,8 +37,7 @@ class GeneralGroup
                 langArray.push(item);
             }
         }
-        if (!FileSystem.isDirectory(Paths.getPath('language') + '/' + ClientPrefs.data.language))
-            ClientPrefs.data.language = 'Engine';
+        Language.check();
         var option:Option = new Option(
             Language.get('language'),
             'language',
