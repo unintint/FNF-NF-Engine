@@ -777,12 +777,12 @@ class ResultsScreen extends MusicBeatSubstate
 			loadAlpha.alpha = 0;
 			loadAlphaTween = FlxTween.tween(loadAlpha, {alpha: 1}, duration, {
 				onComplete: function(twn:FlxTween) {
-				    FlxTransitionableState.skipNextTransIn = true;
-				    Mods.loadTopMod();
+				    FlxTransitionableState.skipNextTransIn = true;				    
 					if (isReplay)
 					{
 						MusicBeatState.resetState();
 					} else {
+					    Mods.loadTopMod();
 						if (!ClientPrefs.data.freeplayOld) MusicBeatState.switchState(new FreeplayState());
 						else MusicBeatState.switchState(new FreeplayStatePsych());
 					}
