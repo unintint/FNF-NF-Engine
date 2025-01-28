@@ -78,7 +78,7 @@ class Replay
                 allowHit[type] = false;
             }
         }
-        if (hitData[0][type][0] < (Conductor.songPosition - 10)) //多一帧数检测
+        if (hitData[0][type][0] < (Conductor.songPosition - 20)) //多一点检测，0.02s不过分
         {
             if (allowHit[type]) {
                 PlayState.instance.keyPressed(type, hitData[1][type][0]); //摁下松开时间如果太短导致没检测到
