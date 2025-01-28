@@ -57,13 +57,19 @@ jobs:
       - name: Compile
         run: haxelib run lime build ${{ inputs.buildArgs }}
 
-      - name: Make IPA
+      - name: Make Android Zip
+        if: inputs.name == 'Android'
+        run: |
+          zip -r androidBuild.zip NovaFlare.Engine-release.apk
+
+      - name: Make IPA And iOS Zip
         if: inputs.name == 'iOS'
         run: |
           cd export/release/ios/build/Release-iphoneos
           mkdir Payload
           mv *.app Payload
           zip -r ${{ env.PROJECT_NAME }}.ipa Payload
+          zip -r iOSBuild.zip ${{ env.PROJECT_NAME }}.ipa
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main
