@@ -109,9 +109,6 @@ jobs:
         with:
            name: iOSBuild
            path: /home/runner
-      
-      - name: Move iOS File
-        run: mv "/home/runner/NovaFlare Engine.zip" "/home/runner/ios.zip"
   
       - name: Download macOS14 Build
         uses: actions/download-artifact@main
