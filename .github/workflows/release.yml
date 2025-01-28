@@ -98,13 +98,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
-      - name: Download EXTERNAL Build
+      - name: Download Android Build
         uses: actions/download-artifact@main
         with:
-           name: androidBuild-EXTERNAL
+           name: androidBuild
            path: /home/runner
 
-      - name: Move EXTERNAL File
+      - name: Move Android File
         run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/android-EXTERNAL.apk"
 
       - name: Download iOS Build
