@@ -104,9 +104,6 @@ jobs:
            name: androidBuild
            path: /home/runner
 
-      - name: Move Android File
-        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/android-EXTERNAL.apk"
-
       - name: Download iOS Build
         uses: actions/download-artifact@main
         with:
