@@ -43,7 +43,6 @@ jobs:
       - name: Install Libraries
         run: |
           haxelib setup ~/haxelib
-          ls -lt export/release/android
           haxelib install hmm 
           haxelib run hmm install
           
@@ -61,6 +60,7 @@ jobs:
       - name: Make Android Zip
         if: inputs.name == 'Android'
         run: |
+          ls -lt export/release/android
           cd export/release/android
           
           zip -r androidBuild.zip NovaFlare.Engine-release.apk
