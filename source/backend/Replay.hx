@@ -52,8 +52,9 @@ class Replay
         {
             if (isPaused) {                
                 for (key in 0...4)
-                    if (PlayState.instance.controls.pressed(PlayState.instance.keysArray[key]) && checkArray[key] != -9999)
+                    if (!PlayState.instance.controls.pressed(PlayState.instance.keysArray[key]) && checkArray[key] != -9999)
                         push(checkArray[key], key, 1);
+                        //如果暂停的时候是摁下，暂停结束的时候又没摁了会触发release的push
                 
                 checkArray = [-9999, -9999, -9999, -9999];
                 isPaused = false;
