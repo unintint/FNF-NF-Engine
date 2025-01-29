@@ -1441,6 +1441,8 @@ class ChartingState extends MusicBeatState
 		tab_group_data.add(new FlxText(gameOverLoopInputText.x, gameOverLoopInputText.y - 15, 0, 'Game Over Loop Music (music/):'));
 		tab_group_data.add(new FlxText(gameOverEndInputText.x, gameOverEndInputText.y - 15, 0, 'Game Over Retry Music (music/):'));
 
+		tab_group_data.add(new FlxText(noteSkinInputTextDad.x, noteSkinInputTextDad.y -15, 0, 'Dad Note Texture:'));
+		tab_group_data.add(new FlxText(noteSkinInputTextBF.x, noteSkinInputTextBF.y -15, 0, 'BF Note Texture:'));
 		tab_group_data.add(new FlxText(noteSkinInputText.x, noteSkinInputText.y - 15, 0, 'Note Texture:'));
 		tab_group_data.add(new FlxText(noteSplashesInputText.x, noteSplashesInputText.y - 15, 0, 'Note Splashes Texture:'));
 		UI_box.addGroup(tab_group_data);
