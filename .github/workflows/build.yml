@@ -60,10 +60,9 @@ jobs:
       - name: Make Android Zip
         if: inputs.name == 'Android'
         run: |
-          ls -lt export/release/android/bin/app/build/outputs/apk/release
           cd export/release/android/bin/app/build/outputs/apk/release
           
-          zip -r androidBuild.zip NovaFlare.Engine-release.apk
+          zip -r androidBuild.zip "NovaFlare Engine-release.apk"
 
       - name: Make IPA And iOS Zip
         if: inputs.name == 'iOS'
