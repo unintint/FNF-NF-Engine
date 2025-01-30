@@ -1403,10 +1403,10 @@ class ChartingState extends MusicBeatState
 		};
 
 		//
-		noteSkinInputTextDad = new FlxUIInputText(10, 250, 150, _song.arrowSkinDad != null ? _song.arrowSkinDad : '', 8);
+		noteSkinInputTextDad = new FlxUIInputText(10, 220, 150, _song.arrowSkinDad != null ? _song.arrowSkinDad : '', 8);
 		blockPressWhileTypingOn.push(noteSkinInputTextDad);
 
-		noteSkinInputTextBF = new FlxUIInputText(10, 265, 150, _song.arrowSkinBF != null ? _song.arrowSkinBF : '', 8);
+		noteSkinInputTextBF = new FlxUIInputText(10, 250, 150, _song.arrowSkinBF != null ? _song.arrowSkinBF : '', 8);
 		blockPressWhileTypingOn.push(noteSkinInputTextBF);
 		
 		noteSkinInputText = new FlxUIInputText(10, 280, 150, _song.arrowSkin != null ? _song.arrowSkin : '', 8);
