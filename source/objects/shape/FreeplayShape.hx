@@ -575,7 +575,7 @@ class ResultRect extends FlxSpriteGroup
         this._height = height;
     }
     
-    public function updateRect(?msGroup:Array<Float>, ?timeGroup:Array<Float>, ?timeLength:Float)
+    public function updateRect(?timeGroup:Array<Float>, ?msGroup:Array<Float>, ?timeLength:Float)
     {
         var shape:Shape = new Shape();
 
