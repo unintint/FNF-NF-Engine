@@ -562,6 +562,7 @@ class Note extends FlxSprite
 			lateHitMult = 1;	   //写1而不是0.5是用于修复长条先miss问题
 		}else if (number == maxNumber){
 			earlyHitMult = 0.75;
+			if (PlayState.replayMode) earlyHitMult = 1; //wdf我也不明白为什么但是只能这么修了
 			lateHitMult = 0.25;	  		
 			noAnimation = true; //better anim play
 		}else{
