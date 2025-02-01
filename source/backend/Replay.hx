@@ -32,6 +32,23 @@ class Replay
             []
         ]
     ];
+    
+    static public var songName:String = '';    
+    static public var songScore:Int = 0;
+    static public var songLength:Float = 0;
+    static public var songHits:Int = 0;
+    static public var songMisses:Int = 0;
+        
+    static public var ratingPercent:Float = 0;
+    static public var ratingFC:String = '';
+    static public var ratingName:String = '';
+    
+    static public var highestCombo:Int = 0; 
+    static public var NoteTime:Array<Float> = [];  
+    static public var NoteMs:Array<Float> = [];
+    
+    
+    /////////////////////////////////////////////
 
     static public function push(time:Float, type:Int, state:Int) 
     {
@@ -54,7 +71,6 @@ class Replay
                 for (key in 0...4)
                     if (!PlayState.instance.controls.pressed(PlayState.instance.keysArray[key]) && checkArray[key] != -9999)
                         push(checkArray[key], key, 1);
-                        //如果暂停的时候是摁下，暂停结束的时候又没摁了会触发release的push
                 
                 checkArray = [-9999, -9999, -9999, -9999];
                 isPaused = false;
@@ -74,16 +90,16 @@ class Replay
             PlayState.instance.keysCheck(type, Conductor.songPosition);
             if (allowHit[type])
             {
-                PlayState.instance.keyPressed(type,hitData[1][type][0]);
+                PlayState.instance.keyPressed(type, hitData[1][type][0]);
                 allowHit[type] = false;
             }
         }
-        if (hitData[0][type][0] < (Conductor.songPosition - 20)) //多一点检测，0.02s不过分
+        else
         {
+            PlayState.instance.keysCheck(type, Conductor.songPosition); //长键多一帧的检测
             if (allowHit[type]) {
                 PlayState.instance.keyPressed(type, hitData[1][type][0]); //摁下松开时间如果太短导致没检测到
             }
-            PlayState.instance.keysCheck(type, Conductor.songPosition); //长键多一帧的检测
             PlayState.instance.keyReleased(type);
             allowHit[type] = true;
             hitData[0][type].splice(0, 1);
@@ -138,5 +154,20 @@ class Replay
         ];
         checkArray = [-9999, -9999, -9999, -9999];
         isPaused = false;
-    }   //愚蠢但是有用 --狐月影
+    }   //愚蠢但是有用 --狐月影        
+    
+    static public function putDetails(putData:Array<Dynamic>)
+    {
+        songName = putData[0];
+        songScore = putData[1];
+        songLength = putData[2];
+        songHits = putData[3];
+        songMisses = putData[4];
+        ratingPercent = putData[5];
+        ratingFC = putData[6];
+        ratingName = putData[7];
+        highestCombo = putData[8];
+        NoteTime = putData[9];
+        NoteMs = putData[10];
+    } //六百六十六 -狐月影
 }
