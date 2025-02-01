@@ -731,7 +731,7 @@ class PlayState extends MusicBeatState
 
 		addMobileControls(false);
 		removeMobileControls();
-		if (!replayMode) addMobileControls(false);
+		//if (!replayMode) addMobileControls(false);
 
 		startCallback();
 		RecalculateRating();
