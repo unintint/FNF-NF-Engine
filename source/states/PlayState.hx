@@ -2856,7 +2856,7 @@ class PlayState extends MusicBeatState
     			    NoteTime, 
     			    NoteMs, 
     			    songSpeed, //wc之前忘记这个变量了😭
-    			    playbackRate;
+    			    playbackRate,
     			    healthGain, 
     			    healthLoss, 
     			    cpuControlled, 
