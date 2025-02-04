@@ -53,20 +53,10 @@ class StrumNote extends FlxSprite
 		var skin:String = null;
 		var path:String = PlayState.isPixelStage ? 'pixelUI/' : '';
 		//为了其他模组的兼容性arrowSkin一定不能为null
-		if(PlayState.SONG != null && PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1) {
-			if(player == 0 && PlayState.SONG.arrowSkinDad != null && PlayState.SONG.arrowSkinDad.length > 1){
-			        skin = path + PlayState.SONG.arrowSkinDad;
-		        }else if(player == 0 && PlayState.SONG.arrowSkinDad == null){
-			        skin = path + PlayState.SONG.arrowSkin;
-		        }
-			if(player == 1 && PlayState.SONG.arrowSkinBF != null && PlayState.SONG.arrowSkinBF.length > 1){
-			        skin = path + PlayState.SONG.arrowSkinBF;
-		        }else if(player == 1 && PlayState.SONG.arrowSkinBF == null){
-			        skin = path + PlayState.SONG.arrowSkin;
-			}
-			//skin = path + PlayState.SONG.arrowSkin;
-		}else{
+		if(PlayState.SONG != null && PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1) skin = path + PlayState.SONG.arrowSkin;
+		else{
     		skin = path + Note.defaultNoteSkin;
+    
     		var customSkin:String = skin + Note.getNoteSkinPostfix();
     		if(Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
     		
