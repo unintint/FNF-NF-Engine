@@ -215,8 +215,8 @@ class ResultsScreen extends MusicBeatSubstate
 		opTextNumber = new FlxTypedGroup<FlxText>();
 		add(opTextNumber);
 		
-		opTextAdd('HealthGain: X' + game.healthgain, 1);
-		opTextAdd('HealthLoss: X' + game.healthloss, 2);
+		opTextAdd('HealthGain: X' + game.healthGain, 1);
+		opTextAdd('HealthLoss: X' + game.healthLoss, 2);
 		
         
 		opTextAdd('SongSpeed: ' + game.songSpeed, 1);
