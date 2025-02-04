@@ -47,6 +47,16 @@ class Replay
     static public var NoteTime:Array<Float> = [];  
     static public var NoteMs:Array<Float> = [];
     
+    static public var songSpeed:Float = 0;
+    static public var healthGain:Float = 0;
+    static public var healthLoss:Float = 0;
+    static public var cpuControlled:Bool = false;
+    static public var practiceMode:Bool = false;
+    static public var instakillOnMiss:Bool = false;
+    static public var opponent:Bool = false;
+    static public var flipChart:Bool = false;
+    static public var nowTime:String = '';
+    
     
     /////////////////////////////////////////////
 
@@ -169,5 +179,14 @@ class Replay
         highestCombo = putData[8];
         NoteTime = putData[9];
         NoteMs = putData[10];
+        songSpeed = putData[11];
+        healthGain = putData[12];
+        healthLoss = putData[13];
+        cpuControlled = putData[14];
+        practiceMode = putData[15];
+        instakillOnMiss = putData[16];
+        opponent = putData[17];
+        flipChart = putData[18];
+        nowTime = putData[19];
     } //六百六十六 -狐月影
 }
