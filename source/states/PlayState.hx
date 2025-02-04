@@ -731,7 +731,7 @@ class PlayState extends MusicBeatState
 
 		addMobileControls(false);
 		removeMobileControls();
-		if (!replayMode) addMobileControls(false);
+		addMobileControls(false);
 
 		startCallback();
 		RecalculateRating();
@@ -2856,6 +2856,7 @@ class PlayState extends MusicBeatState
     			    NoteTime, 
     			    NoteMs, 
     			    songSpeed, //wc之前忘记这个变量了😭
+    			    playbackRate;
     			    healthGain, 
     			    healthLoss, 
     			    cpuControlled, 
