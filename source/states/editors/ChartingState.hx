@@ -1368,9 +1368,6 @@ class ChartingState extends MusicBeatState
 	var gameOverSoundInputText:FlxUIInputText;
 	var gameOverLoopInputText:FlxUIInputText;
 	var gameOverEndInputText:FlxUIInputText;
-
-	var noteSkinInputTextBF:FlxUIInputText;
-	var noteSkinInputTextDad:FlxUIInputText;
 	
 	var noteSkinInputText:FlxUIInputText;
 	var noteSplashesInputText:FlxUIInputText;
@@ -1403,12 +1400,6 @@ class ChartingState extends MusicBeatState
 		};
 
 		//
-		noteSkinInputTextDad = new FlxUIInputText(10, 220, 150, _song.arrowSkinDad != null ? _song.arrowSkinDad : '', 8);
-		blockPressWhileTypingOn.push(noteSkinInputTextDad);
-
-		noteSkinInputTextBF = new FlxUIInputText(10, 250, 150, _song.arrowSkinBF != null ? _song.arrowSkinBF : '', 8);
-		blockPressWhileTypingOn.push(noteSkinInputTextBF);
-		
 		noteSkinInputText = new FlxUIInputText(10, 280, 150, _song.arrowSkin != null ? _song.arrowSkin : '', 8);
 		blockPressWhileTypingOn.push(noteSkinInputText);
 
@@ -1430,9 +1421,6 @@ class ChartingState extends MusicBeatState
 		
 		tab_group_data.add(reloadNotesButton);
 
-		tab_group_data.add(noteSkinInputTextDad);
-		tab_group_data.add(noteSkinInputTextBF);
-		
 		tab_group_data.add(noteSkinInputText);
 		tab_group_data.add(noteSplashesInputText);
 
@@ -1441,8 +1429,6 @@ class ChartingState extends MusicBeatState
 		tab_group_data.add(new FlxText(gameOverLoopInputText.x, gameOverLoopInputText.y - 15, 0, 'Game Over Loop Music (music/):'));
 		tab_group_data.add(new FlxText(gameOverEndInputText.x, gameOverEndInputText.y - 15, 0, 'Game Over Retry Music (music/):'));
 
-		tab_group_data.add(new FlxText(noteSkinInputTextDad.x, noteSkinInputTextDad.y -15, 0, 'Dad Note Texture:'));
-		tab_group_data.add(new FlxText(noteSkinInputTextBF.x, noteSkinInputTextBF.y -15, 0, 'BF Note Texture:'));
 		tab_group_data.add(new FlxText(noteSkinInputText.x, noteSkinInputText.y - 15, 0, 'Note Texture:'));
 		tab_group_data.add(new FlxText(noteSplashesInputText.x, noteSplashesInputText.y - 15, 0, 'Note Splashes Texture:'));
 		UI_box.addGroup(tab_group_data);
@@ -1651,13 +1637,7 @@ class ChartingState extends MusicBeatState
 			}
 		}
 		else if(id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText)) {
-			if(sender == noteSkinInputTextDad) {
-				_song.arrowSkinDad = noteSkinInputTextDad.text;
-			}
-			else if(sender == noteSkinInputTextBF) {
-				_song.arrowSkinBF = noteSkinInputTextBF.text;
-			}
-			else if(sender == noteSplashesInputText) {
+		        if(sender == noteSplashesInputText) {
 				_song.splashSkin = noteSplashesInputText.text;
 			}
 			else if(sender == noteSkinInputText) {
@@ -2618,7 +2598,7 @@ class ChartingState extends MusicBeatState
 		updateNoteUI();
 		updateGrid();
 	}
-
+					
 	function recalculateSteps(add:Float = 0):Int
 	{
 		var lastChange:BPMChangeEvent = {
