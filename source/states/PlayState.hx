@@ -731,16 +731,14 @@ class PlayState extends MusicBeatState
 
 		addMobileControls(false);
 		removeMobileControls();
-		//if (!replayMode) addMobileControls(false);
+		if (!replayMode) addMobileControls(false);
 
 		startCallback();
 		RecalculateRating();
-
-		if (!replayMode)
-		{
-			FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-			FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
-		}
+	
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		
 
 		//PRECACHING THINGS THAT GET USED FREQUENTLY TO AVOID LAGSPIKES
 		if(ClientPrefs.data.hitsoundVolume > 0) Paths.sound('hitsound');
@@ -3238,6 +3236,7 @@ class PlayState extends MusicBeatState
         
 	public function onKeyPress(event:KeyboardEvent):Void
 	{
+	    if (replayMode) return;
 		var eventKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
 
@@ -3254,9 +3253,10 @@ class PlayState extends MusicBeatState
 	
 	public function keyPressed(key:Int, ?time:Float = -999999)
 	{
-		if(ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled || paused || key < 0) return;
-		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
+		if(ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled || paused || key < 0) return;		
 		if(!generatedMusic || endingSong || char.stunned) return;
+		
+		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
 
 		keyboardDisplay.pressed(key);
 
@@ -3356,6 +3356,7 @@ class PlayState extends MusicBeatState
 
 	private function onKeyRelease(event:KeyboardEvent):Void
 	{
+	    if (replayMode) return;
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
 		
