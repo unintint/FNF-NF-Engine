@@ -26,9 +26,6 @@ typedef SwagSong =
 	
 	@:optional var disableNoteRGB:Bool;
 
-	@:optional var arrowSkinBF:String;
-	@:optional var arrowSkinDad:String;
-
 	@:optional var arrowSkin:String;
 	@:optional var splashSkin:String;
 }
@@ -41,9 +38,6 @@ class Song
 	public var bpm:Float;
 	public var needsVoices:Bool = true;
 	public var arrowSkin:String;
-
-	public var arrowSkinBF:String = null;	//For https://github.com/beihu235/FNF-NovaFlare-Engine/issues/88
-	public var arrowSkinDad:String = null;  //too
 	
 	public var splashSkin:String;
 	public var gameOverChar:String;
