@@ -3275,9 +3275,8 @@ class PlayState extends MusicBeatState
 	public function keyPressed(key:Int, ?time:Float = -999999)
 	{
 		if(ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled || paused || key < 0) return;		
-		if(!generatedMusic || endingSong || char.stunned) return;
-		
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
+		if(!generatedMusic || endingSong || char.stunned) return;				
 
 		keyboardDisplay.pressed(key);
 
