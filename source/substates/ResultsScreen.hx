@@ -175,7 +175,8 @@ class ResultsScreen extends MusicBeatSubstate
 		add(mesTextNumber);
 	    
 	    mesTextAdd('SongName: ' + PlayState.SONG.song + ' - ' + Difficulty.getString());
-		mesTextAdd('Played Time: ' + Date.now().toString());
+		if (!PlayState.replayMode) mesTextAdd('Played Time: ' + Date.now().toString());
+		else mesTextAdd('Played Time: ' + game.nowTime);
 		
 		var poop:String = Highscore.formatSong(game.songName.toLowerCase(), PlayState.storyDifficulty);
 		var formattedFolder:String = Paths.formatToSongPath(game.songName.toLowerCase());
@@ -214,22 +215,19 @@ class ResultsScreen extends MusicBeatSubstate
 		opTextNumber = new FlxTypedGroup<FlxText>();
 		add(opTextNumber);
 		
-		opTextAdd('HealthGain: X' + ClientPrefs.getGameplaySetting('healthgain'), 1);
-		opTextAdd('HealthLoss: X' + ClientPrefs.getGameplaySetting('healthloss'), 2);
+		opTextAdd('HealthGain: X' + game.healthgain, 1);
+		opTextAdd('HealthLoss: X' + game.healthloss, 2);
 		
-		var speed:String = ClientPrefs.getGameplaySetting('scrollspeed');
-		if (ClientPrefs.getGameplaySetting('scrolltype') == 'multiplicative')
-        speed = 'X' + speed;
         
-		opTextAdd('SongSpeed: ' + speed, 1);
-		opTextAdd('PlaybackRate: X' + ClientPrefs.getGameplaySetting('songspeed'), 2);
+		opTextAdd('SongSpeed: ' + game.songSpeed, 1);
+		opTextAdd('PlaybackRate: X' + game.playbackRate, 2);
 		
 		var botplay:String = 'Disable';
-		if (ClientPrefs.getGameplaySetting('botplay')) botplay = 'Enable';
+		if (game.cpuControlled) botplay = 'Enable';
 		var practice:String = 'Disable';
-		if (ClientPrefs.getGameplaySetting('practice')) practice = 'Enable';
+		if (game.practiceMode) practice = 'Enable';
 		var instakill:String = 'Disable';
-		if (ClientPrefs.getGameplaySetting('instakill')) instakill = 'Enable';		
+		if (game.instakillOnMiss) instakill = 'Enable';		
 		
 		opTextAdd('PracticeMode: ' + practice, 1);
 		opTextAdd('Instakill: ' + instakill, 2);		
@@ -237,11 +235,18 @@ class ResultsScreen extends MusicBeatSubstate
 		opTextAdd('', 2);
 		
 		var opponent:String = 'Disable';
-		if (ClientPrefs.data.playOpponent) opponent = 'Enable';
+		if (PlayState.replayMode) {		
+		    if (game.opponent) opponent = 'Enable';
+		} else {
+		    if (ClientPrefs.data.playOpponent) opponent = 'Enable';
+		}
 		var flipChart:String = 'Disable';
-		if (ClientPrefs.data.flipChart) flipChart = 'Enable';
 		
-		
+		if (PlayState.replayMode) {		
+		    if (game.flipChart) flipChart = 'Enable';
+		} else {
+		    if (ClientPrefs.data.flipChart) flipChart = 'Enable';
+		}
 		opTextAdd('PlayOpponent: ' + opponent, 1);
 		opTextAdd('FlipChart: ' + flipChart, 2);
 		
