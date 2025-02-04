@@ -57,8 +57,8 @@ body:
   - type: input
     id:  VersionNumber
     attributes:
-      label: "The version number of your mobile system"
-      placeholder: "17.5"
+      label: "The version number of your system"
+      placeholder: "Ios 17.5 or Android 12 or Windows 10...."
     validations:
       required: true
 
