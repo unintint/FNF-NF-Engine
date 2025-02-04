@@ -48,6 +48,7 @@ class Replay
     static public var NoteMs:Array<Float> = [];
     
     static public var songSpeed:Float = 0;
+    static public var playbackRate:Float = 0;
     static public var healthGain:Float = 0;
     static public var healthLoss:Float = 0;
     static public var cpuControlled:Bool = false;
@@ -180,13 +181,14 @@ class Replay
         NoteTime = putData[9];
         NoteMs = putData[10];
         songSpeed = putData[11];
-        healthGain = putData[12];
-        healthLoss = putData[13];
-        cpuControlled = putData[14];
-        practiceMode = putData[15];
-        instakillOnMiss = putData[16];
-        opponent = putData[17];
-        flipChart = putData[18];
-        nowTime = putData[19];
+        playbackRate = putData[12];
+        healthGain = putData[13];
+        healthLoss = putData[14];
+        cpuControlled = putData[15];
+        practiceMode = putData[16];
+        instakillOnMiss = putData[17];
+        opponent = putData[18];
+        flipChart = putData[19];
+        nowTime = putData[20];
     } //六百六十六 -狐月影
 }
