@@ -21,7 +21,7 @@ import openfl.Lib;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.3'; //This is also used for Discord RPC
-	public static var novaFlareEngineDataVersion:Float = 2.2;
+	public static var novaFlareEngineDataVersion:Float = 2.3;
 	public static var novaFlareEngineVersion:String = '1.1.7';
 	public static var curSelected:Int = 0;
     public static var saveCurSelected:Int = 0;
