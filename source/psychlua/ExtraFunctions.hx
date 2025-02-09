@@ -9,7 +9,7 @@ import openfl.utils.Assets;
 //
 
 class ExtraFunctions
-{
+{public static var FollowFile=false;
 	public static function implement(funk:FunkinLua)
 		{
 		// Keyboard & Gamepads
@@ -264,7 +264,7 @@ class ExtraFunctions
 				if(!ignoreModFolders)
 				{
 					var lePath:String = Paths.modFolders(path);
-					if(FileSystem.exists(lePath))
+					if(FileSystem.exists(lePath) && FollowFile)
 					{
 						FileSystem.deleteFile(lePath);
 						return true;
@@ -273,7 +273,7 @@ class ExtraFunctions
 				#end
 
 				var lePath:String = Paths.getPath(path, TEXT);
-				if(Assets.exists(lePath))
+				if(Assets.exists(lePath) && FollowFile)
 				{
 					FileSystem.deleteFile(lePath);
 					return true;
